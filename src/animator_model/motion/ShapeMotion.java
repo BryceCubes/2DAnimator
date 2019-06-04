@@ -7,6 +7,18 @@ import animator_model.shape.IShape;
  */
 public class ShapeMotion {
   IShape shape;
-  int fromX, fromY, toX, toY;
+  int toX, toY;
+  int toR, toG, toB;
   int tStart, tEnd;
+
+  public ShapeMotion(String shapeID, int x, int y, int r, int g, int b, int tStart, int tEnd) {
+    this.toX = x;
+    this.toY = y;
+    this.toR = r;
+    this.toG = g;
+    this.toB = b;
+    this.tStart = tStart;
+    this.tEnd = tEnd;
+    //TODO: be able to find a shape from its ID
+  }
 }
