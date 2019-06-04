@@ -1,4 +1,4 @@
-package animator_model;
+package animator_model.motion;
 
 import animator_model.shape.IShape;
 

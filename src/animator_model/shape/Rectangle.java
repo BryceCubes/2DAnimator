@@ -1,4 +1,4 @@
-package animator_model;
+package animator_model.shape;
 
 import animator_model.shape.AShape;
 

@@ -1,9 +1,12 @@
 package animator_model.shape;
 
+import animator_model.motion.IMotion;
+
 /**
  * Class represents all base attributes that a 2d shape must have in a larger frame.
  */
 public abstract class AShape implements IShape {
+  private String shapeID;
   private int xPos;
   private int yPos;
   private int width;
@@ -11,6 +14,7 @@ public abstract class AShape implements IShape {
   private int red;
   private int green;
   private int blue;
+  private IMotion motion;
 
   /**
    * Base constructor that takes in all necessary values to create a shape.
