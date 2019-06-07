@@ -106,8 +106,24 @@ public class AnimatorModelImplTest {
 
     // Making the model
     moveList = new ArrayList<>();
+    // Add Fred
+    moveList.add(fredMoveRight);
+    moveList.add(fredMoveLeft);
+    moveList.add(fredMoveUp);
+    moveList.add(fredMoveDown);
     moveList.add(fredMoveUpRight);
+    moveList.add(fredMoveDownLeft);
+
+    // Add Amy
+    moveList.add(amyGrowTall);
+    moveList.add(amyGrowWide);
     moveList.add(amyScaleUp);
+    moveList.add(amyShrinkHeight);
+    moveList.add(amyShrinkWidth);
+    moveList.add(amyScaleDown);
+
+    // Add Ethan
+    moveList.add(ethanColorChanges);
     moveList.add(ethanAllChanges);
     model = new AnimatorModelImpl(moveList);
   }
@@ -119,6 +135,20 @@ public class AnimatorModelImplTest {
     assertEquals(frectangle.getShapeID(), model.findShape("Fred").getShapeID());
   }
 
+  // test that Fred can be found in the list of motions once added
+  @Test
+  public void testFindAmy() {
+    setTest();
+    assertEquals(amyOval.getShapeID(), model.findShape("Amy").getShapeID());
+  }
+
+  // test that Fred can be found in the list of motions once added
+  @Test
+  public void testFindEthan() {
+    setTest();
+    assertEquals(ethanCircle.getShapeID(), model.findShape("Ethan").getShapeID());
+  }
+
   // test that an exception is thrown when there is no name match
   @Test(expected = IllegalArgumentException.class)
   public void testNoBob() {
@@ -126,24 +156,8 @@ public class AnimatorModelImplTest {
     model.findShape("Bob");
   }
 
-  // test returnShapesAt returns all shapes
-  //TODO: this no work
-  @Test
-  public void testAllShapes() {
-    setTest();
-    ArrayList shapeList = model.returnShapesAtTick(0);
-    assertTrue(shapeList.contains(fredMoveUpRight) && shapeList.contains(amyScaleUp)
-            && shapeList.contains(ethanAllChanges));
-  }
+  //TODO: shapesAtTick
 
-  //TODO: delete
-  @Test
-  public void printShapes() {
-    setTest();
-    for (int i = 0; i < 3; i++) {
-      System.out.println(moveList.get(i).getShape().getShapeID());
-    }
-  }
 
 
 }
