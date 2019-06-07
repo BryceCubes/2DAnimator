@@ -133,7 +133,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   private ArrayList<IMotion> bubbleSort(ArrayList<IMotion> list) {
     int size = list.size();
     for (int i = 0; i < size; i++) {
-      for (int j = 0; j < size; j++) {
+      for (int j = i; j < size; j++) {
         IMotion currentMotion = list.get(i);
         IMotion checkingMotion = list.get(j);
         if (currentMotion.getTStart() > checkingMotion.getTStart()) {

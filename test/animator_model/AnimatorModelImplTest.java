@@ -7,6 +7,7 @@ import animator_model.shape.IShape;
 import animator_model.shape.ShapeType;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -156,8 +157,11 @@ public class AnimatorModelImplTest {
     model.findShape("Bob");
   }
 
-  //TODO: shapesAtTick
-
+  @Test
+  public void tryPrint() {
+    setTest();
+    assertEquals("", model.textViewMotions());
+  }
 
 
 }
