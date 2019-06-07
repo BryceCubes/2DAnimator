@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 //TODO: error check invalid motions
 
@@ -90,7 +91,7 @@ public class AnimatorModelImplTest {
 
     // Circle changing color
     // starting light purple circle
-    ethanCircle = new AShape("Ethan", ShapeType.ELLIPSE, 25, 25, 15, 15,180,
+    ethanCircle = new AShape("Ethan", ShapeType.ELLIPSE, 25, 25, 15, 15, 180,
             120, 230);
 
     // purple to green circle
@@ -111,20 +112,38 @@ public class AnimatorModelImplTest {
     model = new AnimatorModelImpl(moveList);
   }
 
+  // test that Fred can be found in the list of motions once added
   @Test
   public void testFindFred() {
     setTest();
-    assertEquals(frectangle, model.findShape("Fred"));
+    assertEquals(frectangle.getShapeID(), model.findShape("Fred").getShapeID());
   }
 
+  // test that an exception is thrown when there is no name match
+  @Test (expected = IllegalArgumentException.class)
+  public void testNoBob() {
+    setTest();
+    model.findShape("Bob");
+  }
+
+  // test returnShapesAt returns all shapes
+  //TODO: this no work
+  @Test
+  public void testAllShapes() {
+    setTest();
+    ArrayList shapeList = model.returnShapesAtTick(0);
+    assertTrue(shapeList.contains(fredMoveUpRight) && shapeList.contains(amyScaleUp)
+            && shapeList.contains());
+  }
+
+  //TODO: delete
   @Test
   public void printShapes() {
     setTest();
-    for(int i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; i++) {
       System.out.println(moveList.get(i).getShape().getShapeID());
     }
   }
-
 
 
 }
