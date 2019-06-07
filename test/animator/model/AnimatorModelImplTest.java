@@ -111,6 +111,10 @@ public class AnimatorModelImplTest {
     // Add Fred
     moveList.add(fredMoveRight);
     moveList.add(fredMoveLeft);
+    moveList.add(fredMoveDownLeft);
+    moveList.add(fredMoveDown);
+    moveList.add(fredMoveUpRight);
+    moveList.add(fredMoveUp);
 
 
     // Add Amy
