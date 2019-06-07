@@ -102,7 +102,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
         keys.add(key);
       }
 
-      //This is to add a starting motion to a specific key
+      // This is to add a starting motion to a specific key
       if (sortedMoveList.get(key).isEmpty()) {
         sortedMoveList.get(key).add(motion);
       }
@@ -110,6 +110,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
       else {
         int size = sortedMoveList.get(key).size();
 
+        // Are the motions overlapping?
         for (int i = 0; i < size; i++) {
           int motionStartTime = motion.getTStart();
           int motionEndTime = motion.getTEnd();
