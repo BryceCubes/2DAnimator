@@ -20,6 +20,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   /**
    * Constructor used to create an animator model.
+   *
    * @param moveList
    */
   public AnimatorModelImpl(ArrayList moveList) {
@@ -36,7 +37,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   public IShape findShape(String shapeID) {
     IShape returnShape = null;
 
-    for (IMotion motion: this.moveList) {
+    for (IMotion motion : this.moveList) {
       IShape currentShape = motion.getShape();
       if (currentShape.getShapeID() == shapeID) {
         returnShape = currentShape;
@@ -76,7 +77,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   public String textViewMotions() {
     StringBuilder textView = new StringBuilder();
     String shapeName = null;
-    for (IMotion move: moveList) {
+    for (IMotion move : moveList) {
       IShape currentShape = move.getShape();
       String newShapeName = currentShape.getShapeID();
       if (newShapeName != shapeName) {
@@ -92,7 +93,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   private void sortMoveList() {
     ArrayList<String> keys = new ArrayList<>();
-    for (IMotion motion: moveList) {
+    for (IMotion motion : moveList) {
       IShape currentShape = motion.getShape();
       String key = currentShape.getShapeID();
 
@@ -105,9 +106,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
       // This is to add a starting motion to a specific key
       if (sortedMoveList.get(key).isEmpty()) {
         sortedMoveList.get(key).add(motion);
-      }
-
-      else {
+      } else {
         int size = sortedMoveList.get(key).size();
 
         // Are the motions overlapping?
@@ -127,7 +126,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
       }
     }
 
-    for (String key: keys) {
+    for (String key : keys) {
       sortedMoveList.put(key, this.bubbleSort(sortedMoveList.get(key)));
       if (!this.isInSequence(sortedMoveList.get(key))) {
         throw new IllegalArgumentException("Motions are not continuous.");

@@ -50,21 +50,21 @@ public class AnimatorModelImplTest {
     fredMoveRight = new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
             150, 10, 15, 10, 5, 5, 255, 150, 10,
             0, 10);
-    fredMoveLeft = new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
+    fredMoveLeft = new ShapeMotion(frectangle, 15, 10, 5, 5, 255,
             150, 10, 5, 10, 5, 5, 255, 150, 10,
-            0, 10);
-    fredMoveUp = new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
+            10, 20);
+    fredMoveUp = new ShapeMotion(frectangle, 5, 10, 5, 5, 255,
             150, 10, 10, 5, 5, 5, 255, 150, 10,
-            0, 10);
-    fredMoveDown = new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
+            20, 30);
+    fredMoveDown = new ShapeMotion(frectangle, 10, 5, 5, 5, 255,
             150, 10, 10, 15, 5, 5, 255, 150, 10,
-            0, 10);
-    fredMoveUpRight = new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
+            30, 40);
+    fredMoveUpRight = new ShapeMotion(frectangle, 10, 15, 5, 5, 255,
             150, 10, 15, 5, 5, 5, 255, 150, 10,
-            0, 10);
-    fredMoveDownLeft = new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
-            150, 10, 15, 5, 5, 5, 255, 150, 10,
-            0, 10);
+            40, 50);
+    fredMoveDownLeft = new ShapeMotion(frectangle, 15, 5, 5, 5, 255,
+            150, 10, 10, 20, 5, 5, 255, 150, 10,
+            50, 60);
 
     // Ellipse scaling
     // tall blue Ellipse
@@ -73,21 +73,21 @@ public class AnimatorModelImplTest {
     amyGrowTall = new ShapeMotion(amyOval, 50, 50, 10, 20, 0,
             100, 255, 50, 50, 10, 25, 0, 100, 255,
             0, 25);
-    amyGrowWide = new ShapeMotion(amyOval, 50, 50, 10, 20, 0,
-            100, 255, 50, 50, 20, 20, 0, 100, 255,
-            0, 25);
-    amyScaleUp = new ShapeMotion(amyOval, 50, 50, 10, 20, 0,
+    amyGrowWide = new ShapeMotion(amyOval, 50, 50, 10, 25, 0,
+            100, 255, 50, 50, 20, 25, 0, 100, 255,
+            25, 50);
+    amyScaleUp = new ShapeMotion(amyOval, 50, 50, 20, 25, 0,
+            100, 255, 50, 50, 30, 35, 0, 100, 255,
+            50, 75);
+    amyShrinkHeight = new ShapeMotion(amyOval, 50, 50, 30, 35, 0,
+            100, 255, 50, 50, 30, 30, 0, 100, 255,
+            100, 125);
+    amyShrinkWidth = new ShapeMotion(amyOval, 50, 50, 30, 30, 0,
             100, 255, 50, 50, 20, 30, 0, 100, 255,
-            0, 25);
-    amyShrinkHeight = new ShapeMotion(amyOval, 50, 50, 10, 20, 0,
-            100, 255, 50, 50, 10, 10, 0, 100, 255,
-            0, 25);
-    amyShrinkWidth = new ShapeMotion(amyOval, 50, 50, 10, 20, 0,
-            100, 255, 50, 50, 5, 20, 0, 100, 255,
-            0, 25);
-    amyScaleDown = new ShapeMotion(amyOval, 50, 50, 10, 20, 0,
-            100, 255, 50, 50, 5, 10, 0, 100, 255,
-            0, 25);
+            125, 150);
+    amyScaleDown = new ShapeMotion(amyOval, 50, 50, 20, 30, 0,
+            100, 255, 50, 50, 10, 20, 0, 100, 255,
+            150, 175);
 
     // Circle changing color
     // starting light purple circle
@@ -99,10 +99,10 @@ public class AnimatorModelImplTest {
             120, 230, 25, 25, 15, 15, 120, 180, 95,
             0, 30);
 
-    // purple to green circle with movement up and to the right as well as expanding unevenly
-    ethanAllChanges = new ShapeMotion(ethanCircle, 25, 25, 15, 15, 180,
-            120, 230, 40, 15, 20, 30, 120, 180, 95,
-            0, 30);
+    // green to purple circle with movement up and to the right as well as expanding unevenly
+    ethanAllChanges = new ShapeMotion(ethanCircle, 25, 25, 15, 15, 120,
+            180, 95, 40, 15, 20, 30, 180, 120, 230,
+            30, 60);
 
     // Making the model
     moveList = new ArrayList<>();
@@ -120,7 +120,7 @@ public class AnimatorModelImplTest {
   }
 
   // test that an exception is thrown when there is no name match
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testNoBob() {
     setTest();
     model.findShape("Bob");
