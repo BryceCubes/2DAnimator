@@ -1,6 +1,8 @@
 package animator_model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import animator_model.motion.IMotion;
 import animator_model.shape.IShape;
 
@@ -12,6 +14,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   private ArrayList<IMotion> moveList;
   private ArrayList<IShape> shapes;
+  private HashMap<String, IMotion> sortedMoveList;
 
   /**
    * Constructor used to create an animator model.
@@ -23,15 +26,17 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
     this.moveList = moveList;
     this.shapes = new ArrayList<>();
+    this.sortedMoveList = this.sortMoveList();
   }
 
   @Override
   public IShape findShape(String shapeID) {
     IShape returnShape = null;
 
-    for (IShape shape: this.shapes) {
-      if (shape.getShapeID() == shapeID) {
-        returnShape = shape;
+    for (IMotion motion: this.moveList) {
+      IShape currentShape = motion.getShape();
+      if (currentShape.getShapeID() == shapeID) {
+        returnShape = currentShape;
         break;
       }
     }
@@ -76,5 +81,9 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
 
     return textView.toString();
+  }
+
+  private HashMap<String, IMotion> sortMoveList() {
+    return null;
   }
 }
