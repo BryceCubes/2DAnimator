@@ -130,21 +130,42 @@ public class ShapeMotionTest {
   @Test (expected = IllegalArgumentException.class)
   public void tStartNegative() {
     new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
-            150, 10, 15, 10, 5, 5, 255, 150, 256,
+            150, 10, 15, 10, 5, 5, 255, 150, 255,
             -1, 10);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void tEndNegative() {
     new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
-            150, 10, 15, 10, 5, 5, 255, 150, 256,
+            150, 10, 15, 10, 5, 5, 255, 150, 255,
             0, -1);
   }
 
   @Test (expected = IllegalArgumentException.class)
   public void tEndLessThanTStart() {
     new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
-            150, 10, 15, 10, 5, 5, 255, 150, 256,
+            150, 10, 15, 10, 5, 5, 255, 150, 255,
             15, 10);
+  }
+
+  @Test
+  public void getTextOutputTest() {
+    assertEquals("motion Fred 0 10 10 5 5 255 150 10    10 15 10 5 5 255 150 10\n",
+            fredMoveRight.getTextOutput());
+  }
+
+  @Test
+  public void getTStartTest() {
+    assertEquals(0, fredMoveRight.getTStart());
+  }
+
+  @Test
+  public void getTEndTest() {
+    assertEquals(10, fredMoveRight.getTEnd());
+  }
+
+  @Test
+  public void getShapeTest() {
+    assertEquals(frectangle, fredMoveRight.getShape());
   }
 }

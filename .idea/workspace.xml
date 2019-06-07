@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="61e9b9f1-6812-4f71-9798-48ed8d55e7c5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/test/animator_model/motion/ShapeMotionTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/animator_model/shape/AShapeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/animator_model/shape/AShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animator_model/shape/AShape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/animator_model/shape/IShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animator_model/shape/IShape.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/animator_model/AnimatorModelImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animator_model/AnimatorModelImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/animator_model/motion/ShapeMotion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/animator_model/motion/ShapeMotion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/animator_model/AnimatorModelImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/animator_model/AnimatorModelImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/animator_model/motion/ShapeMotionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/animator_model/motion/ShapeMotionTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,8 +22,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/animator_model/AnimatorModelImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1062">
-              <caret line="87" column="3" selection-start-line="87" selection-start-column="3" selection-end-line="87" selection-end-column="3" />
+            <state relative-caret-position="277">
+              <caret line="70" column="95" selection-start-line="70" selection-start-column="95" selection-end-line="70" selection-end-column="95" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2424#2425#0" expanded="true" />
@@ -36,8 +36,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/animator_model/AnimatorModelImplTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="115" column="1" selection-start-line="115" selection-start-column="1" selection-end-line="115" selection-end-column="1" />
+            <state relative-caret-position="302">
+              <caret line="116" column="52" lean-forward="true" selection-start-line="116" selection-start-column="52" selection-end-line="116" selection-end-column="52" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -66,9 +66,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/animator_model/shape/AShapeTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+            <state relative-caret-position="-1154">
+              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="e#662#663#0" expanded="true" />
                 <element signature="e#737#738#0" expanded="true" />
                 <element signature="e#818#819#0" expanded="true" />
@@ -105,17 +106,35 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/animator_model/motion/ShapeMotion.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
-              <caret line="7" column="21" lean-forward="true" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
+            <state relative-caret-position="362">
+              <caret line="92" column="14" selection-start-line="92" selection-start-column="14" selection-end-line="92" selection-end-column="14" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/animator_model/motion/IMotion.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="27">
+              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/animator_model/motion/ShapeMotionTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1437">
-              <caret line="7" selection-start-line="7" selection-end-line="7" />
+            <state relative-caret-position="481">
+              <caret line="169" column="3" lean-forward="true" selection-start-line="169" selection-start-column="3" selection-end-line="169" selection-end-column="3" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#4759#4760#0" expanded="true" />
+                <element signature="e#4799#4800#0" expanded="true" />
+                <element signature="e#4852#4853#0" expanded="true" />
+                <element signature="e#4876#4877#0" expanded="true" />
+                <element signature="e#4945#4946#0" expanded="true" />
+                <element signature="e#4969#4970#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -145,23 +164,25 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/animator_model/motion/ShapeMotion.java" />
         <option value="$PROJECT_DIR$/src/animator_model/motion/IMotion.java" />
         <option value="$PROJECT_DIR$/src/animator_model/IAnimatorModel.java" />
         <option value="$PROJECT_DIR$/src/animator_model/ShapeType.java" />
         <option value="$PROJECT_DIR$/src/animator_model/shape/ShapeType.java" />
-        <option value="$PROJECT_DIR$/test/animator_model/AnimatorModelImplTest.java" />
-        <option value="$PROJECT_DIR$/src/animator_model/AnimatorModelImpl.java" />
         <option value="$PROJECT_DIR$/src/animator_model/shape/IShape.java" />
         <option value="$PROJECT_DIR$/src/animator_model/shape/AShape.java" />
         <option value="$PROJECT_DIR$/test/animator_model/shape/AShapeTest.java" />
+        <option value="$PROJECT_DIR$/test/animator_model/AnimatorModelImplTest.java" />
+        <option value="$PROJECT_DIR$/src/animator_model/AnimatorModelImpl.java" />
+        <option value="$PROJECT_DIR$/src/animator_model/motion/ShapeMotion.java" />
         <option value="$PROJECT_DIR$/test/animator_model/motion/ShapeMotionTest.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+    <option name="x" value="396" />
+    <option name="y" value="116" />
+    <option name="width" value="975" />
+    <option name="height" value="784" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -257,6 +278,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="animator_model.shape" />
+      <recent name="animator_model.motion" />
       <recent name="animator_model" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
@@ -275,7 +298,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.ShapeMotionTest">
     <configuration name="AnimatorModelImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="2DAnimator" />
       <extension name="coverage">
@@ -291,8 +314,58 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="AnimatorModelImplTest.testFindFred" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="2DAnimator" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="animator_model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="animator_model" />
+      <option name="MAIN_CLASS_NAME" value="animator_model.AnimatorModelImplTest" />
+      <option name="METHOD_NAME" value="testFindFred" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ShapeMotionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="2DAnimator" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="animator_model.motion.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="animator_model.motion" />
+      <option name="MAIN_CLASS_NAME" value="animator_model.motion.ShapeMotionTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ShapeMotionTest.getTextOutputTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="2DAnimator" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="animator_model.motion.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="animator_model.motion" />
+      <option name="MAIN_CLASS_NAME" value="animator_model.motion.ShapeMotionTest" />
+      <option name="METHOD_NAME" value="getTextOutputTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ShapeMotionTest" />
+        <item itemvalue="JUnit.ShapeMotionTest.getTextOutputTest" />
+        <item itemvalue="JUnit.AnimatorModelImplTest.testFindFred" />
         <item itemvalue="JUnit.AnimatorModelImplTest" />
       </list>
     </recent_temporary>
@@ -313,29 +386,44 @@
       <workItem from="1559918851439" duration="14000" />
       <workItem from="1559919029778" duration="2696000" />
       <workItem from="1559921952975" duration="4245000" />
-      <workItem from="1559928333192" duration="602000" />
+      <workItem from="1559928333192" duration="1495000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="AnimatorModelImplTest - 2019.06.07 at 12h 31m 37s.xml">
-      <configuration name="AnimatorModelImplTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="AnimatorModelImplTest - 2019.06.07 at 12h 37m 26s.xml">
-      <configuration name="AnimatorModelImplTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="AnimatorModelImplTest - 2019.06.07 at 12h 41m 41s.xml">
-      <configuration name="AnimatorModelImplTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="AnimatorModelImplTest - 2019.06.07 at 12h 44m 46s.xml">
       <configuration name="AnimatorModelImplTest" configurationId="JUnit" />
     </history-entry>
     <history-entry file="AnimatorModelImplTest - 2019.06.07 at 12h 47m 31s.xml">
       <configuration name="AnimatorModelImplTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="AnimatorModelImplTest_testFindFred - 2019.06.07 at 13h 37m 00s.xml">
+      <configuration name="AnimatorModelImplTest.testFindFred" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AnimatorModelImplTest_testFindFred - 2019.06.07 at 13h 37m 16s.xml">
+      <configuration name="AnimatorModelImplTest.testFindFred" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ShapeMotionTest - 2019.06.07 at 13h 39m 08s.xml">
+      <configuration name="ShapeMotionTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ShapeMotionTest_getTextOutputTest - 2019.06.07 at 13h 43m 29s.xml">
+      <configuration name="ShapeMotionTest.getTextOutputTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ShapeMotionTest_getTextOutputTest - 2019.06.07 at 13h 44m 02s.xml">
+      <configuration name="ShapeMotionTest.getTextOutputTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ShapeMotionTest_getTextOutputTest - 2019.06.07 at 13h 45m 52s.xml">
+      <configuration name="ShapeMotionTest.getTextOutputTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ShapeMotionTest - 2019.06.07 at 13h 46m 34s.xml">
+      <configuration name="ShapeMotionTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ShapeMotionTest - 2019.06.07 at 13h 47m 27s.xml">
+      <configuration name="ShapeMotionTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13062000" />
+    <option name="totallyTimeSpent" value="13955000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="6" />
@@ -350,7 +438,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3286119" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32771084" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -377,43 +465,13 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/2DAnimator.iml" />
-    <entry file="file://$PROJECT_DIR$/src/animator_model/motion/IMotion.java" />
     <entry file="file://$PROJECT_DIR$/src/animator_model/shape/Rectangle.java" />
     <entry file="file://$PROJECT_DIR$/src/animator_model/IAnimatorModel.java" />
     <entry file="file://$PROJECT_DIR$/src/animator_model/ShapeType" />
-    <entry file="file://$PROJECT_DIR$/src/animator_model/AnimatorModelImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1062">
-          <caret line="87" column="3" selection-start-line="87" selection-start-column="3" selection-end-line="87" selection-end-column="3" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2424#2425#0" expanded="true" />
-            <element signature="e#2445#2446#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/animator_model/shape/ShapeType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/animator_model/motion/ShapeMotion.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="7" column="21" lean-forward="true" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/animator_model/AnimatorModelImplTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="115" column="1" selection-start-line="115" selection-start-column="1" selection-end-line="115" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -433,9 +491,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/animator_model/shape/AShapeTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+        <state relative-caret-position="-1154">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
           <folding>
+            <element signature="imports" expanded="true" />
             <element signature="e#662#663#0" expanded="true" />
             <element signature="e#737#738#0" expanded="true" />
             <element signature="e#818#819#0" expanded="true" />
@@ -468,10 +527,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test/animator_model/AnimatorModelImplTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="116" column="52" lean-forward="true" selection-start-line="116" selection-start-column="52" selection-end-line="116" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/animator_model/AnimatorModelImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="70" column="95" selection-start-line="70" selection-start-column="95" selection-end-line="70" selection-end-column="95" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2424#2425#0" expanded="true" />
+            <element signature="e#2445#2446#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/animator_model/motion/ShapeMotion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="92" column="14" selection-start-line="92" selection-start-column="14" selection-end-line="92" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test/animator_model/motion/ShapeMotionTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1437">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        <state relative-caret-position="481">
+          <caret line="169" column="3" lean-forward="true" selection-start-line="169" selection-start-column="3" selection-end-line="169" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4759#4760#0" expanded="true" />
+            <element signature="e#4799#4800#0" expanded="true" />
+            <element signature="e#4852#4853#0" expanded="true" />
+            <element signature="e#4876#4877#0" expanded="true" />
+            <element signature="e#4945#4946#0" expanded="true" />
+            <element signature="e#4969#4970#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/animator_model/motion/IMotion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
         </state>
       </provider>
     </entry>

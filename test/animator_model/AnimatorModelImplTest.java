@@ -114,7 +114,7 @@ public class AnimatorModelImplTest {
   @Test
   public void testFindFred() {
     setTest();
-    assertEquals(frectangle.getShapeID(), model.findShape("Fred").getShapeID());
+    assertEquals(frectangle, model.findShape("Fred"));
   }
 
   @Test
