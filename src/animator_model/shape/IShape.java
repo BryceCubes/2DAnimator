@@ -1,7 +1,5 @@
 package animator_model.shape;
 
-import animator_model.ShapeType;
-
 /**
  * Interface to represent a general 2D shape.
  */

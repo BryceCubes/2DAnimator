@@ -1,9 +1,5 @@
 package animator_model.shape;
 
-import animator_model.ShapeType;
-import animator_model.motion.IMotion;
-
-
 /**
  * Class represents all base attributes that a 2d shape must have in a larger frame.
  */
