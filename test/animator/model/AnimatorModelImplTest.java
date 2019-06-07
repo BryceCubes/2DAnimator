@@ -83,13 +83,13 @@ public class AnimatorModelImplTest {
             50, 75);
     amyShrinkHeight = new ShapeMotion(amyOval, 50, 50, 30, 35, 0,
             100, 255, 50, 50, 30, 30, 0, 100, 255,
-            100, 125);
+            75, 100);
     amyShrinkWidth = new ShapeMotion(amyOval, 50, 50, 30, 30, 0,
             100, 255, 50, 50, 20, 30, 0, 100, 255,
-            125, 150);
+            100, 125);
     amyScaleDown = new ShapeMotion(amyOval, 50, 50, 20, 30, 0,
             100, 255, 50, 50, 10, 20, 0, 100, 255,
-            150, 175);
+            125, 150);
 
     // Circle changing color
     // starting light purple circle
@@ -111,10 +111,7 @@ public class AnimatorModelImplTest {
     // Add Fred
     moveList.add(fredMoveRight);
     moveList.add(fredMoveLeft);
-    moveList.add(fredMoveUp);
-    moveList.add(fredMoveDown);
-    moveList.add(fredMoveUpRight);
-    moveList.add(fredMoveDownLeft);
+
 
     // Add Amy
     moveList.add(amyGrowTall);
@@ -123,6 +120,7 @@ public class AnimatorModelImplTest {
     moveList.add(amyShrinkHeight);
     moveList.add(amyShrinkWidth);
     moveList.add(amyScaleDown);
+
 
     // Add Ethan
     moveList.add(ethanColorChanges);
