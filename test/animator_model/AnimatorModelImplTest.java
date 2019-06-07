@@ -157,6 +157,12 @@ public class AnimatorModelImplTest {
     model.findShape("Bob");
   }
 
+//  @Test
+//  public void testModelMotionsText() {
+//    setTest();
+//    assertEquals(, model.textViewMotions())
+//  }
+
   @Test
   public void tryPrint() {
     setTest();

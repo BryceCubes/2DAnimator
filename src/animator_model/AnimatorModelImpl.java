@@ -73,10 +73,9 @@ public class AnimatorModelImpl implements IAnimatorModel {
     StringBuilder textView = new StringBuilder();
     for (String key: this.keys) {
       IShape currentShape = this.findShape(key);
-      textView.append("shape " + currentShape.getShapeID() + " "
-              + currentShape.getShapeTypeAsString() + "\n");
+      textView.append("shape ").append(currentShape.getShapeID()).append(" ").append(currentShape.getShapeTypeAsString()).append("\n");
       for (IMotion motion: this.sortedMoveList.get(key)) {
-        textView = textView.append(motion.getTextOutput());
+        textView.append(motion.getTextOutput());
       }
     }
 
@@ -90,7 +89,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
       // This is to add a new key to the hashmap
       if (sortedMoveList.get(key) == null) {
-        sortedMoveList.put(key, new ArrayList<IMotion>());
+        sortedMoveList.put(key, new ArrayList<>());
         this.keys.add(key);
       }
 
