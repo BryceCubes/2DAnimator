@@ -1,5 +1,7 @@
 package animator_model;
 
+import java.util.ArrayList;
+
 import animator_model.motion.IMotion;
 import animator_model.shape.IShape;
 
@@ -8,12 +10,19 @@ import animator_model.shape.IShape;
  */
 public interface IAnimatorModel {
 
-  enum ShapeType {ELLIPSE, RECTANGLE};
-  IMotion[] moveList = new IMotion[200]; //TODO: could be arrayList or choose upper bound
-  IShape[] shapes = new IShape[200];
-
-
   public void add(ShapeType type);
 
   public IShape findShape(String shapeID);
+
+  /**
+   * Method to return all the shapes the view will need to display.
+   * @return A list of shapes
+   */
+  public ArrayList<IShape> returnShapesAtTick();
+
+  /**
+   * Provides a text representation of the motions.
+   * @return A string representing the motions
+   */
+  public String textViewMotions();
 }
