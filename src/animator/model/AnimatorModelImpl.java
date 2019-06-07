@@ -78,7 +78,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
         textView = textView.append(motion.getTextOutput());
 =======
       textView.append("shape ").append(currentShape.getShapeID()).append(" ").append(currentShape.getShapeTypeAsString()).append("\n");
-      for (IMotion motion: this.sortedMoveList.get(key)) {
+      for (IMotion motion : this.sortedMoveList.get(key)) {
         textView.append(motion.getTextOutput());
 >>>>>>> 10681762b1143395cf0ebc24e6b3c73be10e0137
       }
@@ -129,7 +129,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
       }
     }
 
-    for (String key: this.keys) {
+    for (String key : this.keys) {
       sortedMoveList.put(key, this.bubbleSort(sortedMoveList.get(key)));
       if (!this.isInSequence(sortedMoveList.get(key))) {
         throw new IllegalArgumentException("Motions are not continuous.");
@@ -169,9 +169,9 @@ public class AnimatorModelImpl implements IAnimatorModel {
   private Boolean isInSequence(ArrayList<IMotion> list) {
     int size = list.size();
     boolean isConsistent = true;
-    for (int i = 0; i < size - 1; i++) {
-      IMotion currentMotion = list.get(i);
-      IMotion nextMotion = list.get(i + 1);
+    for (int i = 1; i < size; i++) {
+      IMotion currentMotion = list.get(i - 1);
+      IMotion nextMotion = list.get(i);
 
       if (currentMotion.getTEnd() != nextMotion.getTStart()
               || currentMotion.getXEnd() != nextMotion.getXStart()

@@ -56,12 +56,12 @@ public class AnimatorModelImplTest {
             150, 10, 5, 10, 5, 5, 255, 150, 10,
             10, 20);
     fredMoveUp = new ShapeMotion(frectangle, 5, 10, 5, 5, 255,
-            150, 10, 10, 5, 5, 5, 255, 150, 10,
+            150, 10, 5, 5, 5, 5, 255, 150, 10,
             20, 30);
-    fredMoveDown = new ShapeMotion(frectangle, 10, 5, 5, 5, 255,
-            150, 10, 10, 15, 5, 5, 255, 150, 10,
+    fredMoveDown = new ShapeMotion(frectangle, 5, 5, 5, 5, 255,
+            150, 10, 5, 15, 5, 5, 255, 150, 10,
             30, 40);
-    fredMoveUpRight = new ShapeMotion(frectangle, 10, 15, 5, 5, 255,
+    fredMoveUpRight = new ShapeMotion(frectangle, 5, 15, 5, 5, 255,
             150, 10, 15, 5, 5, 5, 255, 150, 10,
             40, 50);
     fredMoveDownLeft = new ShapeMotion(frectangle, 15, 5, 5, 5, 255,
