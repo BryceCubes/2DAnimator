@@ -124,19 +124,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
       }
     }
 
-    for (String key: this.keys) {
-      for (IMotion motion: sortedMoveList.get(key)) {
-        System.out.println(motion.getTStart());
-      }
-    }
-
     this.bubbleSort();
-
-    for (String key: this.keys) {
-      for (IMotion motion: sortedMoveList.get(key)) {
-        System.out.println(motion.getTStart());
-      }
-    }
 
     for (String key : this.keys) {
       if (!this.isInSequence(sortedMoveList.get(key))) {
