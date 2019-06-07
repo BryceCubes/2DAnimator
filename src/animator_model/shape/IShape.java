@@ -5,6 +5,6 @@ package animator_model.shape;
  */
 public interface IShape {
   //TODO: decide what methods should be thrown in here
-
+  String getShapeID();
 
 }
