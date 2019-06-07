@@ -103,10 +103,11 @@ public class AnimatorModelImpl implements IAnimatorModel {
         sortedMoveList.get(key).add(motion);
       }
 
-      for (IMotion sortedMotion: sortedMoveList.get(key)) {
-        IMotion originalMotion = sortedMoveList.get(key).get(index);
+      int size = sortedMoveList.size();
+      for (int i = 0; i < size; i++) {
+        IMotion originalMotion = sortedMoveList.get(key).get(i);
         if (motion.getTEnd() == originalMotion.getTStart()) {
-
+          moveList.add(motion);
         }
       }
     }

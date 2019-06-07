@@ -133,7 +133,7 @@ public class AnimatorModelImplTest {
     setTest();
     ArrayList shapeList = model.returnShapesAtTick(0);
     assertTrue(shapeList.contains(fredMoveUpRight) && shapeList.contains(amyScaleUp)
-            && shapeList.contains());
+            && shapeList.contains(ethanAllChanges));
   }
 
   //TODO: delete
