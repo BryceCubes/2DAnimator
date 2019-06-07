@@ -10,20 +10,19 @@ import animator_model.shape.IShape;
  */
 public class AnimatorModelImpl implements IAnimatorModel {
 
-  private IMotion[] moveList;
+  private ArrayList<IMotion> moveList;
   private ArrayList<IShape> shapes;
 
   /**
    * Constructor used to create an animator model.
    * @param moveList
    */
-  public AnimatorModelImpl(IMotion[] moveList) {
+  public AnimatorModelImpl(ArrayList moveList) {
     if (moveList == null) {
       throw new IllegalArgumentException("Move list cannot be null and/or tick must be positive.");
     }
-
     this.moveList = moveList;
-    this.shapes = new ArrayList<IShape>();
+    this.shapes = new ArrayList<>();
   }
 
   @Override
@@ -50,8 +49,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Tick must be a positive integer.");
     }
 
-    for (int motion = 0; motion < moveList.length; motion++) {
-      IMotion currentMove = moveList[motion];
+    for (int motion = 0; motion < moveList.size(); motion++) {
+      IMotion currentMove = moveList.get(motion);
       if (currentMove.getTStart() <= tick && currentMove.getTEnd() >= tick) {
         currentMove.interpolate(tick);
         shapes.add(currentMove.getShape());

@@ -97,10 +97,6 @@ public class AShape implements IShape {
         return "rectangle";
       case ELLIPSE:
         return "ellipse";
-      case SQUARE:
-        return "square";
-      case CIRCLE:
-        return "circle";
       default:
         throw new IllegalStateException("If you see this error, something has gone very wrong.");
     }
