@@ -2,6 +2,8 @@ package animator_model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import animator_model.motion.IMotion;
 import animator_model.shape.IShape;
@@ -14,7 +16,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   private ArrayList<IMotion> moveList;
   private ArrayList<IShape> shapes;
-  private HashMap<String, IMotion> sortedMoveList;
+  private Map<String, ArrayList<IMotion>> sortedMoveList;
 
   /**
    * Constructor used to create an animator model.
@@ -26,7 +28,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
     this.moveList = moveList;
     this.shapes = new ArrayList<>();
-    this.sortedMoveList = this.sortMoveList();
+    this.sortedMoveList = new HashMap<>();
+    this.sortMoveList();
   }
 
   @Override
@@ -87,7 +90,25 @@ public class AnimatorModelImpl implements IAnimatorModel {
     return textView.toString();
   }
 
-  private HashMap<String, IMotion> sortMoveList() {
-    return null;
+  private void sortMoveList() {
+    for (IMotion motion: moveList) {
+      IShape currentShape = motion.getShape();
+      String key = currentShape.getShapeID();
+
+      if (sortedMoveList.get(key) == null) {
+        sortedMoveList.put(key, new ArrayList<IMotion>());
+      }
+
+      if (sortedMoveList.get(key).isEmpty()) {
+        sortedMoveList.get(key).add(motion);
+      }
+
+      for (IMotion sortedMotion: sortedMoveList.get(key)) {
+        IMotion originalMotion = sortedMoveList.get(key).get(index);
+        if (motion.getTEnd() == originalMotion.getTStart()) {
+
+        }
+      }
+    }
   }
 }
