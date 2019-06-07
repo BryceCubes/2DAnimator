@@ -1,0 +1,5 @@
+package animator_model;
+
+public enum ShapeType {
+  ELLIPSE, OVAL, CIRCLE, SQUARE;
+}
