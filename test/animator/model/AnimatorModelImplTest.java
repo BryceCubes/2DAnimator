@@ -6,6 +6,7 @@ import animator.model.shape.AShape;
 import animator.model.shape.IShape;
 import animator.model.shape.ShapeType;
 import org.junit.Test;
+
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -108,22 +109,19 @@ public class AnimatorModelImplTest {
 
     // Making the model
     moveList = new ArrayList<>();
-    // Add Fred
-    moveList.add(fredMoveRight);
-    moveList.add(fredMoveLeft);
-
-
-    // Add Amy
-    moveList.add(amyGrowTall);
-    moveList.add(amyGrowWide);
-    moveList.add(amyScaleUp);
-    moveList.add(amyShrinkHeight);
-    moveList.add(amyShrinkWidth);
-    moveList.add(amyScaleDown);
-
-
-    // Add Ethan
     moveList.add(ethanColorChanges);
+    moveList.add(fredMoveLeft);
+    moveList.add(fredMoveRight);
+    moveList.add(amyGrowTall);
+    moveList.add(fredMoveDown);
+    moveList.add(amyShrinkWidth);
+    moveList.add(amyGrowWide);
+    moveList.add(fredMoveUpRight);
+    moveList.add(amyShrinkHeight);
+    moveList.add(fredMoveDownLeft);
+    moveList.add(amyScaleDown);
+    moveList.add(amyScaleUp);
+    moveList.add(fredMoveUp);
     moveList.add(ethanAllChanges);
     model = new AnimatorModelImpl(moveList);
   }
@@ -159,7 +157,20 @@ public class AnimatorModelImplTest {
   @Test
   public void tryPrint() {
     setTest();
-    assertEquals("", model.textViewMotions());
+    assertEquals("shape Fred rectangle\n" +
+                    "motion Fred 0 10 10 5 5 255 150 10    10 15 10 5 5 255 150 10\n" +
+                    "motion Fred 10 15 10 5 5 255 150 10    20 5 10 5 5 255 150 10\n" +
+                    "shape Amy ellipse\n" +
+                    "motion Amy 0 50 50 10 20 0 100 255    25 50 50 10 25 0 100 255\n" +
+                    "motion Amy 25 50 50 10 25 0 100 255    50 50 50 20 25 0 100 255\n" +
+                    "motion Amy 50 50 50 20 25 0 100 255    75 50 50 30 35 0 100 255\n" +
+                    "motion Amy 75 50 50 30 35 0 100 255    100 50 50 30 30 0 100 255\n" +
+                    "motion Amy 100 50 50 30 30 0 100 255    125 50 50 20 30 0 100 255\n" +
+                    "motion Amy 125 50 50 20 30 0 100 255    150 50 50 10 20 0 100 255\n" +
+                    "shape Ethan ellipse\n" +
+                    "motion Ethan 0 25 25 15 15 180 120 230    30 25 25 15 15 120 180 95\n" +
+                    "motion Ethan 30 25 25 15 15 120 180 95    60 40 15 20 30 180 120 230\n",
+            model.textViewMotions());
   }
 
 
