@@ -26,6 +26,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
     this.moveList = moveList;
     this.shapes = new ArrayList<>();
+    this.sortedMoveList = new HashMap<>();
     this.sortedMoveList = this.sortMoveList();
   }
 
