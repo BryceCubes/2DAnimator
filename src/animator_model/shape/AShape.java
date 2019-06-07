@@ -17,7 +17,6 @@ public class AShape implements IShape {
   private int red;
   private int green;
   private int blue;
-  private IMotion motion;
 
   /**
    * Base constructor that takes in all necessary values to create a shape.
@@ -29,8 +28,8 @@ public class AShape implements IShape {
    * @param g the green value for it's color 0 - 255
    * @param b the blue value for it's color 0 - 255
    */
-  public AShape(String shapeID, ShapeType shapeType, int x, int y, int r, int w, int h, int g,
-                int b, IMotion motion) {
+  public AShape(String shapeID, ShapeType shapeType, int x, int y, int w, int h, int r, int g,
+                int b) {
     if (w < 0 || h < 0 || r < 0 || g < 0 || b < 0) {
       throw new IllegalArgumentException("Width and height and/or rgb must be positive.");
     }
@@ -43,7 +42,6 @@ public class AShape implements IShape {
     this.red = r;
     this.green = g;
     this.blue = b;
-    this.motion = motion;
   }
 
   //TODO: probably a fuckton of getters and most of our methods should be in here
@@ -82,10 +80,6 @@ public class AShape implements IShape {
 
   public int getBlue() {
     return this.blue;
-  }
-
-  public IMotion getMotion() {
-    return this.motion;
   }
 }
 

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/2DAnimator/2DAnimator.iml" filepath="$PROJECT_DIR$/2DAnimator/2DAnimator.iml" />
       <module fileurl="file://$PROJECT_DIR$/2DAnimator.iml" filepath="$PROJECT_DIR$/2DAnimator.iml" />
     </modules>
   </component>
