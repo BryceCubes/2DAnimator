@@ -1,6 +1,6 @@
-package animator_model.motion;
+package animator.model.motion;
 
-import animator_model.shape.IShape;
+import animator.model.shape.IShape;
 
 /**
  * Interface represents a motion of a shape.

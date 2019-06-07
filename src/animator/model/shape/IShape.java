@@ -1,4 +1,4 @@
-package animator_model.shape;
+package animator.model.shape;
 
 /**
  * Interface to represent a general 2D shape.
@@ -56,8 +56,8 @@ public interface IShape {
   public int getGreen();
 
   /**
-   * Used to get the blue
-   * @return
+   * Used to get the blue value of the given shape to be passed to the controller.
+   * @return the blue value of the given shape
    */
   public int getBlue();
 

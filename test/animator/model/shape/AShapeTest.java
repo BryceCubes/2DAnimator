@@ -1,4 +1,4 @@
-package animator_model.shape;
+package animator.model.shape;
 
 import org.junit.Test;
 

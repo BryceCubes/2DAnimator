@@ -1,25 +1,35 @@
-package animator_model.motion;
+package animator.model.motion;
 
-import animator_model.shape.IShape;
+import animator.model.shape.IShape;
 
 /**
- * Class represents a motion of a shape in a 2D space
+ * Class represents a motion of a shape in a 2D space.
  */
 public class ShapeMotion implements IMotion {
   private IShape shape;
-  private int xStart, yStart;
-  private int wStart, hStart;
-  private int rStart, gStart, bStart;
-  private int toX, toY;
-  private int toW, toH;
-  private int toR, toG, toB;
-  private int tStart, tEnd;
+  private int xStart;
+  private int yStart;
+  private int wStart;
+  private int hStart;
+  private int rStart;
+  private int gStart;
+  private int bStart;
+  private int toX;
+  private int toY;
+  private int toW;
+  private int toH;
+  private int toR;
+  private int toG;
+  private int toB;
+  private int tStart;
+  private int tEnd;
 
   /**
    * Constructor for a shape motion. Invariants are both time values cannot be less than 0, and end
    * time cannot be less than start time. All width and height values cannot be less than 0.
    * All rgb values cannot be less than 0 or greater than 255.
-   * @param shape given shape to be moved
+   *
+   * @param shape  given shape to be moved
    * @param xStart starting x value at the center of the shape
    * @param yStart starting y value at the center of the shape
    * @param wStart starting width of the shape
@@ -27,15 +37,15 @@ public class ShapeMotion implements IMotion {
    * @param rStart starting red value of the shape
    * @param gStart starting green value of the shape
    * @param bStart starting blue value of the shape
-   * @param toX center x value at the end of the motion
-   * @param toY center y value of the shape at the end of the motion
-   * @param toW width of the shape at the end of the motion
-   * @param toH height of the shape at the end of the motion
-   * @param toR red value of the shape at the end of the motion
-   * @param toG green value of the shape at the end of the motion
-   * @param toB blue value of the shape at the end of the motion
+   * @param toX    center x value at the end of the motion
+   * @param toY    center y value of the shape at the end of the motion
+   * @param toW    width of the shape at the end of the motion
+   * @param toH    height of the shape at the end of the motion
+   * @param toR    red value of the shape at the end of the motion
+   * @param toG    green value of the shape at the end of the motion
+   * @param toB    blue value of the shape at the end of the motion
    * @param tStart start time of the shape's motion
-   * @param tEnd end value of the shape's motion
+   * @param tEnd   end value of the shape's motion
    */
   public ShapeMotion(IShape shape, int xStart, int yStart, int wStart, int hStart, int rStart,
                      int gStart, int bStart, int toX, int toY, int toW, int toH, int toR, int toG,
@@ -106,16 +116,26 @@ public class ShapeMotion implements IMotion {
   public String getTextOutput() {
     StringBuilder textView = new StringBuilder();
 
-      textView = textView.append("motion " + shape.getShapeID() + " " + this.tStart + " "
-              + this.xStart + " " + this.yStart + " " + this.wStart + " " + this.hStart + " "
-              + this.rStart + " " + this.gStart  + " " + this.bStart + "    " + this.tEnd + " "
-              + this.toX + " " + this.toY + " " + this.toW + " " + this.toH + " " + this.toR + " "
-              + this.toG + " " + this.toB + "\n");
+    textView = textView.append("motion " + shape.getShapeID() + " " + this.tStart + " "
+            + this.xStart + " " + this.yStart + " " + this.wStart + " " + this.hStart + " "
+            + this.rStart + " " + this.gStart + " " + this.bStart + "    " + this.tEnd + " "
+            + this.toX + " " + this.toY + " " + this.toW + " " + this.toH + " " + this.toR + " "
+            + this.toG + " " + this.toB + "\n");
 
     return textView.toString();
   }
 
   @Override
   public void interpolate(int tick) {
+    int deltaX = this.toX - this.xStart;
+    int deltaY = this.toY - this.yStart;
+    int deltaW = this.toW - this.wStart;
+    int deltaH = this.toH - this.hStart;
+    int deltaR = this.toR - this.rStart;
+    int deltaG = this.toG - this.gStart;
+    int deltaB = this.toB - this.bStart;
+    int deltaT = this.tEnd - this.tStart;
+
+
   }
 }

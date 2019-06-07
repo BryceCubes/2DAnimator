@@ -1,4 +1,4 @@
-package animator_model.shape;
+package animator.model.shape;
 
 /**
  * Class used to define all shape types.

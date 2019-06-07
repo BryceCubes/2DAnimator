@@ -1,11 +1,11 @@
-package animator_model;
+package animator.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import animator_model.motion.IMotion;
-import animator_model.shape.IShape;
+import animator.model.motion.IMotion;
+import animator.model.shape.IShape;
 
 /**
  * Animator model implementation that contains the representations of shapes and their animation

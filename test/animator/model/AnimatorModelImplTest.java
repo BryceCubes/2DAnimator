@@ -1,13 +1,11 @@
-package animator_model;
+package animator.model;
 
-import animator_model.motion.IMotion;
-import animator_model.motion.ShapeMotion;
-import animator_model.shape.AShape;
-import animator_model.shape.IShape;
-import animator_model.shape.ShapeType;
+import animator.model.motion.IMotion;
+import animator.model.motion.ShapeMotion;
+import animator.model.shape.AShape;
+import animator.model.shape.IShape;
+import animator.model.shape.ShapeType;
 import org.junit.Test;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -15,6 +13,9 @@ import static org.junit.Assert.assertTrue;
 
 //TODO: error check invalid motions
 
+/**
+ * Class used to test our animator model.
+ */
 public class AnimatorModelImplTest {
   // rectangle with basic movements
   private IShape frectangle;
