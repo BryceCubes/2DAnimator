@@ -34,4 +34,28 @@ public interface IMotion {
    * Mutates the shape associated with the given motion at the time t given by the tick.
    */
   void interpolate(int tick);
+
+  /**
+   * Used to get the x value at the start of a motion.
+   * @return the x value of the start of a motion
+   */
+  int getXStart();
+
+  /**
+   * Used to get the y value at the start of a motion
+   * @return the y value at the start of the motion
+   */
+  int getYStart();
+
+  /**
+   * Used to get the x value at the end of the motion.
+   * @return the x value at the start of the motion.
+   */
+  int getXEnd();
+
+  /**
+   * Used to get the y value at the end of the motion.
+   * @return the y value at the start of the motion
+   */
+  int getYEnd();
 }
