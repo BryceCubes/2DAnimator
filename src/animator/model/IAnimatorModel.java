@@ -1,9 +1,8 @@
-package animator_model;
+package animator.model;
 
 import java.util.ArrayList;
 
-import animator_model.motion.IMotion;
-import animator_model.shape.IShape;
+import animator.model.shape.IShape;
 
 /**
  * General Model to represent the shapes and motions for an animator application.

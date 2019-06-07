@@ -1,4 +1,4 @@
-package animator_model.shape;
+package animator.model.shape;
 
 /**
  * Class represents all base attributes that a 2d shape must have in a larger frame.
@@ -31,7 +31,7 @@ public class AShape implements IShape {
   public AShape(String shapeID, ShapeType shapeType, int x, int y, int w, int h, int r, int g,
                 int b) {
     if (w < 0 || h < 0 || r < 0 || g < 0 || b < 0 || shapeID == null || shapeType == null
-            || r > 255 || g > 255 || b > 255 || shapeID == "") {
+            || r > 255 || g > 255 || b > 255 || shapeID.equals("")) {
       throw new IllegalArgumentException("Width, height and/or rgb must be positive and less than"
               + " 256. Shape type and shapeID cannot be null and shapeID cannot be empty string.");
     }
