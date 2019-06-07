@@ -1,6 +1,7 @@
 package animator.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -123,8 +124,21 @@ public class AnimatorModelImpl implements IAnimatorModel {
       }
     }
 
+    for (String key: this.keys) {
+      for (IMotion motion: sortedMoveList.get(key)) {
+        System.out.println(motion.getTStart());
+      }
+    }
+
+    this.bubbleSort();
+
+    for (String key: this.keys) {
+      for (IMotion motion: sortedMoveList.get(key)) {
+        System.out.println(motion.getTStart());
+      }
+    }
+
     for (String key : this.keys) {
-      sortedMoveList.put(key, this.bubbleSort(sortedMoveList.get(key)));
       if (!this.isInSequence(sortedMoveList.get(key))) {
         throw new IllegalArgumentException("Motions are not continuous.");
       }
@@ -133,24 +147,20 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   /**
    * Method bubble sort algorithm implemented normally used to sort the list based on start times.
-   *
-   * @param list list given from the hasmap that includes all motions associated with a key
-   * @return a sorted list of IMotions based on start times
    */
-  private ArrayList<IMotion> bubbleSort(ArrayList<IMotion> list) {
-    int size = list.size();
-    for (int i = 0; i < size; i++) {
-      for (int j = i; j < size; j++) {
-        IMotion currentMotion = list.get(i);
-        IMotion checkingMotion = list.get(j);
-        if (currentMotion.getTStart() > checkingMotion.getTStart()) {
-          list.add(j, currentMotion);
-          list.add(i, checkingMotion);
+  private void bubbleSort() {
+    for (String key: this.keys) {
+      int size = sortedMoveList.get(key).size();
+      for (int i = 0; i < size; i++) {
+        for (int j = i; j < size; j++) {
+          IMotion currentMotion = sortedMoveList.get(key).get(i);
+          IMotion checkingMotion = sortedMoveList.get(key).get(j);
+          if (currentMotion.getTStart() > checkingMotion.getTStart()) {
+            Collections.swap(sortedMoveList.get(key), j, i);
+          }
         }
       }
     }
-
-    return list;
   }
 
   /**

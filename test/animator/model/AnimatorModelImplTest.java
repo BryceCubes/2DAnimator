@@ -111,7 +111,13 @@ public class AnimatorModelImplTest {
     moveList = new ArrayList<>();
     moveList.add(ethanColorChanges);
     moveList.add(fredMoveLeft);
-    moveList.add(fredMoveRight);
+    moveList.add(fredMoveDownLeft);
+    moveList.add(fredMoveDown);
+    moveList.add(fredMoveUpRight);
+    moveList.add(fredMoveUp);
+
+
+    // Add Amy
     moveList.add(amyGrowTall);
     moveList.add(fredMoveDown);
     moveList.add(amyShrinkWidth);
