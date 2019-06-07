@@ -7,6 +7,7 @@ import animator_model.shape.IShape;
 import animator_model.shape.ShapeType;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -107,6 +108,7 @@ public class AnimatorModelImplTest {
     // Making the model
     moveList = new ArrayList<>();
     moveList.add(fredMoveUpRight);
+    moveList.add(fredMoveDownLeft);
     moveList.add(amyScaleUp);
     moveList.add(ethanAllChanges);
     model = new AnimatorModelImpl(moveList);
@@ -143,6 +145,12 @@ public class AnimatorModelImplTest {
     for (int i = 0; i < 3; i++) {
       System.out.println(moveList.get(i).getShape().getShapeID());
     }
+  }
+
+  @Test
+  public void tryPrint() {
+    setTest();
+    assertEquals("", model.textViewMotions());
   }
 
 
