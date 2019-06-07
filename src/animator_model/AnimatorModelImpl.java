@@ -128,6 +128,9 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
     for (String key: keys) {
       sortedMoveList.put(key, this.bubbleSort(sortedMoveList.get(key)));
+      if (!this.isInSequence(sortedMoveList.get(key))) {
+        throw new IllegalArgumentException("Motions are not continuous.");
+      }
     }
   }
 
@@ -147,7 +150,19 @@ public class AnimatorModelImpl implements IAnimatorModel {
     return list;
   }
 
-  private Boolean isInSequence() {
-    return null;
+  private Boolean isInSequence(ArrayList<IMotion> list) {
+    int size = list.size();
+    boolean isConsistent = true;
+    for (int i = 0; i < size - 1; i++) {
+      IMotion currentMotion = list.get(i);
+      IMotion nextMotion = list.get(i + 1);
+
+      if (currentMotion.getTEnd() != nextMotion.getTStart()) {
+        isConsistent = false;
+        break;
+      }
+    }
+
+    return isConsistent;
   }
 }
