@@ -10,15 +10,18 @@ import animator_model.shape.IShape;
  */
 public interface IAnimatorModel {
 
-  public void add(ShapeType type);
-
-  public IShape findShape(String shapeID);
+  /**
+   * Finds a specific shape based on the name given.
+   * @param shapeID
+   * @return An IShape matching given string
+   */
+  public IShape findShape(String shapeID) throws IllegalArgumentException;
 
   /**
    * Method to return all the shapes the view will need to display.
-   * @return A list of shapes
+   * @return A list of shapes at time t
    */
-  public ArrayList<IShape> returnShapesAtTick();
+  public ArrayList<IShape> returnShapesAtTick(int tick) throws IllegalArgumentException;
 
   /**
    * Provides a text representation of the motions.
