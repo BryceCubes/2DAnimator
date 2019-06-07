@@ -23,13 +23,13 @@ public interface IShape {
    * Method used to get the x position to be passed to the controller.
    * @return the x position for the given shape
    */
-  public int getxPos();
+  public int getXPos();
 
   /**
    * Method used to get the y position to be passed to the controller.
    * @return the y position for the given shape
    */
-  public int getyPos();
+  public int getYPos();
 
   /**
    * Method used to get the width of the given shape to be passed to the controller.

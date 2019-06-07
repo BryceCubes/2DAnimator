@@ -56,12 +56,12 @@ public class AShape implements IShape {
   }
 
   @Override
-  public int getxPos() {
+  public int getXPos() {
     return this.xPos;
   }
 
   @Override
-  public int getyPos() {
+  public int getYPos() {
     return this.yPos;
   }
 
