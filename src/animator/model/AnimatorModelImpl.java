@@ -38,7 +38,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   public IShape findShape(String shapeID) {
     IShape returnShape = null;
 
-    for (String key: this.keys) {
+    for (String key : this.keys) {
       if (shapeID == key) {
         returnShape = this.sortedMoveList.get(key).get(0).getShape();
       }
@@ -71,10 +71,10 @@ public class AnimatorModelImpl implements IAnimatorModel {
   @Override
   public String textViewMotions() {
     StringBuilder textView = new StringBuilder();
-    for (String key: this.keys) {
+    for (String key : this.keys) {
       IShape currentShape = this.findShape(key);
       textView.append("shape ").append(currentShape.getShapeID()).append(" ").append(currentShape.getShapeTypeAsString()).append("\n");
-      for (IMotion motion: this.sortedMoveList.get(key)) {
+      for (IMotion motion : this.sortedMoveList.get(key)) {
         textView.append(motion.getTextOutput());
       }
     }
@@ -83,7 +83,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   private void sortMoveList() {
-    for (IMotion motion: moveList) {
+    for (IMotion motion : moveList) {
       IShape currentShape = motion.getShape();
       String key = currentShape.getShapeID();
 
@@ -116,7 +116,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
       }
     }
 
-    for (String key: this.keys) {
+    for (String key : this.keys) {
       sortedMoveList.put(key, this.bubbleSort(sortedMoveList.get(key)));
       if (!this.isInSequence(sortedMoveList.get(key))) {
         throw new IllegalArgumentException("Motions are not continuous.");
@@ -126,6 +126,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   /**
    * Method bubble sort algorithm implemented normally used to sort the list based on start times.
+   *
    * @param list list given from the hasmap that includes all motions associated with a key
    * @return a sorted list of IMotions based on start times
    */
@@ -148,15 +149,16 @@ public class AnimatorModelImpl implements IAnimatorModel {
   /**
    * Used to return whether or not a list is in sequence given the start and stop times,
    * and the starting and ending x and y coordinates.
+   *
    * @param list list given from the hashmap associated with a certain key
    * @return a boolean regarding whether or not the list is in sequence
    */
   private Boolean isInSequence(ArrayList<IMotion> list) {
     int size = list.size();
     boolean isConsistent = true;
-    for (int i = 0; i < size - 1; i++) {
-      IMotion currentMotion = list.get(i);
-      IMotion nextMotion = list.get(i + 1);
+    for (int i = 1; i < size; i++) {
+      IMotion currentMotion = list.get(i - 1);
+      IMotion nextMotion = list.get(i);
 
       if (currentMotion.getTEnd() != nextMotion.getTStart()
               || currentMotion.getXEnd() != nextMotion.getXStart()

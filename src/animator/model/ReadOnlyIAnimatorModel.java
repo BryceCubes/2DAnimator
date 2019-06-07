@@ -1,6 +1,6 @@
-package animator_model;
+package animator.model;
 
-import animator_model.shape.IShape;
+import animator.model.shape.IShape;
 
 import java.util.ArrayList;
 

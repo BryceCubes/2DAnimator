@@ -56,12 +56,12 @@ public class AnimatorModelImplTest {
             150, 10, 5, 10, 5, 5, 255, 150, 10,
             10, 20);
     fredMoveUp = new ShapeMotion(frectangle, 5, 10, 5, 5, 255,
-            150, 10, 10, 5, 5, 5, 255, 150, 10,
+            150, 10, 5, 5, 5, 5, 255, 150, 10,
             20, 30);
-    fredMoveDown = new ShapeMotion(frectangle, 10, 5, 5, 5, 255,
-            150, 10, 10, 15, 5, 5, 255, 150, 10,
+    fredMoveDown = new ShapeMotion(frectangle, 5, 5, 5, 5, 255,
+            150, 10, 5, 15, 5, 5, 255, 150, 10,
             30, 40);
-    fredMoveUpRight = new ShapeMotion(frectangle, 10, 15, 5, 5, 255,
+    fredMoveUpRight = new ShapeMotion(frectangle, 5, 15, 5, 5, 255,
             150, 10, 15, 5, 5, 5, 255, 150, 10,
             40, 50);
     fredMoveDownLeft = new ShapeMotion(frectangle, 15, 5, 5, 5, 255,
@@ -83,13 +83,13 @@ public class AnimatorModelImplTest {
             50, 75);
     amyShrinkHeight = new ShapeMotion(amyOval, 50, 50, 30, 35, 0,
             100, 255, 50, 50, 30, 30, 0, 100, 255,
-            100, 125);
+            75 , 100);
     amyShrinkWidth = new ShapeMotion(amyOval, 50, 50, 30, 30, 0,
             100, 255, 50, 50, 20, 30, 0, 100, 255,
-            125, 150);
+            100, 125);
     amyScaleDown = new ShapeMotion(amyOval, 50, 50, 20, 30, 0,
             100, 255, 50, 50, 10, 20, 0, 100, 255,
-            150, 175);
+            125, 150);
 
     // Circle changing color
     // starting light purple circle
