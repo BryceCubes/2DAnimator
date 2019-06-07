@@ -83,6 +83,26 @@ public class ShapeMotion implements IMotion {
   }
 
   @Override
+  public int getXStart() {
+    return this.xStart;
+  }
+
+  @Override
+  public int getYStart() {
+    return this.yStart;
+  }
+
+  @Override
+  public int getXEnd() {
+    return this.toX;
+  }
+
+  @Override
+  public int getYEnd() {
+    return this.toY;
+  }
+
+  @Override
   public String getTextOutput() {
     StringBuilder textView = new StringBuilder();
 
