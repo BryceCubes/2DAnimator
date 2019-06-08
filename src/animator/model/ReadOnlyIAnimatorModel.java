@@ -4,6 +4,9 @@ import animator.model.shape.IShape;
 
 import java.util.ArrayList;
 
+/**
+ * Interface used to prevent public access to setters that are not yet made.
+ */
 public interface ReadOnlyIAnimatorModel {
 
   /**
