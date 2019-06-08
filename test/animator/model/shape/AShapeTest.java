@@ -13,50 +13,50 @@ public class AShapeTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void widthNegative() {
-    new AShape("Fred",ShapeType.RECTANGLE, 10, 10, -1, 5, 255, 150, 10);
+    new AShape("Fred", ShapeType.RECTANGLE, 10, 10, -1, 5, 255, 150, 10);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void heightNegative() {
-    new AShape("Fred",ShapeType.RECTANGLE, 10, 10, 5, -1, 255, 150, 10);
+    new AShape("Fred", ShapeType.RECTANGLE, 10, 10, 5, -1, 255, 150, 10);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void rNegative() {
-    new AShape("Fred",ShapeType.RECTANGLE, 10, 10, 5, 5, -1, 150, 10);
+    new AShape("Fred", ShapeType.RECTANGLE, 10, 10, 5, 5, -1, 150, 10);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void gNegative() {
-    new AShape("Fred",ShapeType.RECTANGLE, 10, 10, 5, 5, 255, -1, 10);
+    new AShape("Fred", ShapeType.RECTANGLE, 10, 10, 5, 5, 255, -1, 10);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void bNegative() {
-    new AShape("Fred",ShapeType.RECTANGLE, 10, 10, 5, 5, 255, 150, -1);
+    new AShape("Fred", ShapeType.RECTANGLE, 10, 10, 5, 5, 255, 150, -1);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void rGreaterThan255() {
-    new AShape("Fred",ShapeType.RECTANGLE, 10, 10, 5, 5, 256, 150, 10);
+    new AShape("Fred", ShapeType.RECTANGLE, 10, 10, 5, 5, 256, 150, 10);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void gGreaterThan255() {
-    new AShape("Fred",ShapeType.RECTANGLE, 10, 10, 5, 5, 255, 256, 10);
+    new AShape("Fred", ShapeType.RECTANGLE, 10, 10, 5, 5, 255, 256, 10);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void bGreaterThan255() {
-    new AShape("Fred",ShapeType.RECTANGLE, 10, 10, 5, 5, 255, 150, 256);
+    new AShape("Fred", ShapeType.RECTANGLE, 10, 10, 5, 5, 255, 150, 256);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void nameEmptyString() {
-    new AShape("",ShapeType.RECTANGLE, 10, 10, 5, 5, 255, 150, 10);
+    new AShape("", ShapeType.RECTANGLE, 10, 10, 5, 5, 255, 150, 10);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void nameNull() {
     new AShape(null, ShapeType.RECTANGLE, 10, 10, 5, 5, 255, 150, 10);
   }
