@@ -118,11 +118,13 @@ public class ShapeMotion implements IMotion {
   public String getTextOutput() {
     StringBuilder textView = new StringBuilder();
 
-    textView = textView.append("motion " + shape.getShapeID() + " " + this.tStart + " "
-            + this.xStart + " " + this.yStart + " " + this.wStart + " " + this.hStart + " "
-            + this.rStart + " " + this.gStart + " " + this.bStart + "    " + this.tEnd + " "
-            + this.toX + " " + this.toY + " " + this.toW + " " + this.toH + " " + this.toR + " "
-            + this.toG + " " + this.toB + "\n");
+    textView.append("motion ").append(shape.getShapeID()).append(" ").append(this.tStart)
+            .append(" ").append(this.xStart).append(" ").append(this.yStart).append(" ")
+            .append(this.wStart).append(" ").append(this.hStart).append(" ").append(this.rStart)
+            .append(" ").append(this.gStart).append(" ").append(this.bStart).append("    ")
+            .append(this.tEnd).append(" ").append(this.toX).append(" ").append(this.toY).append(" ")
+            .append(this.toW).append(" ").append(this.toH).append(" ").append(this.toR).append(" ")
+            .append(this.toG).append(" ").append(this.toB).append("\n");
 
     return textView.toString();
   }
