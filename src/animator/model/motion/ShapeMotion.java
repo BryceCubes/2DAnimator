@@ -25,9 +25,11 @@ public class ShapeMotion implements IMotion {
   private int tEnd;
 
   /**
-   * Constructor for a shape motion. Invariants are both time values cannot be less than 0, and end
-   * time cannot be less than start time. All width and height values cannot be less than 0.
-   * All rgb values cannot be less than 0 or greater than 255.
+   * Constructor for a shape motion. Invariants are both time values cannot be less than 0 because
+   * time can never be negative, and end time cannot be less than start time because time always
+   * needs to be moving forward. All width and height values cannot be less than 0. All rgb values
+   * cannot be less than 0 or greater than 255 because rgb hex values can only have
+   * that range.
    *
    * @param shape  given shape to be moved
    * @param xStart starting x value at the center of the shape
@@ -135,7 +137,8 @@ public class ShapeMotion implements IMotion {
     int deltaG = this.toG - this.gStart;
     int deltaB = this.toB - this.bStart;
     int deltaT = this.tEnd - this.tStart;
-
+    // This code is currently unfinished as it was not in the scope of the assignment to implement
+    // it. It will be finished in order to actually change the position of the a shape.
 
   }
 }

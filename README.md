@@ -28,4 +28,18 @@ allow for different shapes, all we have to do is add another
 field to the enum.
 
 We use the IShape interface to allow both the Animator model
-to get access to the fields of AShape
+to get access to the fields of AShape, and allow for those
+fields to be passed to a view. We implemented shape to only
+store the values associated with the shape itself, x, y, w,
+h, r, g, b, shape type, and shapeid such that the shape can
+know exactly where it is and its own state at all times.
+
+IMotion interface was implemented with the 6 getters it
+provides so that the model can check if any two motions
+are overlapping. It also has interpolate, which will be
+implemented in the next assignment to allow mutation of the
+shape associated with the current motion. Get text output is
+implemented so that the model can continuously call that command
+on all of the motions and get a correct output. Get shape allows
+our model to get access to the shape involved in the motion
+because otherwise, shapes could not be accessed.
