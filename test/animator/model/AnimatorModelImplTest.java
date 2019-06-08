@@ -5,6 +5,7 @@ import animator.model.motion.ShapeMotion;
 import animator.model.shape.AShape;
 import animator.model.shape.IShape;
 import animator.model.shape.ShapeType;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -229,6 +230,11 @@ public class AnimatorModelImplTest {
   public void testDisjoint() {
     setTest();
     new AnimatorModelImpl(disjointList);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testNullModel() {
+    new AnimatorModelImpl(null);
   }
 
 }

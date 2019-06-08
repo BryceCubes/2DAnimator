@@ -13,7 +13,10 @@ public interface IMotion {
   String getTextOutput();
 
   /**
-   * Method used to get the start time of the given motion.
+   * Method used to get the start time of the given motion. We put a standard 4 spaces in between
+   * the start values and stop values because implementing the values to line up perfectly seemed
+   * a bit out of scope. It was confusing seeing the different space patterns on the example text
+   * output
    * @return an int representing the start time of the motion
    */
   int getTStart();

@@ -42,4 +42,8 @@ shape associated with the current motion. Get text output is
 implemented so that the model can continuously call that command
 on all of the motions and get a correct output. Get shape allows
 our model to get access to the shape involved in the motion
-because otherwise, shapes could not be accessed.
+because otherwise, shapes could not be accessed. We put a 
+standard 4 spaces in between the start values and stop values 
+because implementing the values to line up perfectly seemed
+a bit out of scope. It was confusing seeing the different 
+space patterns on the example text output.
