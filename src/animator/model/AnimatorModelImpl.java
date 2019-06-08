@@ -20,9 +20,10 @@ public class AnimatorModelImpl implements IAnimatorModel {
   private ArrayList<String> keys;
 
   /**
-   * Constructor used to create an animator model.
+   * Constructor used to create an animator model. We don't allow a null movelist to be passed
+   * because that would mess up our model.
    */
-  public AnimatorModelImpl(ArrayList moveList) {
+  public AnimatorModelImpl(ArrayList<IMotion> moveList) {
     if (moveList == null) {
       throw new IllegalArgumentException("Move list cannot be null and/or tick must be positive.");
     }
@@ -38,7 +39,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     IShape returnShape = null;
 
     for (String key : this.keys) {
-      if (shapeID == key) {
+      if (shapeID.equals(key)) {
         returnShape = this.sortedMoveList.get(key).get(0).getShape();
       }
     }
@@ -56,8 +57,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Tick must be a positive integer.");
     }
 
-    for (int i = 0; i < moveList.size(); i++) {
-      IMotion currentMove = moveList.get(i);
+    for (IMotion currentMove : moveList) {
       if (currentMove.getTStart() <= tick && currentMove.getTEnd() >= tick) {
         currentMove.interpolate(tick);
         shapes.add(currentMove.getShape());
@@ -116,9 +116,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
         if (isOverlapping) {
           throw new IllegalArgumentException("Overlapping moves for same shape.");
-        }
-
-        else {
+        } else {
           sortedMoveList.get(key).add(motion);
         }
       }
@@ -137,7 +135,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
    * Method bubble sort algorithm implemented normally used to sort the list based on start times.
    */
   private void bubbleSort() {
-    for (String key: this.keys) {
+    for (String key : this.keys) {
       int size = sortedMoveList.get(key).size();
       for (int i = 0; i < size; i++) {
         for (int j = i; j < size; j++) {

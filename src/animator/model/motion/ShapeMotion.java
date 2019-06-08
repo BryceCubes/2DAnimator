@@ -25,9 +25,11 @@ public class ShapeMotion implements IMotion {
   private int tEnd;
 
   /**
-   * Constructor for a shape motion. Invariants are both time values cannot be less than 0, and end
-   * time cannot be less than start time. All width and height values cannot be less than 0.
-   * All rgb values cannot be less than 0 or greater than 255.
+   * Constructor for a shape motion. Invariants are both time values cannot be less than 0 because
+   * time can never be negative, and end time cannot be less than start time because time always
+   * needs to be moving forward. All width and height values cannot be less than 0. All rgb values
+   * cannot be less than 0 or greater than 255 because rgb hex values can only have
+   * that range.
    *
    * @param shape  given shape to be moved
    * @param xStart starting x value at the center of the shape
@@ -116,11 +118,13 @@ public class ShapeMotion implements IMotion {
   public String getTextOutput() {
     StringBuilder textView = new StringBuilder();
 
-    textView = textView.append("motion " + shape.getShapeID() + " " + this.tStart + " "
-            + this.xStart + " " + this.yStart + " " + this.wStart + " " + this.hStart + " "
-            + this.rStart + " " + this.gStart + " " + this.bStart + "    " + this.tEnd + " "
-            + this.toX + " " + this.toY + " " + this.toW + " " + this.toH + " " + this.toR + " "
-            + this.toG + " " + this.toB + "\n");
+    textView.append("motion ").append(shape.getShapeID()).append(" ").append(this.tStart)
+            .append(" ").append(this.xStart).append(" ").append(this.yStart).append(" ")
+            .append(this.wStart).append(" ").append(this.hStart).append(" ").append(this.rStart)
+            .append(" ").append(this.gStart).append(" ").append(this.bStart).append("    ")
+            .append(this.tEnd).append(" ").append(this.toX).append(" ").append(this.toY).append(" ")
+            .append(this.toW).append(" ").append(this.toH).append(" ").append(this.toR).append(" ")
+            .append(this.toG).append(" ").append(this.toB).append("\n");
 
     return textView.toString();
   }
@@ -135,7 +139,8 @@ public class ShapeMotion implements IMotion {
     int deltaG = this.toG - this.gStart;
     int deltaB = this.toB - this.bStart;
     int deltaT = this.tEnd - this.tStart;
-
+    // This code is currently unfinished as it was not in the scope of the assignment to implement
+    // it. It will be finished in order to actually change the position of the a shape.
 
   }
 }

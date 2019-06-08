@@ -25,7 +25,7 @@ public interface IMotion {
   int getTEnd();
 
   /**
-   * Method used to return a shape object associated with a given motion
+   * Method used to return a shape object associated with a given motion.
    * @return an IShape associated with the given motion
    */
   IShape getShape();
@@ -42,7 +42,7 @@ public interface IMotion {
   int getXStart();
 
   /**
-   * Used to get the y value at the start of a motion
+   * Used to get the y value at the start of a motion.
    * @return the y value at the start of the motion
    */
   int getYStart();

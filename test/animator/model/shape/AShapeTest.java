@@ -2,8 +2,11 @@ package animator.model.shape;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests for the AShape class.
+ */
 public class AShapeTest {
   private IShape frectangle = new AShape("Fred", ShapeType.RECTANGLE, 10, 10, 5, 5,
           255, 150, 10);

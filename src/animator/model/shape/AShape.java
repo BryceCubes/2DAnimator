@@ -15,18 +15,20 @@ public class AShape implements IShape {
   private int blue;
 
   /**
-   * Constructor to create a shape. Invariants are w and h cannot be less than 0, rgb cannot
-   * be less than 0 or greater than 255, and shapeID and shapeType cannot be null, and shapeID
-   * cannot be empty string.
-   * @param shapeID name of shape
+   * Constructor to create a shape. Invariants are w and h cannot be less than 0 because a shape
+   * can never have negative width or height, rgb cannot be less than 0 or greater than 255 because
+   * this is the range of hex values able to be stored, and shapeID and shapeType cannot be null,
+   * and shapeID cannot be empty string because each shape needs to have a name.
+   *
+   * @param shapeID   name of shape
    * @param shapeType shape type
-   * @param x x value of center of shape
-   * @param y y value of center of shape
-   * @param w width of shape
-   * @param h height of shape
-   * @param r red value of shape
-   * @param g green value of shape
-   * @param b blue value of shape
+   * @param x         x value of center of shape
+   * @param y         y value of center of shape
+   * @param w         width of shape
+   * @param h         height of shape
+   * @param r         red value of shape
+   * @param g         green value of shape
+   * @param b         blue value of shape
    */
   public AShape(String shapeID, ShapeType shapeType, int x, int y, int w, int h, int r, int g,
                 int b) {
