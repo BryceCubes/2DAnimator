@@ -20,7 +20,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
   private ArrayList<String> keys;
 
   /**
-   * Constructor used to create an animator model.
+   * Constructor used to create an animator model. We don't allow a null movelist to be passed
+   * because that would mess up our model.
    */
   public AnimatorModelImpl(ArrayList moveList) {
     if (moveList == null) {
