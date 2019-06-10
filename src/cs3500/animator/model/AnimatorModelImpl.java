@@ -70,8 +70,6 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
     return shapes;
   }
-  //Method is incomplete at the moment because interpolate was not fully implemented as not part
-  //of the scope of the assignment. So, do not have any tests for this method.
 
   @Override
   public String textViewMotions() {
