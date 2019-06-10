@@ -51,14 +51,74 @@ public interface IMotion {
   int getYStart();
 
   /**
+   * Used to get the y value at the start of a motion.
+   * @return the y value at the start of the motion
+   */
+  int getWStart();
+
+  /**
+   * Used to get the height value at the start of a motion.
+   * @return the height value at the start of the motion
+   */
+  int getHStart();
+
+  /**
+   * Used to get the red value at the start of a motion.
+   * @return the red value at the start of the motion
+   */
+  int getRStart();
+
+  /**
+   * Used to get the green value at the start of a motion.
+   * @return the green value at the start of the motion
+   */
+  int getGStart();
+
+  /**
+   * Used to get the blue value at the start of a motion.
+   * @return the blue value at the start of the motion
+   */
+  int getBStart();
+
+  /**
    * Used to get the x value at the end of the motion.
-   * @return the x value at the start of the motion.
+   * @return the x value at the end of the motion.
    */
   int getXEnd();
 
   /**
    * Used to get the y value at the end of the motion.
-   * @return the y value at the start of the motion
+   * @return the y value at the end of the motion
    */
   int getYEnd();
+
+  /**
+   * Used to get the width value at the end of the motion.
+   * @return the width value at the end of the motion
+   */
+  int getWEnd();
+
+  /**
+   * Used to get the height value at the end of the motion.
+   * @return the height value at the end of the motion
+   */
+  int getHEnd();
+
+  /**
+   * Used to get the red value at the end of the motion.
+   * @return the red value at the end of the motion
+   */
+  int getREnd();
+
+  /**
+   * Used to get the green value at the end of the motion.
+   * @return the green value at the end of the motion
+   */
+  int getGEnd();
+
+  /**
+   * Used to get the blue value at the end of the motion.
+   * @return the blue value at the end of the motion
+   */
+  int getBEnd();
 }

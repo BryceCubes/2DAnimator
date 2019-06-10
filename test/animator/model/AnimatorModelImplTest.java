@@ -237,4 +237,6 @@ public class AnimatorModelImplTest {
     new AnimatorModelImpl(null);
   }
 
+  //TODO add tests for addShape, addMotion, and deleteMotion
+
 }

@@ -84,6 +84,55 @@ public class AnimatorModelImpl implements IAnimatorModel {
     return textView.toString();
   }
 
+  @Override
+  public void addShape(IShape shape) {
+    for (String key : this.keys) {
+      if (shape.getShapeID().equals(key)) {
+        throw new IllegalArgumentException(key + " shape already exists.");
+      } else {
+        sortedMoveList.put(shape.getShapeID(), new ArrayList<>());
+        this.keys.add(shape.getShapeID());
+      }
+    }
+  }
+
+  @Override
+  public void addMotion(IMotion motion) {
+    boolean doesShapeExist = false;
+    for (String key: this.keys) {
+      IShape currentShape = motion.getShape();
+      if (currentShape.getShapeID().equals(key)) {
+        sortedMoveList.get(key).add(motion);
+        this.sortMoveList();
+        doesShapeExist = true;
+        break;
+      }
+    }
+
+    if (!doesShapeExist) {
+      throw new IllegalArgumentException("Shape given does not exist.");
+    }
+  }
+
+  @Override
+  public void deleteMotion(IMotion motion) {
+    boolean doesShapeExist = false;
+    for (String key: this.keys) {
+      IShape currentShape = motion.getShape();
+      if (currentShape.getShapeID().equals(key)) {
+        if (!sortedMoveList.get(key).remove(motion)) {
+          throw new IllegalArgumentException("Given motion for given shape does not exist.");
+        }
+
+        this.sortMoveList();
+      }
+    }
+
+    if (!doesShapeExist) {
+      throw new IllegalArgumentException("Shape given does not exist.");
+    }
+  }
+
   private void sortMoveList() {
     for (IMotion motion : moveList) {
       IShape currentShape = motion.getShape();
@@ -117,7 +166,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
         }
 
         if (isOverlapping) {
-          throw new IllegalArgumentException("Overlapping moves for same shape.");
+          throw new IllegalArgumentException("Overlapping moves for shape "
+                  + currentShape.getShapeID() + ".");
         } else {
           sortedMoveList.get(key).add(motion);
         }
@@ -127,8 +177,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
     this.bubbleSort();
 
     for (String key : this.keys) {
-      if (!this.isInSequence(sortedMoveList.get(key))) {
-        throw new IllegalArgumentException("Motions are not continuous.");
+      if (!this.isContinuous(sortedMoveList.get(key))) {
+        throw new IllegalArgumentException("Motions for " + key + " are not continuous.");
       }
     }
   }
@@ -158,7 +208,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
    * @param list list given from the hashmap associated with a certain key
    * @return a boolean regarding whether or not the list is in sequence
    */
-  private Boolean isInSequence(ArrayList<IMotion> list) {
+  private Boolean isContinuous(ArrayList<IMotion> list) {
     int size = list.size();
     boolean isConsistent = true;
     for (int i = 1; i < size; i++) {
@@ -167,7 +217,12 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
       if (currentMotion.getTEnd() != nextMotion.getTStart()
               || currentMotion.getXEnd() != nextMotion.getXStart()
-              || currentMotion.getYEnd() != nextMotion.getYStart()) {
+              || currentMotion.getYEnd() != nextMotion.getYStart()
+              || currentMotion.getWEnd() != nextMotion.getWStart()
+              || currentMotion.getHEnd() != nextMotion.getHStart()
+              || currentMotion.getREnd() != nextMotion.getRStart()
+              || currentMotion.getGEnd() != nextMotion.getGStart()
+              || currentMotion.getBEnd() != nextMotion.getBStart()) {
         isConsistent = false;
         break;
       }

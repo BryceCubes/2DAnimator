@@ -171,4 +171,6 @@ public class ShapeMotionTest {
   public void getShapeTest() {
     assertEquals(frectangle, fredMoveRight.getShape());
   }
+
+  //TODO add all tests for getters
 }
