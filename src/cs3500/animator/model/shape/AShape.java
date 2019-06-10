@@ -31,8 +31,8 @@ public class AShape implements IShape {
    * @param g         green value of shape
    * @param b         blue value of shape
    */
-  public AShape(String shapeID, ShapeType shapeType, int x, int y, int w, int h, int r, int g,
-                int b) {
+  public AShape(String shapeID, ShapeType shapeType, double x, double y, double w, double h, int r,
+                int g, int b) {
     if (w < 0 || h < 0 || r < 0 || g < 0 || b < 0 || shapeID == null || shapeType == null
             || r > 255 || g > 255 || b > 255 || shapeID.equals("")) {
       throw new IllegalArgumentException("Width, height and/or rgb must be positive and less than"

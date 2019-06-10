@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Interface used to prevent public access to setters that are not yet made.
+ * Interface used to prevent public access to setters.
  */
 public interface ReadOnlyIAnimatorModel {
 

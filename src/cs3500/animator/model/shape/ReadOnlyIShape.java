@@ -1,5 +1,8 @@
 package cs3500.animator.model.shape;
 
+/**
+ * IShape Interface made publicly available.
+ */
 public interface ReadOnlyIShape {
   /**
    * This method is used to return the name of the shape to be used by the controller to pass

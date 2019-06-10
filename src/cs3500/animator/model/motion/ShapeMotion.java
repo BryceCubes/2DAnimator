@@ -23,6 +23,7 @@ public class ShapeMotion implements IMotion {
   private int toB;
   private int tStart;
   private int tEnd;
+  //Changed the x, y, w, and h values to doubles so that movement could be smooth.
 
   /**
    * Constructor for a shape motion. Invariants are both time values cannot be less than 0 because
@@ -190,13 +191,13 @@ public class ShapeMotion implements IMotion {
     int deltaB = this.toB - this.bStart;
     double deltaT = this.tEnd - this.tStart;
     double currTick = tick - this.tStart;
-    double newX = (currTick/deltaT) * deltaX + this.xStart;
-    double newY = (currTick/deltaT) * deltaY + this.yStart;
-    double newW = (currTick/deltaT) * deltaW + this.wStart;
-    double newH = (currTick/deltaT) * deltaH + this.hStart;
-    int newR = (int)((currTick/deltaT) * deltaR) + this.rStart;
-    int newG = (int)((currTick/deltaT) * deltaG) + this.gStart;
-    int newB = (int)((currTick/deltaT) * deltaB) + this.bStart;
+    double newX = (currTick / deltaT) * deltaX + this.xStart;
+    double newY = (currTick / deltaT) * deltaY + this.yStart;
+    double newW = (currTick / deltaT) * deltaW + this.wStart;
+    double newH = (currTick / deltaT) * deltaH + this.hStart;
+    int newR = (int) ((currTick / deltaT) * deltaR) + this.rStart;
+    int newG = (int) ((currTick / deltaT) * deltaG) + this.gStart;
+    int newB = (int) ((currTick / deltaT) * deltaB) + this.bStart;
 
     this.shape.setX(newX);
     this.shape.setY(newY);
