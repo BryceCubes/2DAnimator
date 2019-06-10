@@ -50,21 +50,21 @@ public interface ReadOnlyIShape {
    *
    * @return the red value of the given shape
    */
-  double getRed();
+  int getRed();
 
   /**
    * Method used to get the green value of the given shape to be passed to the controller.
    *
    * @return the green value of the given shape
    */
-  double getGreen();
+  int getGreen();
 
   /**
    * Used to get the blue value of the given shape to be passed to the controller.
    *
    * @return the blue value of the given shape
    */
-  double getBlue();
+  int getBlue();
 
   /**
    * Gives the shape type as a string.
