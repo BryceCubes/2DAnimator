@@ -13,6 +13,12 @@ public interface IMotion {
   String getTextOutput();
 
   /**
+   * Method used to return a shape object associated with a given motion.
+   * @return an IShape associated with the given motion
+   */
+  IShape getShape();
+
+  /**
    * Method used to get the start time of the given motion. We put a standard 4 spaces in between
    * the start values and stop values because implementing the values to line up perfectly seemed
    * a bit out of scope. It was confusing seeing the different space patterns on the example text
@@ -26,12 +32,6 @@ public interface IMotion {
    * @return an int representing the end time of the motion
    */
   int getTEnd();
-
-  /**
-   * Method used to return a shape object associated with a given motion.
-   * @return an IShape associated with the given motion
-   */
-  IShape getShape();
 
   /**
    * Mutates the shape associated with the given motion at the time t given by the tick.
