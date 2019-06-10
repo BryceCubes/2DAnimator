@@ -1,4 +1,4 @@
-package animator.model.shape;
+package cs3500.animator.model.shape;
 
 /**
  * Class represents all base attributes that a 2d shape must have in a larger frame.

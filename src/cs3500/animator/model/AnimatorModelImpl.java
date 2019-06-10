@@ -1,12 +1,12 @@
-package animator.model;
+package cs3500.animator.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import animator.model.motion.IMotion;
-import animator.model.shape.IShape;
+import cs3500.animator.model.motion.IMotion;
+import cs3500.animator.model.shape.IShape;
 
 /**
  * Animator model implementation that contains the representations of shapes and their animation

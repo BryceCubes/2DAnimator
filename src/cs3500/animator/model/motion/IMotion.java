@@ -1,6 +1,6 @@
-package animator.model.motion;
+package cs3500.animator.model.motion;
 
-import animator.model.shape.IShape;
+import cs3500.animator.model.shape.IShape;
 
 /**
  * Interface represents a motion of a shape.

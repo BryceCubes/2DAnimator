@@ -1,10 +1,10 @@
-package animator.model.motion;
+package cs3500.animator.model.motion;
 
 import org.junit.Test;
 
-import animator.model.shape.AShape;
-import animator.model.shape.IShape;
-import animator.model.shape.ShapeType;
+import cs3500.animator.model.shape.AShape;
+import cs3500.animator.model.shape.IShape;
+import cs3500.animator.model.shape.ShapeType;
 
 import static org.junit.Assert.assertEquals;
 

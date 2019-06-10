@@ -1,10 +1,10 @@
-package animator.model;
+package cs3500.animator.model;
 
-import animator.model.motion.IMotion;
-import animator.model.motion.ShapeMotion;
-import animator.model.shape.AShape;
-import animator.model.shape.IShape;
-import animator.model.shape.ShapeType;
+import cs3500.animator.model.motion.IMotion;
+import cs3500.animator.model.motion.ShapeMotion;
+import cs3500.animator.model.shape.AShape;
+import cs3500.animator.model.shape.IShape;
+import cs3500.animator.model.shape.ShapeType;
 
 import org.junit.Test;
 

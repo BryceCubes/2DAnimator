@@ -1,7 +1,7 @@
-package animator.model;
+package cs3500.animator.model;
 
-import animator.model.motion.IMotion;
-import animator.model.shape.IShape;
+import cs3500.animator.model.motion.IMotion;
+import cs3500.animator.model.shape.IShape;
 
 import java.util.ArrayList;
 

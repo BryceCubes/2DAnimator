@@ -1,4 +1,4 @@
-package animator.model.shape;
+package cs3500.animator.model.shape;
 
 /**
  * Interface to represent a general 2D shape.
