@@ -3,7 +3,6 @@ package cs3500.animator.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 import cs3500.animator.model.motion.IMotion;
 import cs3500.animator.model.shape.IShape;
@@ -16,7 +15,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   private ArrayList<IMotion> moveList;
   private ArrayList<IShape> shapes;
-  private Map<String, ArrayList<IMotion>> sortedMoveList;
+  private HashMap<String, ArrayList<IMotion>> sortedMoveList;
   private ArrayList<String> keys;
 
   /**
@@ -49,6 +48,11 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
 
     return returnShape;
+  }
+
+  @Override
+  public HashMap<String, ArrayList<IMotion>> returnMotions() {
+    return this.sortedMoveList;
   }
 
   @Override

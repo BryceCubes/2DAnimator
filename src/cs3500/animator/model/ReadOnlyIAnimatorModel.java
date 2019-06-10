@@ -4,6 +4,7 @@ import cs3500.animator.model.motion.IMotion;
 import cs3500.animator.model.shape.IShape;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Interface used to prevent public access to setters that are not yet made.
@@ -18,6 +19,12 @@ public interface ReadOnlyIAnimatorModel {
    * @throws IllegalArgumentException when a shape with given shapeid doesn't exist
    */
   IShape findShape(String shapeID) throws IllegalArgumentException;
+
+  /**
+   * Gives the hashmap of motions.
+   * @return a hashmap of motiosn
+   */
+  HashMap<String, ArrayList<IMotion>> returnMotions();
 
 
   /**
