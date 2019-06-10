@@ -9,6 +9,7 @@ import cs3500.animator.model.shape.ShapeType;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,7 +38,7 @@ public class AnimatorModelImplTest {
   private void setTest() {
     // Rectangle movement
     // orange square
-    frectangle = new AShape("Fred", ShapeType.RECTANGLE, 10, 10, 5, 5,
+    frectangle = new AShape("Fred", ShapeType.RECTANGLE, 10.0, 10.0, 5.0, 5.0,
             255, 150, 10);
     IMotion fredMoveRight = new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
             150, 10, 15, 10, 5, 5, 255, 150, 10,
@@ -60,7 +61,7 @@ public class AnimatorModelImplTest {
 
     // Ellipse scaling
     // tall blue Ellipse
-    amyOval = new AShape("Amy", ShapeType.ELLIPSE, 50, 50, 10, 20, 0,
+    amyOval = new AShape("Amy", ShapeType.ELLIPSE, 50.0, 50.0, 10.0, 20.0, 0,
             100, 255);
     IMotion amyGrowTall = new ShapeMotion(amyOval, 50, 50, 10, 20, 0,
             100, 255, 50, 50, 10, 25, 0, 100, 255,
@@ -83,7 +84,7 @@ public class AnimatorModelImplTest {
 
     // Circle changing color
     // starting light purple circle
-    ethanCircle = new AShape("Ethan", ShapeType.ELLIPSE, 25, 25, 15, 15, 180,
+    ethanCircle = new AShape("Ethan", ShapeType.ELLIPSE, 25.0, 25.0, 15.0, 15.0, 180,
             120, 230);
 
     // purple to green circle
@@ -239,6 +240,93 @@ public class AnimatorModelImplTest {
     new AnimatorModelImpl(null);
   }
 
-  //TODO add tests for addShape, addMotion, and deleteMotion
+  @Test(expected = IllegalArgumentException.class)
+  public void testEmptyMotions() {
+    new AnimatorModelImpl(new ArrayList<>());
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void addAlreadyExistingShape() {
+    setTest();
+    model.addShape(new AShape("Fred", ShapeType.RECTANGLE, 15.0, 100.0, 5.0, 5.0,
+            255, 150, 10));
+  }
+
+  @Test
+  public void addShapeTest() {
+    setTest();
+    IShape george = new AShape("George", ShapeType.RECTANGLE, 15.0, 100.0, 5.0, 5.0,
+            255, 150, 10);
+    model.addShape(george);
+    assertEquals(model.returnMotions().get("George"), model.returnMotions().get(george
+            .getShapeID()));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void addMotionAlreadyExists() {
+    setTest();
+    model.addMotion(new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
+            150, 10, 15, 10, 5, 5, 255, 150, 10,
+            0, 10));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void addMotionInconsistent() {
+    setTest();
+    model.addMotion(new ShapeMotion(frectangle, 20, 30, 5, 5, 255,
+            150, 10, 15, 10, 5, 5, 255, 150, 10,
+            0, 10));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void addMotionDisjoint() {
+    setTest();
+    model.addMotion(new ShapeMotion(frectangle, 10, 20, 5, 5, 255,
+            150, 10, 10, 20, 5, 5, 255, 150, 10,
+            61, 70));
+  }
+
+  @Test
+  public void addMotionTest() {
+    setTest();
+    IMotion newFred = new ShapeMotion(frectangle, 10, 20, 5, 5, 255,
+            150, 10, 10, 20, 5, 5, 255, 150, 10,
+            60, 70);
+    model.addMotion(newFred);
+    assertEquals(model.returnMotions().get("Fred").get(6), newFred);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void shapeForMotionDoesntExist() {
+    setTest();
+    IShape george = new AShape("George", ShapeType.RECTANGLE, 15.0, 100.0, 5.0, 5.0,
+            255, 150, 10);
+    IMotion georgeMoves = new ShapeMotion(george, 10, 20, 5, 5, 255,
+            150, 10, 10, 20, 5, 5, 255, 150, 10,
+            60, 70);
+    model.deleteMotion(georgeMoves);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void motionDoesntExist() {
+    setTest();
+    IMotion newFred = new ShapeMotion(frectangle, 10, 20, 5, 5, 255,
+            150, 10, 10, 20, 5, 5, 255, 150, 10,
+            60, 70);
+    model.deleteMotion(newFred);
+  }
+
+  //Doesnt pass yet
+  @Test
+  public void deleteMotionTest() {
+    setTest();
+    IMotion fredMoveDownLeft = new ShapeMotion(frectangle, 15, 5, 5, 5, 255,
+            150, 10, 10, 20, 5, 5, 255, 150, 10,
+            50, 60);
+    model.deleteMotion(fredMoveDownLeft);
+    assertEquals(model.returnMotions().get("Fred").size(), 5);
+  }
+
+  //TODO add tests for addShape, addMotion, deleteMotion, and get motions
 
 }

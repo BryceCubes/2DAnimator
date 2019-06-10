@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class ShapeMotionTest {
   //TODO change all x, y, w, and h values to doubles
-  private IShape frectangle = new AShape("Fred", ShapeType.RECTANGLE, 10, 10, 5, 5,
+  private IShape frectangle = new AShape("Fred", ShapeType.RECTANGLE, 10.0, 10.0, 5.0, 5.0,
           255, 150, 10);
   private IMotion fredMoveRight = new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
           150, 10, 15, 10, 5, 5, 255, 150, 10,
@@ -171,6 +171,76 @@ public class ShapeMotionTest {
   @Test
   public void getShapeTest() {
     assertEquals(frectangle, fredMoveRight.getShape());
+  }
+
+  @Test
+  public void getXStartTest() {
+    assertEquals(10, fredMoveRight.getXStart());
+  }
+
+  @Test
+  public void getYStartTest() {
+    assertEquals(10, fredMoveRight.getYStart());
+  }
+
+  @Test
+  public void getWStartTest() {
+    assertEquals(5, fredMoveRight.getWStart());
+  }
+
+  @Test
+  public void getHStartTest() {
+    assertEquals(5, fredMoveRight.getHStart());
+  }
+
+  @Test
+  public void getRStartTest() {
+    assertEquals(255, fredMoveRight.getRStart());
+  }
+
+  @Test
+  public void getGStartTest() {
+    assertEquals(150, fredMoveRight.getGStart());
+  }
+
+  @Test
+  public void getBStartTest() {
+    assertEquals(10, fredMoveRight.getBStart());
+  }
+
+  @Test
+  public void getXEndTest() {
+    assertEquals(15, fredMoveRight.getXEnd());
+  }
+
+  @Test
+  public void getYEndTest() {
+    assertEquals(10, fredMoveRight.getYEnd());
+  }
+
+  @Test
+  public void getWEndTest() {
+    assertEquals(5, fredMoveRight.getWEnd());
+  }
+
+  @Test
+  public void getHEndTest() {
+    assertEquals(5, fredMoveRight.getHEnd());
+  }
+
+  @Test
+  public void getREndTest() {
+    assertEquals(255, fredMoveRight.getREnd());
+  }
+
+  @Test
+  public void getGEndTest() {
+    assertEquals(150, fredMoveRight.getGEnd());
+  }
+
+  @Test
+  public void getBEndTest() {
+    assertEquals(10, fredMoveRight.getBEnd());
   }
 
   //TODO add all tests for getters

@@ -1,10 +1,7 @@
 # 2DAnimator
 
-IANIMATORMODEL AND READONLY
-We have an IAnimatorModel and a ReadOnlyIAnimatorModel. The
-purpose of the readonly being to stop the view/controller
-from accessing future setter methods. If the controller takes
-a read only interface it will be unable to mutate directly.
+IANIMATORMODEL
+We have an IAnimatorModel that is implemented in AnimatorModelImp
 
 ANIMATORMODELIMPL
 Our model operates on the assumption that it will only be

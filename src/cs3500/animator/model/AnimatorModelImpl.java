@@ -23,7 +23,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
    * because that would mess up our model.
    */
   public AnimatorModelImpl(ArrayList<IMotion> moveList) {
-    if (moveList == null) {
+    if (moveList == null || moveList.isEmpty()) {
       throw new IllegalArgumentException("Move list cannot be null.");
     }
     this.moveList = moveList;
@@ -88,24 +88,32 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   @Override
   public void addShape(IShape shape) {
+    boolean doesShapeExist = false;
+    String shapeName = null;
     for (String key : this.keys) {
       if (shape.getShapeID().equals(key)) {
-        throw new IllegalArgumentException(key + " shape already exists.");
-      } else {
-        sortedMoveList.put(shape.getShapeID(), new ArrayList<>());
-        this.keys.add(shape.getShapeID());
+        doesShapeExist = true;
+        shapeName = key;
+        break;
       }
     }
+
+    if (doesShapeExist) {
+      throw new IllegalArgumentException(shapeName + " shape already exists.");
+    }
+
+    sortedMoveList.put(shape.getShapeID(), new ArrayList<>());
+    this.keys.add(shape.getShapeID());
   }
 
   @Override
   public void addMotion(IMotion motion) {
     boolean doesShapeExist = false;
+    String shapeName = motion.getShape().getShapeID();
     for (String key: this.keys) {
-      IShape currentShape = motion.getShape();
-      if (currentShape.getShapeID().equals(key)) {
+      if (shapeName.equals(key)) {
         sortedMoveList.get(key).add(motion);
-        this.sortMoveList();
+        this.bubbleSort();
         doesShapeExist = true;
         break;
       }
@@ -114,19 +122,32 @@ public class AnimatorModelImpl implements IAnimatorModel {
     if (!doesShapeExist) {
       throw new IllegalArgumentException("Shape given does not exist.");
     }
+
+    this.bubbleSort();
+
+    if (!this.isContinuous(sortedMoveList.get(shapeName))) {
+      throw new IllegalArgumentException("Adding given motion causes motions to be noncontinuous.");
+    }
   }
 
   @Override
   public void deleteMotion(IMotion motion) {
     boolean doesShapeExist = false;
+    String shapeName = motion.getShape().getShapeID();
     for (String key: this.keys) {
-      IShape currentShape = motion.getShape();
-      if (currentShape.getShapeID().equals(key)) {
-        if (!sortedMoveList.get(key).remove(motion)) {
+      if (shapeName.equals(key)) {
+        doesShapeExist = true;
+        int motionIndex = sortedMoveList.get(key).indexOf(motion);
+        if (motionIndex == -1) {
           throw new IllegalArgumentException("Given motion for given shape does not exist.");
         }
 
-        this.sortMoveList();
+        sortedMoveList.get(key).remove(motionIndex);
+
+        if (!this.isContinuous(sortedMoveList.get(key))) {
+          throw new IllegalArgumentException("Deleting given motion causes motions to be "
+                  + "noncontinuous.");
+        }
       }
     }
 

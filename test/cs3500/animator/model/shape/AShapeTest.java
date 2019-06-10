@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class AShapeTest {
   //TODO change all x, y, w, and h values to doubles
-  private IShape frectangle = new AShape("Fred", ShapeType.RECTANGLE, 10, 10, 5, 5,
+  private IShape frectangle = new AShape("Fred", ShapeType.RECTANGLE, 10.0, 10.0, 5.0, 5.0,
           255, 150, 10);
 
   @Test(expected = IllegalArgumentException.class)
@@ -74,22 +74,22 @@ public class AShapeTest {
 
   @Test
   public void getXPosTest() {
-    assertEquals(10, frectangle.getXPos());
+    assertEquals(10.0, frectangle.getXPos(), .0);
   }
 
   @Test
   public void getYPosTest() {
-    assertEquals(10, frectangle.getYPos());
+    assertEquals(10.0, frectangle.getYPos(), .0);
   }
 
   @Test
   public void getWidthTest() {
-    assertEquals(5, frectangle.getWidth());
+    assertEquals(5.0, frectangle.getWidth(), .0);
   }
 
   @Test
   public void getHeightTest() {
-    assertEquals(5, frectangle.getHeight());
+    assertEquals(5.0, frectangle.getHeight(), .0);
   }
 
   @Test
@@ -110,6 +110,48 @@ public class AShapeTest {
   @Test
   public void getShapeTypeAsStringTest() {
     assertEquals("rectangle", frectangle.getShapeTypeAsString());
+  }
+
+  @Test
+  public void setXTest() {
+    frectangle.setX(15.0);
+    assertEquals(15.0, frectangle.getXPos(), .0);
+  }
+
+  @Test
+  public void setYTest() {
+    frectangle.setY(15.0);
+    assertEquals(15.0, frectangle.getYPos(), .0);
+  }
+
+  @Test
+  public void setWTest() {
+    frectangle.setW(15.0);
+    assertEquals(15.0, frectangle.getWidth(), .0);
+  }
+
+  @Test
+  public void setHTest() {
+    frectangle.setH(15.0);
+    assertEquals(15.0, frectangle.getHeight(), .0);
+  }
+
+  @Test
+  public void setRTest() {
+    frectangle.setR(66);
+    assertEquals(66, frectangle.getRed());
+  }
+
+  @Test
+  public void setGTest() {
+    frectangle.setG(66);
+    assertEquals(66, frectangle.getGreen());
+  }
+
+  @Test
+  public void setBTest() {
+    frectangle.setB(66);
+    assertEquals(66, frectangle.getBlue());
   }
 
 
