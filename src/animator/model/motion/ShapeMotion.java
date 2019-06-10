@@ -105,6 +105,31 @@ public class ShapeMotion implements IMotion {
   }
 
   @Override
+  public int getWStart() {
+    return this.wStart;
+  }
+
+  @Override
+  public int getHStart() {
+    return this.hStart;
+  }
+
+  @Override
+  public int getRStart() {
+    return this.rStart;
+  }
+
+  @Override
+  public int getGStart() {
+    return this.gStart;
+  }
+
+  @Override
+  public int getBStart() {
+    return this.bStart;
+  }
+
+  @Override
   public int getXEnd() {
     return this.toX;
   }
@@ -112,6 +137,31 @@ public class ShapeMotion implements IMotion {
   @Override
   public int getYEnd() {
     return this.toY;
+  }
+
+  @Override
+  public int getWEnd() {
+    return this.toW;
+  }
+
+  @Override
+  public int getHEnd() {
+    return this.toH;
+  }
+
+  @Override
+  public int getREnd() {
+    return this.toR;
+  }
+
+  @Override
+  public int getGEnd() {
+    return this.toG;
+  }
+
+  @Override
+  public int getBEnd() {
+    return this.toB;
   }
 
   @Override
@@ -139,8 +189,7 @@ public class ShapeMotion implements IMotion {
     int deltaG = this.toG - this.gStart;
     int deltaB = this.toB - this.bStart;
     int deltaT = this.tEnd - this.tStart;
-    // This code is currently unfinished as it was not in the scope of the assignment to implement
-    // it. It will be finished in order to actually change the position of the a shape.
+
 
   }
 }

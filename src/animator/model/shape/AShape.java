@@ -104,4 +104,39 @@ public class AShape implements IShape {
         throw new IllegalStateException("If you see this error, something has gone very wrong.");
     }
   }
+
+  @Override
+  public void setX(int x) {
+    this.xPos = x;
+  }
+
+  @Override
+  public void setY(int y) {
+    this.yPos = y;
+  }
+
+  @Override
+  public void setW(int w) {
+    this.width = w;
+  }
+
+  @Override
+  public void setH(int h) {
+    this.height = h;
+  }
+
+  @Override
+  public void setR(int r) {
+    this.red = r;
+  }
+
+  @Override
+  public void setG(int g) {
+    this.green = g;
+  }
+
+  @Override
+  public void setB(int b) {
+    this.blue = b;
+  }
 }
