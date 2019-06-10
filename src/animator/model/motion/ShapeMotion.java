@@ -181,15 +181,30 @@ public class ShapeMotion implements IMotion {
 
   @Override
   public void interpolate(int tick) {
-    int deltaX = this.toX - this.xStart;
-    int deltaY = this.toY - this.yStart;
-    int deltaW = this.toW - this.wStart;
-    int deltaH = this.toH - this.hStart;
+    double deltaX = this.toX - this.xStart;
+    double deltaY = this.toY - this.yStart;
+    double deltaW = this.toW - this.wStart;
+    double deltaH = this.toH - this.hStart;
     int deltaR = this.toR - this.rStart;
     int deltaG = this.toG - this.gStart;
     int deltaB = this.toB - this.bStart;
-    int deltaT = this.tEnd - this.tStart;
+    double deltaT = this.tEnd - this.tStart;
+    double currTick = tick - this.tStart;
+    double newX = (currTick/deltaT) * deltaX + this.xStart;
+    double newY = (currTick/deltaT) * deltaY + this.yStart;
+    double newW = (currTick/deltaT) * deltaW + this.wStart;
+    double newH = (currTick/deltaT) * deltaH + this.hStart;
+    int newR = (int)((currTick/deltaT) * deltaR) + this.rStart;
+    int newG = (int)((currTick/deltaT) * deltaG) + this.gStart;
+    int newB = (int)((currTick/deltaT) * deltaB) + this.bStart;
 
+    this.shape.setX(newX);
+    this.shape.setY(newY);
+    this.shape.setW(newW);
+    this.shape.setH(newH);
+    this.shape.setR(newR);
+    this.shape.setG(newG);
+    this.shape.setB(newB);
 
   }
 }

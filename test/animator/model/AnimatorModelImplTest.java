@@ -16,6 +16,8 @@ import static org.junit.Assert.assertEquals;
  * Class used to test our animator model.
  */
 public class AnimatorModelImplTest {
+  //TODO change all x, y, w, and h values to doubles
+
   // rectangle with basic movements
   private IShape frectangle;
 

@@ -6,13 +6,14 @@ package animator.model.shape;
 public class AShape implements IShape {
   private String shapeID;
   private ShapeType shapeType;
-  private int xPos;
-  private int yPos;
-  private int width;
-  private int height;
+  private double xPos;
+  private double yPos;
+  private double width;
+  private double height;
   private int red;
   private int green;
   private int blue;
+  // changed position and size to doubles so could have smooth animations
 
   /**
    * Constructor to create a shape. Invariants are w and h cannot be less than 0 because a shape
@@ -59,22 +60,22 @@ public class AShape implements IShape {
   }
 
   @Override
-  public int getXPos() {
+  public double getXPos() {
     return this.xPos;
   }
 
   @Override
-  public int getYPos() {
+  public double getYPos() {
     return this.yPos;
   }
 
   @Override
-  public int getWidth() {
+  public double getWidth() {
     return this.width;
   }
 
   @Override
-  public int getHeight() {
+  public double getHeight() {
     return this.height;
   }
 
@@ -106,22 +107,22 @@ public class AShape implements IShape {
   }
 
   @Override
-  public void setX(int x) {
+  public void setX(double x) {
     this.xPos = x;
   }
 
   @Override
-  public void setY(int y) {
+  public void setY(double y) {
     this.yPos = y;
   }
 
   @Override
-  public void setW(int w) {
+  public void setW(double w) {
     this.width = w;
   }
 
   @Override
-  public void setH(int h) {
+  public void setH(double h) {
     this.height = h;
   }
 

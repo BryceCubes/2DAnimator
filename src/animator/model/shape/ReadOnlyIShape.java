@@ -22,49 +22,49 @@ public interface ReadOnlyIShape {
    *
    * @return the x position for the given shape
    */
-  int getXPos();
+  double getXPos();
 
   /**
    * Method used to get the y position to be passed to the controller.
    *
    * @return the y position for the given shape
    */
-  int getYPos();
+  double getYPos();
 
   /**
    * Method used to get the width of the given shape to be passed to the controller.
    *
    * @return the width of the given shape
    */
-  int getWidth();
+  double getWidth();
 
   /**
    * Method used to get the height of the given shape to be passed to the controller.
    *
    * @return the height of the given shape
    */
-  int getHeight();
+  double getHeight();
 
   /**
    * Method used to get the red value of the given shape to be passed to the controller.
    *
    * @return the red value of the given shape
    */
-  int getRed();
+  double getRed();
 
   /**
    * Method used to get the green value of the given shape to be passed to the controller.
    *
    * @return the green value of the given shape
    */
-  int getGreen();
+  double getGreen();
 
   /**
    * Used to get the blue value of the given shape to be passed to the controller.
    *
    * @return the blue value of the given shape
    */
-  int getBlue();
+  double getBlue();
 
   /**
    * Gives the shape type as a string.

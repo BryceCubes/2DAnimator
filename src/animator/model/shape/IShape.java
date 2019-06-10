@@ -7,22 +7,22 @@ public interface IShape extends ReadOnlyIShape {
   /**
    * Used to set a new value for the x
    */
-  void setX(int x);
+  void setX(double x);
 
   /**
    * Used to set a new value for the y
    */
-  void setY(int y);
+  void setY(double y);
 
   /**
    * Used to set a new value for the width
    */
-  void setW(int w);
+  void setW(double w);
 
   /**
    * Used to set a new value for the height
    */
-  void setH(int h);
+  void setH(double h);
 
   /**
    * Used to set a new value for the red value
