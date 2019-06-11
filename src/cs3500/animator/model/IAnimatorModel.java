@@ -38,6 +38,12 @@ public interface IAnimatorModel {
   ArrayList<IShape> returnShapesAtTick(int tick) throws IllegalArgumentException;
 
   /**
+   * Method to return all shapes for the entire animation.
+   * @return a list of shapes representing all shapes that will exist during the animation
+   */
+  ArrayList<IShape> returnAllShapes();
+
+  /**
    * Provides a text representation of the motions.
    *
    * @return A string representing the motions
@@ -69,4 +75,10 @@ public interface IAnimatorModel {
    *                                  does not exist
    */
   void deleteMotion(IMotion motion) throws IllegalArgumentException;
+
+  /**
+   * Generates the list of keys used to iterate through the hashmap of motions.
+   * @return the list of keys of all shapes in the model
+   */
+  ArrayList<String> returnKeys();
 }

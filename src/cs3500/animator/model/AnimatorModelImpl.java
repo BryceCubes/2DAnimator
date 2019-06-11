@@ -74,6 +74,17 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   @Override
+  public ArrayList<IShape> returnAllShapes() {
+    ArrayList<IShape> shapeList = new ArrayList<>();
+    for (String key: this.keys) {
+      IShape currentShape = this.findShape(key);
+      shapeList.add(currentShape);
+    }
+
+    return shapeList;
+  }
+
+  @Override
   public String textViewMotions() {
     StringBuilder textView = new StringBuilder();
     for (String key : this.keys) {
@@ -156,6 +167,11 @@ public class AnimatorModelImpl implements IAnimatorModel {
     if (!doesShapeExist) {
       throw new IllegalArgumentException("Shape given does not exist.");
     }
+  }
+
+  @Override
+  public ArrayList<String> returnKeys() {
+    return this.keys;
   }
 
   private void sortMoveList() {
