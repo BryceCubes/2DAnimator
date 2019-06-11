@@ -17,8 +17,6 @@ import static org.junit.Assert.assertEquals;
  * Class used to test our animator model.
  */
 public class AnimatorModelImplTest {
-  //TODO change all x, y, w, and h values to doubles
-
   // rectangle with basic movements
   private IShape frectangle;
 
@@ -296,7 +294,7 @@ public class AnimatorModelImplTest {
     assertEquals(model.returnMotions().get("Fred").get(6), newFred);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void shapeForMotionDoesntExist() {
     setTest();
     IShape george = new AShape("George", ShapeType.RECTANGLE, 15.0, 100.0, 5.0, 5.0,
@@ -307,7 +305,7 @@ public class AnimatorModelImplTest {
     model.deleteMotion(georgeMoves);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void motionDoesntExist() {
     setTest();
     IMotion newFred = new ShapeMotion(frectangle, 10, 20, 5, 5, 255,
@@ -319,14 +317,126 @@ public class AnimatorModelImplTest {
   //Doesnt pass yet
   @Test
   public void deleteMotionTest() {
-    setTest();
-    IMotion fredMoveDownLeft = new ShapeMotion(frectangle, 15, 5, 5, 5, 255,
-            150, 10, 10, 20, 5, 5, 255, 150, 10,
-            50, 60);
-    model.deleteMotion(fredMoveDownLeft);
-    assertEquals(model.returnMotions().get("Fred").size(), 5);
+    frectangle = new AShape("Fred", ShapeType.RECTANGLE, 10.0, 10.0, 5.0, 5.0,
+            255, 150, 10);
+    IMotion fredMoveRight = new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
+            150, 10, 15, 10, 5, 5, 255, 150, 10,
+            0, 10);
+    IMotion fredMoveLeft = new ShapeMotion(frectangle, 15, 10, 5, 5, 255,
+            150, 10, 5, 10, 5, 5, 255, 150, 10,
+            10, 20);
+    ArrayList<IMotion> testList = new ArrayList<>();
+    testList.add(fredMoveLeft);
+    testList.add(fredMoveRight);
+    IAnimatorModel testModel = new AnimatorModelImpl(testList);
+    testModel.deleteMotion(fredMoveLeft);
+    assertEquals(testModel.returnMotions().get("Fred").size(), 1);
   }
 
-  //TODO add tests for addShape, addMotion, deleteMotion, and get motions
+  @Test
+  public void getMotionsTest() {
+    frectangle = new AShape("Fred", ShapeType.RECTANGLE, 10.0, 10.0, 5.0, 5.0,
+            255, 150, 10);
+    IMotion fredMoveRight = new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
+            150, 10, 15, 10, 5, 5, 255, 150, 10,
+            0, 10);
+    IMotion fredMoveLeft = new ShapeMotion(frectangle, 15, 10, 5, 5, 255,
+            150, 10, 5, 10, 5, 5, 255, 150, 10,
+            10, 20);
+    ArrayList<IMotion> testListMotions = new ArrayList<>();
+    testListMotions.add(fredMoveRight);
+    testListMotions.add(fredMoveLeft);
+    IAnimatorModel testModel = new AnimatorModelImpl(testListMotions);
+    HashMap<String, ArrayList<IMotion>> testHash = new HashMap<>();
+    testHash.put("Fred", testListMotions);
+    assertEquals(testHash, testModel.returnMotions());
+  }
 
+  @Test (expected = IllegalArgumentException.class)
+  public void negativeTickGetShapes() {
+    setTest();
+    model.returnShapesAtTick(-1);
+  }
+
+  @Test
+  public void returnShapesAtTickTestAt0() {
+    frectangle = new AShape("Fred", ShapeType.RECTANGLE, 10.0, 10.0, 5.0, 5.0,
+            255, 150, 10);
+    amyOval = new AShape("Amy", ShapeType.ELLIPSE, 50.0, 50.0, 10.0, 20.0, 0,
+            100, 255);
+    ethanCircle = new AShape("Ethan", ShapeType.ELLIPSE, 25.0, 25.0, 15.0, 15.0, 180,
+            120, 230);
+    IMotion fredMoveRight = new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
+            150, 10, 15, 10, 5, 5, 255, 150, 10,
+            0, 10);
+    IMotion fredMoveLeft = new ShapeMotion(frectangle, 15, 10, 5, 5, 255,
+            150, 10, 5, 10, 5, 5, 255, 150, 10,
+            10, 20);
+    IMotion amyGrowTall = new ShapeMotion(amyOval, 50, 50, 10, 20, 0,
+            100, 255, 50, 50, 10, 25, 0, 100, 255,
+            0, 25);
+    IMotion amyGrowWide = new ShapeMotion(amyOval, 50, 50, 10, 25, 0,
+            100, 255, 50, 50, 20, 25, 0, 100, 255,
+            25, 50);
+    IMotion ethanColorChanges = new ShapeMotion(ethanCircle, 25, 25, 15, 15, 180,
+            120, 230, 25, 25, 15, 15, 120, 180, 95,
+            0, 30);
+    IMotion ethanAllChanges = new ShapeMotion(ethanCircle, 25, 25, 15, 15, 120,
+            180, 95, 40, 15, 20, 30, 180, 120, 230,
+            30, 60);
+    ArrayList<IMotion> setOfMotions = new ArrayList<>();
+    setOfMotions.add(ethanColorChanges);
+    setOfMotions.add(fredMoveLeft);
+    setOfMotions.add(amyGrowWide);
+    setOfMotions.add(fredMoveRight);
+    setOfMotions.add(amyGrowTall);
+    setOfMotions.add(ethanAllChanges);
+    IAnimatorModel testModel = new AnimatorModelImpl(setOfMotions);
+    ArrayList<IShape> setOfShapes = new ArrayList<>();
+    setOfShapes.add(ethanCircle);
+    setOfShapes.add(frectangle);
+    setOfShapes.add(amyOval);
+    assertEquals(setOfShapes, testModel.returnShapesAtTick(0));
+  }
+
+  @Test
+  public void returnShapesAtTickTestAt10() {
+    frectangle = new AShape("Fred", ShapeType.RECTANGLE, 5.0, 10.0, 5.0, 22.0,
+            255, 150, 10);
+    amyOval = new AShape("Amy", ShapeType.ELLIPSE, 50.0, 50.0, 10.0, 20.0, 0,
+            100, 255);
+    ethanCircle = new AShape("Ethan", ShapeType.ELLIPSE, 25.0, 25.0, 15.0, 15.0, 160,
+            140, 185);
+    IMotion fredMoveRight = new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
+            150, 10, 15, 10, 5, 5, 255, 150, 10,
+            0, 10);
+    IMotion fredMoveLeft = new ShapeMotion(frectangle, 15, 10, 5, 5, 255,
+            150, 10, 5, 10, 5, 5, 255, 150, 10,
+            10, 20);
+    IMotion amyGrowTall = new ShapeMotion(amyOval, 50, 50, 10, 20, 0,
+            100, 255, 50, 50, 10, 25, 0, 100, 255,
+            0, 25);
+    IMotion amyGrowWide = new ShapeMotion(amyOval, 50, 50, 10, 25, 0,
+            100, 255, 50, 50, 20, 25, 0, 100, 255,
+            25, 50);
+    IMotion ethanColorChanges = new ShapeMotion(ethanCircle, 25, 25, 15, 15, 180,
+            120, 230, 25, 25, 15, 15, 120, 180, 95,
+            0, 30);
+    IMotion ethanAllChanges = new ShapeMotion(ethanCircle, 25, 25, 15, 15, 120,
+            180, 95, 40, 15, 20, 30, 180, 120, 230,
+            30, 60);
+    ArrayList<IMotion> setOfMotions = new ArrayList<>();
+    setOfMotions.add(ethanColorChanges);
+    setOfMotions.add(fredMoveLeft);
+    setOfMotions.add(amyGrowWide);
+    setOfMotions.add(fredMoveRight);
+    setOfMotions.add(amyGrowTall);
+    setOfMotions.add(ethanAllChanges);
+    IAnimatorModel testModel = new AnimatorModelImpl(setOfMotions);
+    ArrayList<IShape> setOfShapes = new ArrayList<>();
+    setOfShapes.add(ethanCircle);
+    setOfShapes.add(frectangle);
+    setOfShapes.add(amyOval);
+    assertEquals(setOfShapes, testModel.returnShapesAtTick(10));
+  }
 }

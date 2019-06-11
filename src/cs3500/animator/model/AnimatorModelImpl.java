@@ -61,10 +61,12 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Tick must be a positive integer.");
     }
 
-    for (IMotion currentMove : moveList) {
-      if (currentMove.getTStart() <= tick && currentMove.getTEnd() >= tick) {
-        currentMove.interpolate(tick);
-        shapes.add(currentMove.getShape());
+    for (String key: this.keys) {
+      for(IMotion motion: this.sortedMoveList.get(key)) {
+        if (motion.getTStart() <= tick && motion.getTEnd() >= tick) {
+          shapes.add(motion.getShape());
+          break;
+        }
       }
     }
 
@@ -110,7 +112,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   public void addMotion(IMotion motion) {
     boolean doesShapeExist = false;
     String shapeName = motion.getShape().getShapeID();
-    for (String key: this.keys) {
+    for (String key : this.keys) {
       if (shapeName.equals(key)) {
         sortedMoveList.get(key).add(motion);
         this.bubbleSort();
@@ -134,7 +136,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   public void deleteMotion(IMotion motion) {
     boolean doesShapeExist = false;
     String shapeName = motion.getShape().getShapeID();
-    for (String key: this.keys) {
+    for (String key : this.keys) {
       if (shapeName.equals(key)) {
         doesShapeExist = true;
         int motionIndex = sortedMoveList.get(key).indexOf(motion);

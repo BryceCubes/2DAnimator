@@ -8,7 +8,6 @@ import static org.junit.Assert.assertEquals;
  * Tests for the AShape class.
  */
 public class AShapeTest {
-  //TODO change all x, y, w, and h values to doubles
   private IShape frectangle = new AShape("Fred", ShapeType.RECTANGLE, 10.0, 10.0, 5.0, 5.0,
           255, 150, 10);
 
