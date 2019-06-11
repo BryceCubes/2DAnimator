@@ -61,8 +61,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Tick must be a positive integer.");
     }
 
-    for (String key: this.keys) {
-      for(IMotion motion: this.sortedMoveList.get(key)) {
+    for (String key : this.keys) {
+      for (IMotion motion : this.sortedMoveList.get(key)) {
         if (motion.getTStart() <= tick && motion.getTEnd() >= tick) {
           shapes.add(motion.getShape());
           break;
@@ -74,19 +74,9 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   @Override
-  public ArrayList<IShape> returnAllShapes() {
-    ArrayList<IShape> shapeList = new ArrayList<>();
-    for (String key: this.keys) {
-      IShape currentShape = this.findShape(key);
-      shapeList.add(currentShape);
-    }
-
-    return shapeList;
-  }
-
-  @Override
   public String textViewMotions() {
     StringBuilder textView = new StringBuilder();
+
     for (String key : this.keys) {
       IShape currentShape = this.findShape(key);
       textView.append("shape ").append(currentShape.getShapeID()).append(" ").append(currentShape
@@ -103,6 +93,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   public void addShape(IShape shape) {
     boolean doesShapeExist = false;
     String shapeName = null;
+
     for (String key : this.keys) {
       if (shape.getShapeID().equals(key)) {
         doesShapeExist = true;
@@ -118,11 +109,13 @@ public class AnimatorModelImpl implements IAnimatorModel {
     sortedMoveList.put(shape.getShapeID(), new ArrayList<>());
     this.keys.add(shape.getShapeID());
   }
+  // Fixed from last time so it is easier to add shapes to our hashmap
 
   @Override
   public void addMotion(IMotion motion) {
     boolean doesShapeExist = false;
     String shapeName = motion.getShape().getShapeID();
+
     for (String key : this.keys) {
       if (shapeName.equals(key)) {
         sortedMoveList.get(key).add(motion);
@@ -142,15 +135,18 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Adding given motion causes motions to be noncontinuous.");
     }
   }
+  // Added for additional functionality to commands when creating a model
 
   @Override
   public void deleteMotion(IMotion motion) {
     boolean doesShapeExist = false;
     String shapeName = motion.getShape().getShapeID();
+
     for (String key : this.keys) {
       if (shapeName.equals(key)) {
         doesShapeExist = true;
         int motionIndex = sortedMoveList.get(key).indexOf(motion);
+
         if (motionIndex == -1) {
           throw new IllegalArgumentException("Given motion for given shape does not exist.");
         }
@@ -168,11 +164,13 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Shape given does not exist.");
     }
   }
+  // Added so that we could offer additional functionality to the commands
 
   @Override
   public ArrayList<String> returnKeys() {
     return this.keys;
   }
+  //Added so that could access and iterate through all of the data in the view
 
   private void sortMoveList() {
     for (IMotion motion : moveList) {
@@ -230,10 +228,12 @@ public class AnimatorModelImpl implements IAnimatorModel {
   private void bubbleSort() {
     for (String key : this.keys) {
       int size = sortedMoveList.get(key).size();
+
       for (int i = 0; i < size; i++) {
         for (int j = i; j < size; j++) {
           IMotion currentMotion = sortedMoveList.get(key).get(i);
           IMotion checkingMotion = sortedMoveList.get(key).get(j);
+
           if (currentMotion.getTStart() > checkingMotion.getTStart()) {
             Collections.swap(sortedMoveList.get(key), j, i);
           }
@@ -252,6 +252,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   private Boolean isContinuous(ArrayList<IMotion> list) {
     int size = list.size();
     boolean isConsistent = true;
+    
     for (int i = 1; i < size; i++) {
       IMotion currentMotion = list.get(i - 1);
       IMotion nextMotion = list.get(i);

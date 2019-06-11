@@ -38,12 +38,6 @@ public interface IAnimatorModel {
   ArrayList<IShape> returnShapesAtTick(int tick) throws IllegalArgumentException;
 
   /**
-   * Method to return all shapes for the entire animation.
-   * @return a list of shapes representing all shapes that will exist during the animation
-   */
-  ArrayList<IShape> returnAllShapes();
-
-  /**
    * Provides a text representation of the motions.
    *
    * @return A string representing the motions
