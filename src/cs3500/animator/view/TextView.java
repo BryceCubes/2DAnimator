@@ -56,8 +56,8 @@ public class TextView implements IAnimatorView {
   public void animate() {
     for (String key : this.model.returnKeys()) {
       ReadOnlyIShape currentShape = this.model.findShape(key);
-      this.textOutput.append("shape ").append(currentShape.getShapeID()).append(" ").append(currentShape
-              .getShapeTypeAsString()).append("\n");
+      this.textOutput.append("shape ").append(currentShape.getShapeID()).append(" ")
+              .append(currentShape.getShapeTypeAsString()).append("\n");
       for (ReadOnlyIMotion motion : model.returnMotions().get(key)) {
         this.textOutput.append(motion.getTextOutput());
       }
