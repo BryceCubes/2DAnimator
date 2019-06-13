@@ -11,14 +11,7 @@ import cs3500.animator.model.shape.IShape;
  */
 public interface IAnimatorModel {
 
-  /**
-   * Finds a specific shape based on the name given.
-   *
-   * @param shapeID Enum that represents what type of shape it is
-   * @return An IShape matching given string
-   * @throws IllegalArgumentException when a shape with given shapeid doesn't exist
-   */
-  IShape findShape(String shapeID) throws IllegalArgumentException;
+  //Removed findshape as found no practical uses for it.
 
   /**
    * Gives the hashmap of motions.
