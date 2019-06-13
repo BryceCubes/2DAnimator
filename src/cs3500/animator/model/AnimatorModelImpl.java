@@ -34,6 +34,23 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   @Override
+  public IShape findShape(String shapeID) {
+    IShape returnShape = null;
+
+    for (String key : this.keys) {
+      if (shapeID.equals(key)) {
+        returnShape = this.sortedMoveList.get(key).get(0).getShape();
+      }
+    }
+
+    if (returnShape == null) {
+      throw new IllegalArgumentException("A shape with input shapeID does not exist.");
+    }
+
+    return returnShape;
+  }
+
+  @Override
   public HashMap<String, ArrayList<IMotion>> returnMotions() {
     return this.sortedMoveList;
   }
@@ -254,26 +271,5 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
 
     return isConsistent;
-  }
-
-  /**
-   * Used to find a given shape based on its shapeid.
-   * @param shapeID name of given shape
-   * @return a shape with same name
-   */
-  private IShape findShape(String shapeID) {
-    IShape returnShape = null;
-
-    for (String key : this.keys) {
-      if (shapeID.equals(key)) {
-        returnShape = this.sortedMoveList.get(key).get(0).getShape();
-      }
-    }
-
-    if (returnShape == null) {
-      throw new IllegalArgumentException("A shape with input shapeID does not exist.");
-    }
-
-    return returnShape;
   }
 }

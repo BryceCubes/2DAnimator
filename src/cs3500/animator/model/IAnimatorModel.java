@@ -11,7 +11,12 @@ import cs3500.animator.model.shape.IShape;
  */
 public interface IAnimatorModel {
 
-  //Removed findshape as found no practical uses for it.
+  /**
+   * Used to find a given shape based on its shapeid.
+   * @param shapeID name of given shape
+   * @return a shape with same name
+   */
+  IShape findShape(String shapeID);
 
   /**
    * Gives the hashmap of motions.
