@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import cs3500.animator.model.motion.IMotion;
 import cs3500.animator.model.shape.IShape;
+import cs3500.animator.model.shape.ReadOnlyIShape;
 
 /**
  * General Model to represent the shapes and motions for an animator application.
@@ -33,7 +34,7 @@ public interface IAnimatorModel {
    * @return an Arraylist of shapes that exist at time t
    * @throws IllegalArgumentException if given tick is negative
    */
-  ArrayList<IShape> returnShapesAtTick(int tick) throws IllegalArgumentException;
+  ArrayList<ReadOnlyIShape> returnShapesAtTick(int tick) throws IllegalArgumentException;
 
   /**
    * Provides a text representation of the motions.

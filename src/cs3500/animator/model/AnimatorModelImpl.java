@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import cs3500.animator.model.motion.IMotion;
 import cs3500.animator.model.shape.IShape;
+import cs3500.animator.model.shape.ReadOnlyIShape;
 
 /**
  * Animator model implementation that contains the representations of shapes and their animation
@@ -14,7 +15,7 @@ import cs3500.animator.model.shape.IShape;
 public class AnimatorModelImpl implements IAnimatorModel {
 
   private ArrayList<IMotion> moveList;
-  private ArrayList<IShape> shapes;
+  private ArrayList<ReadOnlyIShape> shapes;
   private HashMap<String, ArrayList<IMotion>> sortedMoveList;
   private ArrayList<String> keys;
 
@@ -56,7 +57,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   @Override
-  public ArrayList<IShape> returnShapesAtTick(int tick) {
+  public ArrayList<ReadOnlyIShape> returnShapesAtTick(int tick) {
     if (tick < 0) {
       throw new IllegalArgumentException("Tick must be a positive integer.");
     }
