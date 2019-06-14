@@ -1,7 +1,6 @@
 package cs3500.animator.view;
 
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 
 import cs3500.animator.model.IAnimatorModel;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
@@ -11,8 +10,8 @@ import cs3500.animator.model.shape.ReadOnlyIShape;
  * Textual view for viewing an animation.
  */
 public class TextView implements IAnimatorView {
-  IAnimatorModel model;
-  StringBuilder textOutput;
+  private final IAnimatorModel model;
+  private StringBuilder textOutput;
 
   /**
    * Constructor used to construct a textual animation.
