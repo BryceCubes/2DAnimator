@@ -24,12 +24,8 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
     this.model = model;
 
-    timer = new Timer(1500, new ActionListener() { //TODO: 1500?
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        animate();
-      }
-    });
+    //TODO: 1500?
+    timer = new Timer(1500, e -> animate());
 
     panel = new AnimationPanel();
     panel.setMinimumSize( new Dimension(500,500));
@@ -52,6 +48,6 @@ public class AnimationView extends JFrame implements IAnimatorView {
   @Override
   public void animate() {
     timer.start();
-    panel.draw(model.returnShapesAtTick(tick));
+    panel.draw(model.returnShapesAtTick(tick++));
   }
 }
