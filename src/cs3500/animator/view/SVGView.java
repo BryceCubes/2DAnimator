@@ -10,7 +10,10 @@ import cs3500.animator.model.shape.IShape;
 public class SVGView implements IAnimatorView {
   private final int speed;
   private StringBuilder svgOutput;
-  IAnimatorModel model;
+  private final IAnimatorModel model;
+  private final int width;
+  private final int height;
+  private final String out;
 
   public SVGView(IAnimatorModel model, int width, int height) {
     this(model, 1, "System.out", width, height);
@@ -36,28 +39,18 @@ public class SVGView implements IAnimatorView {
 
     this.model = model;
     this.speed = speed;
-    this.svgOutput = new StringBuilder("<svg width=\"" + width + "\" height=\""
-            + height + "\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n");
-    this.animate();
-    this.svgOutput.append("</svg>");
-
-    if (out.equals("System.out")) {
-      System.out.println(svgOutput);
-    } else {
-      try {
-        PrintWriter writer = new PrintWriter(out, "UTF-8");
-        writer.println(svgOutput);
-        writer.close();
-      } catch (Exception e) {
-        throw new IllegalStateException("Your computer was not able to write to an output file.");
-      }
-    }
+    this.width = width;
+    this.height = height;
+    this.out = out;
   }
 
   /**
    * Method used to animate the given motions and format the svg properly.
    */
-  private void animate() {
+  @Override
+  public void animate() {
+    this.svgOutput = new StringBuilder("<svg width=\"" + this.width + "\" height=\""
+            + this.height + "\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n");
     ArrayList<String> keys = this.model.returnKeys();
 
     for (String key : keys) {
@@ -76,13 +69,11 @@ public class SVGView implements IAnimatorView {
                     .append(firstMotion.getGStart()).append(",")
                     .append(firstMotion.getBStart()).append(")\" visibility=\"visible\" >\n");
             for (IMotion motion : currentShapeMotions) {
-              this.svgOutput.append(this.addVector(motion, "x", motion.getXStart(), motion.getXEnd()))
-                      .append(this.addVector(motion, "y", motion.getYStart(), motion.getYEnd()))
-                      .append(this.addVector(motion, "w", motion.getWStart(), motion.getWEnd()))
-                      .append(this.addVector(motion, "h", motion.getHStart(), motion.getHEnd()))
-                      .append(this.addVector(motion, "r", motion.getRStart(), motion.getREnd()))
-                      .append(this.addVector(motion, "g", motion.getGStart(), motion.getGEnd()))
-                      .append(this.addVector(motion, "b", motion.getBStart(), motion.getBEnd()));
+              this.svgOutput.append(this.addVector(motion, "x"))
+                      .append(this.addVector(motion, "y"))
+                      .append(this.addVector(motion, "w"))
+                      .append(this.addVector(motion, "h"))
+                      .append(this.addVector(motion, "rgb"));
             }
 
             this.svgOutput.append("\n</rect>");
@@ -98,94 +89,136 @@ public class SVGView implements IAnimatorView {
                     .append(firstMotion.getGStart()).append(",")
                     .append(firstMotion.getBStart()).append(")\" visibility=\"visible\" >\n");
             for (IMotion motion : currentShapeMotions) {
-              this.svgOutput.append(this.addVector(motion, "cx", motion.getXStart(), motion.getXEnd()))
-                      .append(this.addVector(motion, "cy", motion.getYStart(), motion.getYEnd()))
-                      .append(this.addVector(motion, "rx", motion.getWStart(), motion.getWEnd()))
-                      .append(this.addVector(motion, "ry", motion.getHStart(), motion.getHEnd()))
-                      .append(this.addVector(motion, "r", motion.getRStart(), motion.getREnd()))
-                      .append(this.addVector(motion, "g", motion.getGStart(), motion.getGEnd()))
-                      .append(this.addVector(motion, "b", motion.getBStart(), motion.getBEnd()));
+              this.svgOutput.append(this.addVector(motion, "cx"))
+                      .append(this.addVector(motion, "cy"))
+                      .append(this.addVector(motion, "rx"))
+                      .append(this.addVector(motion, "ry"))
+                      .append(this.addVector(motion, "rgb"));
             }
 
             this.svgOutput.append("\n</ellipse>");
             break;
+
+          default:
+            throw new IllegalStateException("You should'nt be seeing this, something went wrong.");
         }
+      }
+    }
+
+    this.svgOutput.append("</svg>");
+
+    if (out.equals("System.out")) {
+      System.out.println(svgOutput);
+    } else {
+      try {
+        PrintWriter writer = new PrintWriter(out, "UTF-8");
+        writer.println(svgOutput);
+        writer.close();
+      } catch (Exception e) {
+        throw new IllegalStateException("Your computer was not able to write to an output file.");
       }
     }
   }
 
-  private String addVector(IMotion motion, String property, int startProperty, int stopProperty) {
-    if (!((stopProperty - startProperty) == 0)) {
+  /**
+   * Method used to add a vector to the svg object for a specific shape so that the individual
+   * parts of the shape could be animated.
+   *
+   * @param motion   the given motion to be animated in the svg format
+   * @param property the given property to be animated
+   * @return a string formatted in the proper way for svg from given motion
+   */
+  private String addVector(IMotion motion, String property) {
+    StringBuilder returnString = new StringBuilder();
+    int deltaProperty = 0;
+    switch (property) {
+      case "x":
+      case "cx":
+        deltaProperty = motion.getXStart() - motion.getXEnd();
+        break;
+      case "y":
+      case "cy":
+        deltaProperty = motion.getYStart() - motion.getYEnd();
+        break;
+      case "w":
+      case "rx":
+        deltaProperty = motion.getWStart() - motion.getWEnd();
+        break;
+      case "h":
+      case "ry":
+        deltaProperty = motion.getHStart() - motion.getHEnd();
+        break;
+      case "rgb":
+        if (motion.getRStart() != motion.getREnd()) {
+          deltaProperty = motion.getRStart() - motion.getREnd();
+        } else if (motion.getGStart() != motion.getGEnd()) {
+          deltaProperty = motion.getGStart() - motion.getGEnd();
+        } else if (motion.getBStart() != motion.getBEnd()) {
+          deltaProperty = motion.getBStart() - motion.getBEnd();
+        }
+        break;
+      default:
+        throw new IllegalStateException("If you're seeing this error, something is wrong.");
+    }
+
+    if (deltaProperty != 0) {
       switch (property) {
         case "x":
-          return "    <animate attributeType=\"xml\" begin=\"" + motion.getTStart() / this.speed
-                  + "ms\" dur=\"" + (motion.getTEnd() - motion.getTStart()) / this.speed
-                  + "ms\" attributeName=\"" + property + "\" from=\""
-                  + motion.startShape.x + "\" to=\"" + motion.stopShape.x
-                  + "\" fill=\"freeze\" />\n";
         case "cx":
-          return "    <animate attributeType=\"xml\" begin=\"" + motion.startTime / this.speed
-                  + "ms\" dur=\"" + (this.motion.stopTime - this.motion.startTime) / this.speed
-                  + "ms\" attributeName=\"" + property + "\" from=\""
-                  + motion.startShape.x + "\" to=\"" + motion.stopShape.x
-                  + "\" fill=\"freeze\" />\n";
+          returnString.append("    <animate attributeType=\"xml\" begin=\"")
+                  .append((motion.getTStart() / this.speed) * 1000).append("ms\" dur=\"")
+                  .append(((motion.getTEnd() - motion.getTStart()) / this.speed) * 1000)
+                  .append("ms\" attributeName=\"").append(property).append("\" from=\"")
+                  .append(motion.getXStart()).append("\" to=\"").append(motion.getXEnd())
+                  .append("\" fill=\"freeze\" />\n");
         case "y":
-          return "    <animate attributeType=\"xml\" begin=\"" + motion.startTime / this.speed
-                  + "ms\" dur=\"" + (this.motion.stopTime - this.motion.startTime) / this.speed
-                  + "ms\" attributeName=\"" + property + "\" from=\"" + motion.startShape.y
-                  + "\" to=\"" + motion.stopShape.y + "\" fill=\"freeze\" />\n";
         case "cy":
-          return "    <animate attributeType=\"xml\" begin=\"" + motion.startTime / this.speed
-                  + "ms\" dur=\"" + (this.motion.stopTime - this.motion.startTime) / this.speed
-                  + "ms\" attributeName=\"" + property + "\" from=\""
-                  + motion.startShape.y + "\" to=\"" + motion.stopShape.y
-                  + "\" fill=\"freeze\" />\n";
+          returnString.append("    <animate attributeType=\"xml\" begin=\"")
+                  .append((motion.getTStart() / this.speed) * 1000).append("ms\" dur=\"")
+                  .append(((motion.getTEnd() - motion.getTStart()) / this.speed) * 1000)
+                  .append("ms\" attributeName=\"").append(property).append("\" from=\"")
+                  .append(motion.getYStart()).append("\" to=\"").append(motion.getYEnd())
+                  .append("\" fill=\"freeze\" />\n");
         case "w":
-          return "    <animate attributeType=\"xml\" begin=\"" + motion.startTime / this.speed
-                  + "ms\" dur=\"" + (this.motion.stopTime - this.motion.startTime) / this.speed
-                  + "ms\" attributeName=\"" + "width" + "\" from=\"" + motion.startShape.w
-                  + "\" to=\"" + motion.stopShape.w + "\" fill=\"freeze\" />\n";
+          returnString.append("    <animate attributeType=\"xml\" begin=\"")
+                  .append((motion.getTStart() / this.speed) * 1000).append("ms\" dur=\"")
+                  .append(((motion.getTEnd() - motion.getTStart()) / this.speed) * 1000)
+                  .append("ms\" attributeName=\"").append("width").append("\" from=\"")
+                  .append(motion.getWStart()).append("\" to=\"").append(motion.getWEnd())
+                  .append("\" fill=\"freeze\" />\n");
         case "rx":
-          return "    <animate attributeType=\"xml\" begin=\"" + motion.startTime / this.speed
-                  + "ms\" dur=\"" + (this.motion.stopTime - this.motion.startTime) / this.speed
-                  + "ms\" attributeName=\"" + property + "\" from=\"" + motion.startShape.w
-                  + "\" to=\"" + motion.stopShape.w + "\" fill=\"freeze\" />\n";
+          returnString.append("    <animate attributeType=\"xml\" begin=\"")
+                  .append((motion.getTStart() / this.speed) * 1000).append("ms\" dur=\"")
+                  .append(((motion.getTEnd() - motion.getTStart()) / this.speed) * 1000)
+                  .append("ms\" attributeName=\"").append(property).append("\" from=\"")
+                  .append(motion.getWStart()).append("\" to=\"").append(motion.getWEnd())
+                  .append("\" fill=\"freeze\" />\n");
         case "h":
-          return "    <animate attributeType=\"xml\" begin=\"" + motion.startTime / this.speed
-                  + "ms\" dur=\"" + (this.motion.stopTime - this.motion.startTime) / this.speed
-                  + "ms\" attributeName=\"" + "height" + "\" from=\""
-                  + motion.startShape.h + "\" to=\"" + motion.stopShape.h
-                  + "\" fill=\"freeze\" />\n";
+          returnString.append("    <animate attributeType=\"xml\" begin=\"")
+                  .append((motion.getTStart() / this.speed) * 1000).append("ms\" dur=\"")
+                  .append(((motion.getTEnd() - motion.getTStart()) / this.speed) * 1000)
+                  .append("ms\" attributeName=\"").append("height").append("\" from=\"")
+                  .append(motion.getHStart()).append("\" to=\"").append(motion.getHEnd())
+                  .append("\" fill=\"freeze\" />\n");
         case "ry":
-          return "    <animate attributeType=\"xml\" begin=\"" + motion.startTime / this.speed
-                  + "ms\" dur=\"" + (this.motion.stopTime - this.motion.startTime) / this.speed
-                  + "ms\" attributeName=\"" + property + "\" from=\"" + motion.startShape.h
-                  + "\" to=\"" + motion.stopShape.h + "\" fill=\"freeze\" />\n";
-        case "r":
-          return "    <animate attributeType=\"xml\" begin=\"" + motion.startTime / this.speed
-                  + "ms\" dur=\"" + (this.motion.stopTime - this.motion.startTime) / this.speed
-                  + "ms\" attributeName=\"fill\" from=\"rgb("
-                  + motion.startShape.r + "," + motion.startShape.g + "," + motion.startShape.b
-                  + ")\" to=\"rgb(" + motion.stopShape.r + "," + motion.stopShape.g + ","
-                  + motion.stopShape.b + ")\" fill=\"freeze\" />\n";
-        case "g":
-          return "    <animate attributeType=\"xml\" begin=\"" + motion.startTime / this.speed
-                  + "ms\" dur=\"" + (this.motion.stopTime - this.motion.startTime) / this.speed
-                  + "ms\" attributeName=\"fill\" from=\"rgb("
-                  + motion.startShape.r + "," + motion.startShape.g + "," + motion.startShape.b
-                  + ")\" to=\"rgb(" + motion.stopShape.r + "," + motion.stopShape.g + ","
-                  + motion.stopShape.b + ")\" fill=\"freeze\" />\n";
-        case "b":
-          return "    <animate attributeType=\"xml\" begin=\"" + motion.startTime / this.speed
-                  + "ms\" dur=\"" + (this.motion.stopTime - this.motion.startTime) / this.speed
-                  + "ms\" attributeName=\"fill\" from=\"rgb("
-                  + motion.startShape.r + "," + motion.startShape.g + "," + motion.startShape.b
-                  + ")\" to=\"rgb(" + motion.stopShape.r + "," + motion.stopShape.g + ","
-                  + motion.stopShape.b + ")\" fill=\"freeze\" />\n";
-        default:
-          return "";
+          returnString.append("    <animate attributeType=\"xml\" begin=\"")
+                  .append((motion.getTStart() / this.speed) * 1000).append("ms\" dur=\"")
+                  .append(((motion.getTEnd() - motion.getTStart()) / this.speed) * 1000)
+                  .append("ms\" attributeName=\"").append(property).append("\" from=\"")
+                  .append(motion.getHStart()).append("\" to=\"").append(motion.getHEnd())
+                  .append("\" fill=\"freeze\" />\n");
+        case "rgb":
+          returnString.append("    <animate attributeType=\"xml\" begin=\"")
+                  .append((motion.getTStart() / this.speed) * 1000).append("ms\" dur=\"")
+                  .append(((motion.getTEnd() - motion.getTStart()) / this.speed) * 1000)
+                  .append("ms\" attributeName=\"fill\" from=\"rgb(").append(motion.getRStart())
+                  .append(",").append(motion.getGStart()).append(",").append(motion.getBStart())
+                  .append(")\" to=\"rgb(").append(motion.getREnd()).append(",")
+                  .append(motion.getGEnd()).append(",").append(motion.getBEnd())
+                  .append(")\" fill=\"freeze\" />\n");
       }
     }
-    return "";
+
+    return returnString.toString();
   }
 }

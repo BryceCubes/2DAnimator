@@ -12,6 +12,11 @@ import cs3500.animator.model.shape.ReadOnlyIShape;
 public class TextView implements IAnimatorView {
   private final IAnimatorModel model;
   private StringBuilder textOutput;
+  private final String out;
+  private final int canvasX;
+  private final int canvasY;
+  private final int width;
+  private final int height;
 
   /**
    * Constructor used to construct a textual animation.
@@ -37,9 +42,31 @@ public class TextView implements IAnimatorView {
 
     this.textOutput = new StringBuilder();
     this.model = model;
+    this.out = out;
+    this.canvasX = canvasX;
+    this.canvasY = canvasY;
+    this.width = width;
+    this.height = height;
+
+
+  }
+
+  /**
+   * Adds all of the motion data to the output string.
+   */
+  @Override
+  public void animate() {
     this.textOutput.append("canvas ").append(canvasX).append(" ").append(canvasY).append(" ")
             .append(width).append(" ").append(height).append("\n");
-    this.animate();
+
+    for (String key : this.model.returnKeys()) {
+      ReadOnlyIShape currentShape = this.model.findShape(key);
+      this.textOutput.append("shape ").append(currentShape.getShapeID()).append(" ")
+              .append(currentShape.getShapeTypeAsString()).append("\n");
+      for (ReadOnlyIMotion motion : model.returnMotions().get(key)) {
+        this.textOutput.append(motion.getTextOutput());
+      }
+    }
 
     if (out.equals("System.out")) {
       System.out.println(textOutput);
@@ -50,20 +77,6 @@ public class TextView implements IAnimatorView {
         writer.close();
       } catch (Exception e) {
         throw new IllegalStateException("Your computer was not able to write to file.");
-      }
-    }
-  }
-
-  /**
-   * Adds all of the motion data to the output string.
-   */
-  private void animate() {
-    for (String key : this.model.returnKeys()) {
-      ReadOnlyIShape currentShape = this.model.findShape(key);
-      this.textOutput.append("shape ").append(currentShape.getShapeID()).append(" ")
-              .append(currentShape.getShapeTypeAsString()).append("\n");
-      for (ReadOnlyIMotion motion : model.returnMotions().get(key)) {
-        this.textOutput.append(motion.getTextOutput());
       }
     }
   }
