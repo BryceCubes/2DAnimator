@@ -125,7 +125,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   public void deleteShape(String shapeID) {
     boolean doesShapeExist = false;
     for (String key : this.keys) {
-      if (key == shapeID) {
+      if (key.equals(shapeID)) {
         this.sortedMoveList.remove(key);
         doesShapeExist = true;
       }
