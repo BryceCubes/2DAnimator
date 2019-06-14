@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import cs3500.animator.model.motion.IMotion;
+import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 
@@ -52,8 +53,16 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   @Override
-  public HashMap<String, ArrayList<IMotion>> returnMotions() {
-    return this.sortedMoveList;
+  public HashMap<String, ArrayList<ReadOnlyIMotion>> returnMotions() {
+    HashMap<String, ArrayList<ReadOnlyIMotion>> motions = new HashMap<>();
+    for (String key : this.keys) {
+      motions.put(key, new ArrayList<>());
+      for (ReadOnlyIMotion motion : sortedMoveList.get(key)) {
+        motions.get(key).add(motion);
+      }
+    }
+
+    return motions;
   }
 
   @Override
@@ -111,6 +120,22 @@ public class AnimatorModelImpl implements IAnimatorModel {
     this.keys.add(shape.getShapeID());
   }
   // Fixed from last time so it is easier to add shapes to our hashmap
+
+  @Override
+  public void deleteShape(String shapeID) {
+    boolean doesShapeExist = false;
+    for (String key : this.keys) {
+      if (key.equals(shapeID)) {
+        this.sortedMoveList.remove(key);
+        doesShapeExist = true;
+      }
+    }
+
+    if (!doesShapeExist) {
+      throw new IllegalArgumentException(shapeID + " shape does not exist.");
+    }
+  }
+  // Added so that a shape can be removed with ease.
 
   @Override
   public void addMotion(IMotion motion) {

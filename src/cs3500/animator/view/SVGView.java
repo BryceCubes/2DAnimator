@@ -67,7 +67,7 @@ public class SVGView implements IAnimatorView {
                     .append(firstMotion.getHStart()).append("\" fill=\"rgb(")
                     .append(firstMotion.getRStart()).append(",")
                     .append(firstMotion.getGStart()).append(",")
-                    .append(firstMotion.getBStart()).append(")\" visibility=\"visible\" >\n");
+                    .append(firstMotion.getBStart()).append(")\" visibility=\"hidden\" >\n");
             for (IMotion motion : currentShapeMotions) {
               this.svgOutput.append(this.addVector(motion, "x"))
                       .append(this.addVector(motion, "y"))
@@ -87,7 +87,7 @@ public class SVGView implements IAnimatorView {
                     .append(firstMotion.getHStart()).append("\" fill=\"rgb(")
                     .append(firstMotion.getRStart()).append(",")
                     .append(firstMotion.getGStart()).append(",")
-                    .append(firstMotion.getBStart()).append(")\" visibility=\"visible\" >\n");
+                    .append(firstMotion.getBStart()).append(")\" visibility=\"hidden\" >\n");
             for (IMotion motion : currentShapeMotions) {
               this.svgOutput.append(this.addVector(motion, "cx"))
                       .append(this.addVector(motion, "cy"))
