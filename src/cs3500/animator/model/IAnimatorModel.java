@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cs3500.animator.model.motion.IMotion;
+import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.shape.IShape;
+import cs3500.animator.model.shape.ReadOnlyIShape;
 
 /**
  * General Model to represent the shapes and motions for an animator application.
@@ -13,6 +15,7 @@ public interface IAnimatorModel {
 
   /**
    * Used to find a given shape based on its shapeid.
+   *
    * @param shapeID name of given shape
    * @return a shape with same name
    */
@@ -23,7 +26,7 @@ public interface IAnimatorModel {
    *
    * @return a hashmap of motiosn
    */
-  HashMap<String, ArrayList<IMotion>> returnMotions();
+  HashMap<String, ArrayList<ReadOnlyIMotion>> returnMotions();
 
 
   /**
@@ -33,7 +36,7 @@ public interface IAnimatorModel {
    * @return an Arraylist of shapes that exist at time t
    * @throws IllegalArgumentException if given tick is negative
    */
-  ArrayList<IShape> returnShapesAtTick(int tick) throws IllegalArgumentException;
+  ArrayList<ReadOnlyIShape> returnShapesAtTick(int tick) throws IllegalArgumentException;
 
   /**
    * Provides a text representation of the motions.
@@ -49,6 +52,15 @@ public interface IAnimatorModel {
    * @throws IllegalArgumentException if shape already exists
    */
   void addShape(IShape shape) throws IllegalArgumentException;
+
+  /**
+   * Deletes a given shape from the hashmap thus wiping out all of the shapes motions and the shape
+   * itself.
+   *
+   * @param shapeID name of the given shape to be deleted
+   * @throws IllegalArgumentException when a shape with given shapeid doesn't exist
+   */
+  void deleteShape(String shapeID) throws IllegalArgumentException;
 
   /**
    * Adds motion to the animation for an already existing shape.
@@ -70,6 +82,7 @@ public interface IAnimatorModel {
 
   /**
    * Generates the list of keys used to iterate through the hashmap of motions.
+   *
    * @return the list of keys of all shapes in the model
    */
   ArrayList<String> returnKeys();

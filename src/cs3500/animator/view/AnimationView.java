@@ -2,6 +2,7 @@ package cs3500.animator.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -12,7 +13,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
   public AnimationView() {
     super();
-    timer = new Timer(5, this);
+    timer = new Timer(5, (ActionListener) this);
     this.setTitle("2D Animation :)");
     this.setSize(360, 360);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
