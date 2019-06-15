@@ -1,11 +1,13 @@
 package cs3500.animator.util;
 
+import cs3500.animator.model.IAnimatorModel;
+
 public interface AnimationBuilder<Doc> {
   /**
    * Constructs a final document.
    * @return the newly constructed document
    */
-  Doc build();
+  IAnimatorModel build();
 
 
   /**
