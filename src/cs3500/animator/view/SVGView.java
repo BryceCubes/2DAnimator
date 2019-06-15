@@ -5,7 +5,9 @@ import java.util.ArrayList;
 
 import cs3500.animator.model.IAnimatorModel;
 import cs3500.animator.model.motion.IMotion;
+import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.shape.IShape;
+import cs3500.animator.model.shape.ReadOnlyIShape;
 
 public class SVGView implements IAnimatorView {
   private final int speed;
@@ -51,16 +53,15 @@ public class SVGView implements IAnimatorView {
   public void animate() {
     this.svgOutput = new StringBuilder("<svg width=\"" + this.width + "\" height=\""
             + this.height + "\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n");
-    ArrayList<String> keys = this.model.returnKeys();
+    ArrayList<ReadOnlyIShape> shapes = this.model.returnShapes();
 
-    for (String key : keys) {
-      ArrayList<IMotion> currentShapeMotions = this.model.returnMotions().get(key);
-      IShape currentShape = this.model.findShape(key);
-      IMotion firstMotion = currentShapeMotions.get(0);
+    for (ReadOnlyIShape shape : shapes) {
+      ArrayList<ReadOnlyIMotion> currentShapeMotions = this.model.returnMotions().get(shape);
+      ReadOnlyIMotion firstMotion = currentShapeMotions.get(0);
       if (firstMotion != null) {
-        switch (currentShape.getShapeType()) {
+        switch (shape.getShapeType()) {
           case RECTANGLE:
-            this.svgOutput.append("<rect id=\"").append(key).append("\" x=\"")
+            this.svgOutput.append("<rect id=\"").append(shape.getShapeID()).append("\" x=\"")
                     .append(firstMotion.getXStart()).append("\" y=\"")
                     .append(firstMotion.getYStart()).append("\" width=\"")
                     .append(firstMotion.getWStart()).append("\" height=\"")
@@ -68,7 +69,7 @@ public class SVGView implements IAnimatorView {
                     .append(firstMotion.getRStart()).append(",")
                     .append(firstMotion.getGStart()).append(",")
                     .append(firstMotion.getBStart()).append(")\" visibility=\"hidden\" >\n");
-            for (IMotion motion : currentShapeMotions) {
+            for (ReadOnlyIMotion motion : currentShapeMotions) {
               this.svgOutput.append(this.addVector(motion, "x"))
                       .append(this.addVector(motion, "y"))
                       .append(this.addVector(motion, "w"))
@@ -80,7 +81,7 @@ public class SVGView implements IAnimatorView {
             break;
 
           case ELLIPSE:
-            this.svgOutput.append("<ellipse id=\"").append(key).append("\" cx=\"")
+            this.svgOutput.append("<ellipse id=\"").append(shape.getShapeID()).append("\" cx=\"")
                     .append(firstMotion.getXStart()).append("\" cy=\"")
                     .append(firstMotion.getYStart()).append("\" rx=\"")
                     .append(firstMotion.getWStart()).append("\" ry=\"")
@@ -88,7 +89,7 @@ public class SVGView implements IAnimatorView {
                     .append(firstMotion.getRStart()).append(",")
                     .append(firstMotion.getGStart()).append(",")
                     .append(firstMotion.getBStart()).append(")\" visibility=\"hidden\" >\n");
-            for (IMotion motion : currentShapeMotions) {
+            for (ReadOnlyIMotion motion : currentShapeMotions) {
               this.svgOutput.append(this.addVector(motion, "cx"))
                       .append(this.addVector(motion, "cy"))
                       .append(this.addVector(motion, "rx"))
@@ -128,7 +129,7 @@ public class SVGView implements IAnimatorView {
    * @param property the given property to be animated
    * @return a string formatted in the proper way for svg from given motion
    */
-  private String addVector(IMotion motion, String property) {
+  private String addVector(ReadOnlyIMotion motion, String property) {
     StringBuilder returnString = new StringBuilder();
     int deltaProperty = 0;
     switch (property) {

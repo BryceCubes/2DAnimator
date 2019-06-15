@@ -1,7 +1,5 @@
 package cs3500.animator.view;
 
-import java.awt.event.ActionListener;
-
 /**
  * Interface used to produce an animation using a model with provided shapes and motions involved.
  */
