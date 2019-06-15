@@ -58,7 +58,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
         model.addMotion(motion);
       }
 
-      return model;
+      return this.model;
     }
 
     @Override
