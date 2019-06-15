@@ -268,6 +268,9 @@ public class AnimatorModelImpl implements IAnimatorModel {
     for (IShape shape : this.shapes) {
       if (shapeName.equals(shape.getShapeID())) {
         doesShapeExist = true;
+
+        
+
         int motionIndex = sortedMoveList.get(shape).indexOf(motion);
 
         if (motionIndex == -1) {
