@@ -268,16 +268,20 @@ public class AnimatorModelImpl implements IAnimatorModel {
     for (IShape shape : this.shapes) {
       if (shapeName.equals(shape.getShapeID())) {
         doesShapeExist = true;
+        int index = -1;
+        IMotion possibility = null;
 
-        
-
-        int motionIndex = sortedMoveList.get(shape).indexOf(motion);
-
-        if (motionIndex == -1) {
-          throw new IllegalArgumentException("Given motion for given shape does not exist.");
+        for (IMotion mot : this.sortedMoveList.get(shape)) {
+          index++;
+          if (mot.equals(motion)) {
+            possibility = motion;
+          }
         }
-
-        sortedMoveList.get(shape).remove(motionIndex);
+        if (possibility == null) {
+          throw new IllegalArgumentException("Given motion for given shape does not exist.");
+        } else {
+          sortedMoveList.get(shape).remove(index);
+        }
 
         if (!this.isContinuous(sortedMoveList.get(shape))) {
           throw new IllegalArgumentException("Deleting given motion causes motions to be "
