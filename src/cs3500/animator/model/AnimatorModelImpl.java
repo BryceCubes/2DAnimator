@@ -17,31 +17,45 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   private ArrayList<IMotion> moveList;
   private ArrayList<ReadOnlyIShape> shapes;
-  private HashMap<String, ArrayList<IMotion>> sortedMoveList;
-  private ArrayList<String> keys;
+  private ArrayList<ReadOnlyIShape> shapesAtTick;
+  private HashMap<ReadOnlyIShape, ArrayList<IMotion>> sortedMoveList;
+  private int canvasX;
+  private int canvasY;
+  private int canvasW;
+  private int canvasH;
 
   /**
    * Constructor used to create an animator model. We don't allow a null movelist to be passed
    * because that would mess up our model.
    */
-  public AnimatorModelImpl(ArrayList<IMotion> moveList) {
+  public AnimatorModelImpl(ArrayList<IMotion> moveList, int canvasX, int canvasY, int canvasW,
+                           int canvasH) {
     if (moveList == null || moveList.isEmpty()) {
       throw new IllegalArgumentException("Move list cannot be null.");
+    }
+    if (canvasX < 0 || canvasY < 0) {
+      throw new IllegalArgumentException("The canvas xy coordinate cannot be negative.");
+    }
+    if (canvasW < 1 || canvasH < 1) {
+      throw new IllegalArgumentException("The canvas width and height cannot be less than 1.");
     }
     this.moveList = moveList;
     this.shapes = new ArrayList<>();
     this.sortedMoveList = new HashMap<>();
-    this.keys = new ArrayList<>();
+    this.canvasX = canvasX;
+    this.canvasY = canvasY;
+    this.canvasW = canvasW;
+    this.canvasH = canvasH;
     this.sortMoveList();
   }
 
   @Override
-  public IShape findShape(String shapeID) {
-    IShape returnShape = null;
+  public ReadOnlyIShape findShape(String shapeID) {
+    ReadOnlyIShape returnShape = null;
 
-    for (String key : this.keys) {
-      if (shapeID.equals(key)) {
-        returnShape = this.sortedMoveList.get(key).get(0).getShape();
+    for (ReadOnlyIShape shape : this.shapes) {
+      if (shapeID.equals(shape.getShapeID())) {
+        returnShape = shape;
       }
     }
 
@@ -53,12 +67,12 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   @Override
-  public HashMap<String, ArrayList<ReadOnlyIMotion>> returnMotions() {
-    HashMap<String, ArrayList<ReadOnlyIMotion>> motions = new HashMap<>();
-    for (String key : this.keys) {
-      motions.put(key, new ArrayList<>());
-      for (ReadOnlyIMotion motion : sortedMoveList.get(key)) {
-        motions.get(key).add(motion);
+  public HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> returnMotions() {
+    HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> motions = new HashMap<>();
+    for (ReadOnlyIShape shape : this.shapes) {
+      motions.put(shape, new ArrayList<>());
+      for (ReadOnlyIMotion motion : sortedMoveList.get(shape)) {
+        motions.get(shape).add(motion);
       }
     }
 
@@ -71,27 +85,26 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Tick must be a positive integer.");
     }
 
-    for (String key : this.keys) {
-      for (IMotion motion : this.sortedMoveList.get(key)) {
+    for (ReadOnlyIShape shape : this.shapes) {
+      for (IMotion motion : this.sortedMoveList.get(shape)) {
         if (motion.getTStart() <= tick && motion.getTEnd() >= tick) {
-          shapes.add(motion.getShape());
+          shapesAtTick.add(motion.getShape());
           break;
         }
       }
     }
 
-    return shapes;
+    return this.shapesAtTick;
   }
 
   @Override
   public String textViewMotions() {
     StringBuilder textView = new StringBuilder();
 
-    for (String key : this.keys) {
-      IShape currentShape = this.findShape(key);
-      textView.append("shape ").append(currentShape.getShapeID()).append(" ").append(currentShape
+    for (ReadOnlyIShape shape : this.shapes) {
+      textView.append("shape ").append(shape.getShapeID()).append(" ").append(shape
               .getShapeTypeAsString()).append("\n");
-      for (IMotion motion : this.sortedMoveList.get(key)) {
+      for (IMotion motion : this.sortedMoveList.get(shape)) {
         textView.append(motion.getTextOutput());
       }
     }
@@ -104,10 +117,10 @@ public class AnimatorModelImpl implements IAnimatorModel {
     boolean doesShapeExist = false;
     String shapeName = null;
 
-    for (String key : this.keys) {
-      if (shape.getShapeID().equals(key)) {
+    for (ReadOnlyIShape key : this.shapes) {
+      if (shape.getShapeID().equals(key.getShapeID())) {
         doesShapeExist = true;
-        shapeName = key;
+        shapeName = key.getShapeID();
         break;
       }
     }
@@ -116,17 +129,17 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException(shapeName + " shape already exists.");
     }
 
-    sortedMoveList.put(shape.getShapeID(), new ArrayList<>());
-    this.keys.add(shape.getShapeID());
+    sortedMoveList.put(shape, new ArrayList<>());
+    this.shapes.add(shape);
   }
   // Fixed from last time so it is easier to add shapes to our hashmap
 
   @Override
   public void deleteShape(String shapeID) {
     boolean doesShapeExist = false;
-    for (String key : this.keys) {
-      if (key.equals(shapeID)) {
-        this.sortedMoveList.remove(key);
+    for (ReadOnlyIShape shape : this.shapes) {
+      if (shape.getShapeID().equals(shapeID)) {
+        this.sortedMoveList.remove(shape);
         doesShapeExist = true;
       }
     }
@@ -140,11 +153,12 @@ public class AnimatorModelImpl implements IAnimatorModel {
   @Override
   public void addMotion(IMotion motion) {
     boolean doesShapeExist = false;
-    String shapeName = motion.getShape().getShapeID();
+    ReadOnlyIShape currentShape = motion.getShape();
+    String shapeName = currentShape.getShapeID();
 
-    for (String key : this.keys) {
-      if (shapeName.equals(key)) {
-        sortedMoveList.get(key).add(motion);
+    for (ReadOnlyIShape shape : this.shapes) {
+      if (shapeName.equals(shape.getShapeID())) {
+        sortedMoveList.get(shape).add(motion);
         this.bubbleSort();
         doesShapeExist = true;
         break;
@@ -157,7 +171,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
     this.bubbleSort();
 
-    if (!this.isContinuous(sortedMoveList.get(shapeName))) {
+    if (!this.isContinuous(sortedMoveList.get(currentShape))) {
       throw new IllegalArgumentException("Adding given motion causes motions to be noncontinuous.");
     }
   }
@@ -166,20 +180,21 @@ public class AnimatorModelImpl implements IAnimatorModel {
   @Override
   public void deleteMotion(IMotion motion) {
     boolean doesShapeExist = false;
-    String shapeName = motion.getShape().getShapeID();
+    ReadOnlyIShape currentShape = motion.getShape();
+    String shapeName = currentShape.getShapeID();
 
-    for (String key : this.keys) {
-      if (shapeName.equals(key)) {
+    for (ReadOnlyIShape shape : this.shapes) {
+      if (shapeName.equals(shape.getShapeID())) {
         doesShapeExist = true;
-        int motionIndex = sortedMoveList.get(key).indexOf(motion);
+        int motionIndex = sortedMoveList.get(shape).indexOf(motion);
 
         if (motionIndex == -1) {
           throw new IllegalArgumentException("Given motion for given shape does not exist.");
         }
 
-        sortedMoveList.get(key).remove(motionIndex);
+        sortedMoveList.get(shape).remove(motionIndex);
 
-        if (!this.isContinuous(sortedMoveList.get(key))) {
+        if (!this.isContinuous(sortedMoveList.get(shape))) {
           throw new IllegalArgumentException("Deleting given motion causes motions to be "
                   + "noncontinuous.");
         }
@@ -193,35 +208,54 @@ public class AnimatorModelImpl implements IAnimatorModel {
   // Added so that we could offer additional functionality to the commands
 
   @Override
-  public ArrayList<String> returnKeys() {
-    return this.keys;
+  public ArrayList<ReadOnlyIShape> returnShapes() {
+    return this.shapes;
+  }
+
+  @Override
+  public int getCanvasX() {
+    return this.canvasX;
+  }
+
+  @Override
+  public int getCanvasY() {
+    return this.canvasY;
+  }
+
+  @Override
+  public int getCanvasW() {
+    return this.canvasW;
+  }
+
+  @Override
+  public int getCanvasH() {
+    return this.canvasH;
   }
   //Added so that could access and iterate through all of the data in the view
 
   private void sortMoveList() {
     for (IMotion motion : moveList) {
-      IShape currentShape = motion.getShape();
-      String key = currentShape.getShapeID();
+      ReadOnlyIShape currentShape = motion.getShape();
 
       // This is to add a new key to the hashmap
-      if (sortedMoveList.get(key) == null) {
-        sortedMoveList.put(key, new ArrayList<>());
-        this.keys.add(key);
+      if (sortedMoveList.get(currentShape) == null) {
+        sortedMoveList.put(currentShape, new ArrayList<>());
+        this.shapes.add(currentShape);
       }
 
       // This is to add a starting motion to a specific key
-      if (sortedMoveList.get(key).isEmpty()) {
-        sortedMoveList.get(key).add(motion);
+      if (sortedMoveList.get(currentShape).isEmpty()) {
+        sortedMoveList.get(currentShape).add(motion);
       } else {
-        int size = sortedMoveList.get(key).size();
+        int size = sortedMoveList.get(currentShape).size();
         boolean isOverlapping = false;
 
         // Are the motions overlapping?
         for (int i = 0; i < size; i++) {
           int motionStartTime = motion.getTStart();
           int motionEndTime = motion.getTEnd();
-          int indexedMotionStart = sortedMoveList.get(key).get(i).getTStart();
-          int indexedMotionEnd = sortedMoveList.get(key).get(i).getTEnd();
+          int indexedMotionStart = sortedMoveList.get(currentShape).get(i).getTStart();
+          int indexedMotionEnd = sortedMoveList.get(currentShape).get(i).getTEnd();
           if ((motionStartTime >= indexedMotionStart && motionStartTime < indexedMotionEnd)
                   || (motionEndTime > indexedMotionStart && motionEndTime <= indexedMotionEnd)
                   || (motionStartTime <= indexedMotionStart && motionEndTime >= indexedMotionEnd)) {
@@ -234,16 +268,17 @@ public class AnimatorModelImpl implements IAnimatorModel {
           throw new IllegalArgumentException("Overlapping moves for shape "
                   + currentShape.getShapeID() + ".");
         } else {
-          sortedMoveList.get(key).add(motion);
+          sortedMoveList.get(currentShape).add(motion);
         }
       }
     }
 
     this.bubbleSort();
 
-    for (String key : this.keys) {
-      if (!this.isContinuous(sortedMoveList.get(key))) {
-        throw new IllegalArgumentException("Motions for " + key + " are not continuous.");
+    for (ReadOnlyIShape shape : this.shapes) {
+      if (!this.isContinuous(sortedMoveList.get(shape))) {
+        throw new IllegalArgumentException("Motions for " + shape.getShapeID() + " are not "
+                + "continuous.");
       }
     }
   }
@@ -252,16 +287,16 @@ public class AnimatorModelImpl implements IAnimatorModel {
    * Method bubble sort algorithm implemented normally used to sort the list based on start times.
    */
   private void bubbleSort() {
-    for (String key : this.keys) {
-      int size = sortedMoveList.get(key).size();
+    for (ReadOnlyIShape shape : this.shapes) {
+      int size = sortedMoveList.get(shape).size();
 
       for (int i = 0; i < size; i++) {
         for (int j = i; j < size; j++) {
-          IMotion currentMotion = sortedMoveList.get(key).get(i);
-          IMotion checkingMotion = sortedMoveList.get(key).get(j);
+          IMotion currentMotion = sortedMoveList.get(shape).get(i);
+          IMotion checkingMotion = sortedMoveList.get(shape).get(j);
 
           if (currentMotion.getTStart() > checkingMotion.getTStart()) {
-            Collections.swap(sortedMoveList.get(key), j, i);
+            Collections.swap(sortedMoveList.get(shape), j, i);
           }
         }
       }

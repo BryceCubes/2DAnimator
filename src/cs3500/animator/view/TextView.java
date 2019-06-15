@@ -13,28 +13,16 @@ public class TextView implements IAnimatorView {
   private final IAnimatorModel model;
   private StringBuilder textOutput;
   private final String out;
-  private final int canvasX;
-  private final int canvasY;
-  private final int width;
-  private final int height;
 
   /**
    * Constructor used to construct a textual animation.
    *
    * @param model   given animation model to get the data from
    * @param out     given output file path
-   * @param canvasX x location for top left corner of canvas
-   * @param canvasY y location for top left corner of canvase
-   * @param width   width of canvas
-   * @param height  height of canvas
    */
-  public TextView(IAnimatorModel model, String out, int canvasX, int canvasY, int width,
-                  int height) {
+  public TextView(IAnimatorModel model, String out) {
     if (model == null || out == null) {
       throw new IllegalArgumentException("Model and out input cannot be null.");
-    } else if (canvasX < 0 || canvasY < 0 || width <= 0 || height <= 0) {
-      throw new IllegalArgumentException("Canvas xy coordinate must not be negative. Width and " +
-              "height cannot be 0 or less.");
     } else if ((!out.contains(".txt") && !out.equals("System.out")) || out.length() < 5) {
       throw new IllegalArgumentException("Out must be formatted in the following manner: name.txt "
               + "or System.out");
@@ -43,10 +31,6 @@ public class TextView implements IAnimatorView {
     this.textOutput = new StringBuilder();
     this.model = model;
     this.out = out;
-    this.canvasX = canvasX;
-    this.canvasY = canvasY;
-    this.width = width;
-    this.height = height;
 
 
   }
@@ -56,14 +40,14 @@ public class TextView implements IAnimatorView {
    */
   @Override
   public void animate() {
-    this.textOutput.append("canvas ").append(canvasX).append(" ").append(canvasY).append(" ")
-            .append(width).append(" ").append(height).append("\n");
+    this.textOutput.append("canvas ").append(model.getCanvasX()).append(" ")
+            .append(model.getCanvasY()).append(" ").append(model.getCanvasW()).append(" ")
+            .append(model.getCanvasH()).append("\n");
 
-    for (String key : this.model.returnKeys()) {
-      ReadOnlyIShape currentShape = this.model.findShape(key);
-      this.textOutput.append("shape ").append(currentShape.getShapeID()).append(" ")
-              .append(currentShape.getShapeTypeAsString()).append("\n");
-      for (ReadOnlyIMotion motion : model.returnMotions().get(key)) {
+    for (ReadOnlyIShape shape : this.model.returnShapes()) {
+      this.textOutput.append("shape ").append(shape.getShapeID()).append(" ")
+              .append(shape.getShapeTypeAsString()).append("\n");
+      for (ReadOnlyIMotion motion : model.returnMotions().get(shape)) {
         this.textOutput.append(motion.getTextOutput());
       }
     }
