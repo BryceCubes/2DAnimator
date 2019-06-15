@@ -16,7 +16,7 @@ import cs3500.animator.model.shape.ReadOnlyIShape;
 public class AnimatorModelImpl implements IAnimatorModel {
 
   private ArrayList<IMotion> moveList;
-  private ArrayList<ReadOnlyIShape> shapes;
+  private ArrayList<IShape> shapes;
   private ArrayList<ReadOnlyIShape> shapesAtTick;
   private HashMap<ReadOnlyIShape, ArrayList<IMotion>> sortedMoveList;
   private int canvasX;
@@ -46,6 +46,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     this.canvasY = canvasY;
     this.canvasW = canvasW;
     this.canvasH = canvasH;
+    this.shapesAtTick = new ArrayList<>();
     this.sortMoveList();
   }
 
@@ -113,11 +114,11 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   @Override
-  public void addShape(ReadOnlyIShape shape) {
+  public void addShape(IShape shape) {
     boolean doesShapeExist = false;
     String shapeName = null;
 
-    for (ReadOnlyIShape key : this.shapes) {
+    for (IShape key : this.shapes) {
       if (shape.getShapeID().equals(key.getShapeID())) {
         doesShapeExist = true;
         shapeName = key.getShapeID();
@@ -209,7 +210,14 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   @Override
   public ArrayList<ReadOnlyIShape> returnShapes() {
-    return this.shapes;
+    ReadOnlyIShape currentShape;
+    ArrayList<ReadOnlyIShape> newShapes = new ArrayList<>();
+    for (IShape shape : this.shapes) {
+      currentShape = shape;
+      newShapes.add(currentShape);
+    }
+
+    return newShapes;
   }
 
   @Override
@@ -235,7 +243,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   private void sortMoveList() {
     for (IMotion motion : moveList) {
-      ReadOnlyIShape currentShape = motion.getShape();
+      IShape currentShape = motion.getShape();
 
       // This is to add a new key to the hashmap
       if (sortedMoveList.get(currentShape) == null) {
