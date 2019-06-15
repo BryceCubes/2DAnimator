@@ -15,10 +15,8 @@ import cs3500.animator.model.shape.ReadOnlyIShape;
  */
 public class AnimatorModelImpl implements IAnimatorModel {
 
-  private ArrayList<IMotion> moveList;
-  private ArrayList<IShape> shapes;
-  private ArrayList<ReadOnlyIShape> shapesAtTick;
-  private HashMap<IShape, ArrayList<IMotion>> sortedMoveList;
+  private ArrayList<ReadOnlyIShape> shapes;
+  private HashMap<ReadOnlyIShape, ArrayList<IMotion>> sortedMoveList;
   private int canvasX;
   private int canvasY;
   private int canvasW;
@@ -28,27 +26,9 @@ public class AnimatorModelImpl implements IAnimatorModel {
    * Constructor used to create an animator model. We don't allow a null movelist to be passed
    * because that would mess up our model.
    */
-  public AnimatorModelImpl(ArrayList<IMotion> moveList, int canvasX, int canvasY, int canvasW,
-                           int canvasH) {
-    if (moveList == null || moveList.isEmpty()) {
-      throw new IllegalArgumentException("Move list cannot be null.");
-    }
-    if (canvasX < 0 || canvasY < 0) {
-      throw new IllegalArgumentException("The canvas xy coordinate cannot be negative.");
-    }
-    if (canvasW < 1 || canvasH < 1) {
-      throw new IllegalArgumentException("The canvas width and height cannot be less than 1.");
-    }
-    this.moveList = moveList;
-    this.shapes = new ArrayList<>();
-    this.sortedMoveList = new HashMap<>();
-    this.canvasX = canvasX;
-    this.canvasY = canvasY;
-    this.canvasW = canvasW;
-    this.canvasH = canvasH;
-    this.shapesAtTick = new ArrayList<>();
-    this.sortMoveList();
+  AnimatorModelImpl() {
   }
+  //TODO: delete
 
   @Override
   public ReadOnlyIShape findShape(String shapeID) {
@@ -82,6 +62,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   @Override
   public ArrayList<ReadOnlyIShape> returnShapesAtTick(int tick) {
+    ArrayList<ReadOnlyIShape> shapesAtTick = new ArrayList<>();
     if (tick < 0) {
       throw new IllegalArgumentException("Tick must be a positive integer.");
     }
@@ -95,7 +76,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
       }
     }
 
-    return this.shapesAtTick;
+    return shapesAtTick;
   }
 
   @Override
@@ -241,55 +222,55 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
   //Added so that could access and iterate through all of the data in the view
 
-  private void sortMoveList() {
-    for (IMotion motion : moveList) {
-      IShape currentShape = motion.getShape();
-
-      // This is to add a new key to the hashmap
-      if (sortedMoveList.get(currentShape) == null) {
-        sortedMoveList.put(currentShape, new ArrayList<>());
-        this.shapes.add(currentShape);
-      }
-
-      // This is to add a starting motion to a specific key
-      if (sortedMoveList.get(currentShape).isEmpty()) {
-        sortedMoveList.get(currentShape).add(motion);
-      } else {
-        int size = sortedMoveList.get(currentShape).size();
-        boolean isOverlapping = false;
-
-        // Are the motions overlapping?
-        for (int i = 0; i < size; i++) {
-          int motionStartTime = motion.getTStart();
-          int motionEndTime = motion.getTEnd();
-          int indexedMotionStart = sortedMoveList.get(currentShape).get(i).getTStart();
-          int indexedMotionEnd = sortedMoveList.get(currentShape).get(i).getTEnd();
-          if ((motionStartTime >= indexedMotionStart && motionStartTime < indexedMotionEnd)
-                  || (motionEndTime > indexedMotionStart && motionEndTime <= indexedMotionEnd)
-                  || (motionStartTime <= indexedMotionStart && motionEndTime >= indexedMotionEnd)) {
-            isOverlapping = true;
-            break;
-          }
-        }
-
-        if (isOverlapping) {
-          throw new IllegalArgumentException("Overlapping moves for shape "
-                  + currentShape.getShapeID() + ".");
-        } else {
-          sortedMoveList.get(currentShape).add(motion);
-        }
-      }
-    }
-
-    this.bubbleSort();
-
-    for (IShape shape : this.shapes) {
-      if (!this.isContinuous(sortedMoveList.get(shape))) {
-        throw new IllegalArgumentException("Motions for " + shape.getShapeID() + " are not "
-                + "continuous.");
-      }
-    }
-  }
+//  private void sortMoveList() {
+//    for (IMotion motion : moveList) {
+//      ReadOnlyIShape currentShape = motion.getShape();
+//
+//      // This is to add a new key to the hashmap
+//      if (sortedMoveList.get(currentShape) == null) {
+//        sortedMoveList.put(currentShape, new ArrayList<>());
+//        this.shapes.add(currentShape);
+//      }
+//
+//      // This is to add a starting motion to a specific key
+//      if (sortedMoveList.get(currentShape).isEmpty()) {
+//        sortedMoveList.get(currentShape).add(motion);
+//      } else {
+//        int size = sortedMoveList.get(currentShape).size();
+//        boolean isOverlapping = false;
+//
+//        // Are the motions overlapping?
+//        for (int i = 0; i < size; i++) {
+//          int motionStartTime = motion.getTStart();
+//          int motionEndTime = motion.getTEnd();
+//          int indexedMotionStart = sortedMoveList.get(currentShape).get(i).getTStart();
+//          int indexedMotionEnd = sortedMoveList.get(currentShape).get(i).getTEnd();
+//          if ((motionStartTime >= indexedMotionStart && motionStartTime < indexedMotionEnd)
+//                  || (motionEndTime > indexedMotionStart && motionEndTime <= indexedMotionEnd)
+//                  || (motionStartTime <= indexedMotionStart && motionEndTime >= indexedMotionEnd)) {
+//            isOverlapping = true;
+//            break;
+//          }
+//        }
+//
+//        if (isOverlapping) {
+//          throw new IllegalArgumentException("Overlapping moves for shape "
+//                  + currentShape.getShapeID() + ".");
+//        } else {
+//          sortedMoveList.get(currentShape).add(motion);
+//        }
+//      }
+//    }
+//
+//    this.bubbleSort();
+//
+//    for (ReadOnlyIShape shape : this.shapes) {
+//      if (!this.isContinuous(sortedMoveList.get(shape))) {
+//        throw new IllegalArgumentException("Motions for " + shape.getShapeID() + " are not "
+//                + "continuous.");
+//      }
+//    }
+//  }
 
   /**
    * Method bubble sort algorithm implemented normally used to sort the list based on start times.
@@ -340,5 +321,35 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
 
     return isConsistent;
+  }
+
+  @Override
+  public void setShapes(ArrayList<ReadOnlyIShape> shapes) {
+    this.shapes = shapes;
+  }
+
+  @Override
+  public void setMoveList(HashMap<ReadOnlyIShape, ArrayList<IMotion>> moveList) {
+    this.sortedMoveList = moveList;
+  }
+
+  @Override
+  public void setCanvasX(int canvasX) {
+    this.canvasX = canvasX;
+  }
+
+  @Override
+  public void setCanvasY(int canvasY) {
+    this.canvasY = canvasY;
+  }
+
+  @Override
+  public void setCanvasW(int canvasW) {
+    this.canvasW = canvasW;
+  }
+
+  @Override
+  public void setCanvasH(int canvasH) {
+    this.canvasH = canvasH;
   }
 }

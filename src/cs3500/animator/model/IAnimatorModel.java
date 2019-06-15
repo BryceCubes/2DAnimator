@@ -11,107 +11,42 @@ import cs3500.animator.model.shape.ReadOnlyIShape;
 /**
  * General Model to represent the shapes and motions for an animator application.
  */
-public interface IAnimatorModel {
+public interface IAnimatorModel extends ReadOnlyIAnimatorModel{
 
   /**
-   * Used to find a given shape based on its shapeid.
-   *
-   * @param shapeID name of given shape
-   * @return a shape with same name
+   * Sets the sorted list of shapes to the given ArrayList.
+   * @param shapes the list of shapes to set for the model
    */
-  ReadOnlyIShape findShape(String shapeID);
-
-  /**
-   * Gives the hashmap of motions.
-   *
-   * @return a hashmap of motiosn
-   */
-  HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> returnMotions();
+  void setShapes(ArrayList<ReadOnlyIShape> shapes);
 
 
   /**
-   * Method to return all the shapes the view will need to display.
-   *
-   * @param tick given tick to return shapes at time t
-   * @return an Arraylist of shapes that exist at time t
-   * @throws IllegalArgumentException if given tick is negative
+   * Sets the sorted HashMap of IMotions to the given HashMap.
+   * @param moveList A HashMap of ArrayLists of IMotions sorted by IShape keys
    */
-  ArrayList<ReadOnlyIShape> returnShapesAtTick(int tick) throws IllegalArgumentException;
+  void setMoveList(HashMap<ReadOnlyIShape, ArrayList<IMotion>> moveList);
 
   /**
-   * Provides a text representation of the motions.
-   *
-   * @return A string representing the motions
+   * Sets the canvasX to the given value.
+   * @param canvasX the x value to place the canvas
    */
-  String textViewMotions();
+  void setCanvasX(int canvasX);
 
   /**
-   * Adds a new shape to the hashmap without any motions attached.
-   *
-   * @param shape the given shape to be added to the hashmap
-   * @throws IllegalArgumentException if shape already exists
+   * Sets the canvasY to the given value.
+   * @param canvasY the y value to place the canvas
    */
-  void addShape(IShape shape) throws IllegalArgumentException;
+  void setCanvasY(int canvasY);
 
   /**
-   * Deletes a given shape from the hashmap thus wiping out all of the shapes motions and the shape
-   * itself.
-   *
-   * @param shapeID name of the given shape to be deleted
-   * @throws IllegalArgumentException when a shape with given shapeid doesn't exist
+   * Sets the canvasW to the given value.
+   * @param canvasW the width value to place the canvas
    */
-  void deleteShape(String shapeID) throws IllegalArgumentException;
+  void setCanvasW(int canvasW);
 
   /**
-   * Adds motion to the animation for an already existing shape.
-   *
-   * @param motion motion to be added to a shapes arraylist of motions
-   * @throws IllegalArgumentException when motion already exists for given time, if motion is
-   *                                  inconsistent, or disjoint
+   * Sets the canvasH to the given value.
+   * @param canvasH the width value to place the canvas
    */
-  void addMotion(IMotion motion) throws IllegalArgumentException;
-
-  /**
-   * Deletes a given motion for a given shape.
-   *
-   * @param motion motion to be deleted from a given shape
-   * @throws IllegalArgumentException when given shape doesnt exist or given motion for shape
-   *                                  does not exist
-   */
-  void deleteMotion(IMotion motion) throws IllegalArgumentException;
-
-  /**
-   * Generates the list of keys used to iterate through the hashmap of motions.
-   *
-   * @return the list of keys of all shapes in the model
-   */
-  ArrayList<ReadOnlyIShape> returnShapes();
-
-  /**
-   * Gets the x value of the top left of the canvas frame.
-   *
-   * @return The x value of the top left of the canvas frame
-   */
-  int getCanvasX();
-
-  /**
-   * Gets the y value of the top left of the canvas frame.
-   *
-   * @return The y value of the top left of the canvas frame
-   */
-  int getCanvasY();
-
-  /**
-   * Gets the width value of the canvas.
-   *
-   * @return the width value of the canvas
-   */
-  int getCanvasW();
-
-  /**
-   * Gets the height of the canvas.
-   *
-   * @return the height value of the canvas
-   */
-  int getCanvasH();
+  void setCanvasH(int canvasH);
 }
