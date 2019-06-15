@@ -129,7 +129,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   public ReadOnlyIShape findShape(String shapeID) {
     ReadOnlyIShape returnShape = null;
 
-    for (ReadOnlyIShape shape : this.shapes) {
+    for (IShape shape : this.shapes) {
       if (shapeID.equals(shape.getShapeID())) {
         returnShape = shape;
       }
@@ -230,7 +230,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   @Override
   public void addMotion(IMotion motion) {
     boolean doesShapeExist = false;
-    ReadOnlyIShape currentShape = motion.getShape();
+    IShape currentShape = motion.getShape();
     String shapeName = currentShape.getShapeID();
 
     for (IShape shape : this.shapes) {
@@ -257,7 +257,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   @Override
   public void deleteMotion(IMotion motion) {
     boolean doesShapeExist = false;
-    ReadOnlyIShape currentShape = motion.getShape();
+    IShape currentShape = motion.getShape();
     String shapeName = currentShape.getShapeID();
 
     for (IShape shape : this.shapes) {
@@ -286,7 +286,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   @Override
   public ArrayList<ReadOnlyIShape> returnShapes() {
-    ReadOnlyIShape currentShape;
+    IShape currentShape;
     ArrayList<ReadOnlyIShape> newShapes = new ArrayList<>();
     for (IShape shape : this.shapes) {
       currentShape = shape;
