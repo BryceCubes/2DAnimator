@@ -1,23 +1,19 @@
 package cs3500.animator.view.visual;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
+
 
 import javax.swing.*;
 
 import cs3500.animator.model.IAnimatorModel;
-import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.view.IAnimatorView;
 
 public class AnimationView extends JFrame implements IAnimatorView {
-  AnimationPanel panel;
-  JScrollPane scrollPane;
-  IAnimatorModel model;
-  Timer timer;
-  int tick;
+  private AnimationPanel panel;
+  private JScrollPane scrollPane;
+  private IAnimatorModel model;
+  private Timer timer;
+  private int tick;
 
   public AnimationView(IAnimatorModel model){
     super();
@@ -25,7 +21,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
     this.model = model;
 
     //TODO: 1500?
-    timer = new Timer(1500, e -> animate());
+    timer = new Timer(1000, e -> animate());
 
     panel = new AnimationPanel();
     panel.setMinimumSize( new Dimension(500,500));

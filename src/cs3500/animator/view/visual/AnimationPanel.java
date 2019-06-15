@@ -24,7 +24,7 @@ public class AnimationPanel extends JPanel implements IAnimationPanel {
         g.setColor(newColor);
         if(shape.getShapeTypeAsString().equals("rectangle")) {
           g.fillRect((int)shape.getXPos(),(int)shape.getYPos(),(int)shape.getWidth(), (int)shape.getHeight());
-        } else {
+        } else { //TODO: some error checking needed here
           g.fillOval((int)shape.getXPos(),(int)shape.getYPos(),(int)shape.getWidth(), (int)shape.getHeight());
         }
       }
