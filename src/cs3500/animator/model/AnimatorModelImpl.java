@@ -26,24 +26,9 @@ public class AnimatorModelImpl implements IAnimatorModel {
    * Constructor used to create an animator model. We don't allow a null movelist to be passed
    * because that would mess up our model.
    */
-  public AnimatorModelImpl(ArrayList<IMotion> moveList, int canvasX, int canvasY, int canvasW,
-                           int canvasH) {
-    if (moveList == null || moveList.isEmpty()) {
-      throw new IllegalArgumentException("Move list cannot be null.");
-    }
-    if (canvasX < 0 || canvasY < 0) {
-      throw new IllegalArgumentException("The canvas xy coordinate cannot be negative.");
-    }
-    if (canvasW < 1 || canvasH < 1) {
-      throw new IllegalArgumentException("The canvas width and height cannot be less than 1.");
-    }
-    this.shapes = new ArrayList<>();
-    this.sortedMoveList = new HashMap<>();
-    this.canvasX = canvasX;
-    this.canvasY = canvasY;
-    this.canvasW = canvasW;
-    this.canvasH = canvasH;
+  AnimatorModelImpl() {
   }
+  //TODO: delete
 
   @Override
   public ReadOnlyIShape findShape(String shapeID) {
@@ -353,7 +338,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   @Override
   public void setCanvasW(int canvasW) {
-    this.canvasY = canvasW;
+    this.canvasW = canvasW;
   }
 
   @Override
