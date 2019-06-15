@@ -9,7 +9,7 @@ public interface IMotion extends ReadOnlyIMotion {
   /**
    * Mutates the shape associated with the given motion at the time t given by the tick.
    */
-  void interpolate(int tick);
+  IShape interpolate(int tick);
 
   /**
    * Method used to return a shape object associated with a given motion.
@@ -17,4 +17,5 @@ public interface IMotion extends ReadOnlyIMotion {
    * @return an IShape associated with the given motion
    */
   IShape getShape();
+  // Added this to IMotion because it gives and IShape which can be mutated.
 }

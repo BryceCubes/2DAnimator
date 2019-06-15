@@ -6,8 +6,12 @@ import java.util.HashMap;
 
 import cs3500.animator.model.motion.IMotion;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
+import cs3500.animator.model.motion.ShapeMotion;
+import cs3500.animator.model.shape.AShape;
 import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;
+import cs3500.animator.model.shape.ShapeType;
+import cs3500.animator.util.AnimationBuilder;
 
 /**
  * Animator model implementation that contains the representations of shapes and their animation
@@ -23,10 +27,103 @@ public class AnimatorModelImpl implements IAnimatorModel {
   private int canvasH;
 
   /**
-   * Constructor used to create an animator model. We don't allow a null movelist to be passed
-   * because that would mess up our model.
+   * Base constructor used to initialize the variables
    */
-  public AnimatorModelImpl() {
+  private AnimatorModelImpl() {
+    this.shapes = new ArrayList<>();
+    this.sortedMoveList = new HashMap<>();
+  }
+
+  /**
+   * Constructor used to create an animator model.
+   */
+  public static final class Builder implements AnimationBuilder<IAnimatorModel> {
+    IAnimatorModel model;
+    int x;
+    int y;
+    int width;
+    int height;
+    ArrayList<IMotion> listOfMotions;
+    ArrayList<IShape> listOfShapes;
+
+    @Override
+    public IAnimatorModel build() {
+      model = new AnimatorModelImpl();
+
+      for (IShape shape : this.listOfShapes) {
+        model.addShape(shape);
+      }
+
+      for (IMotion motion: this.listOfMotions) {
+        model.addMotion(motion);
+      }
+
+      return model;
+    }
+
+    @Override
+    public AnimationBuilder setBounds(int x, int y, int width, int height) {
+      this.x = x;
+      this.y = y;
+      this.width = width;
+      this.height = height;
+
+      return this;
+    }
+
+    @Override
+    public AnimationBuilder declareShape(String name, String type) {
+      boolean doesShapeExist = false;
+      for (ReadOnlyIShape shape : this.listOfShapes) {
+        if (name.equals(shape.getShapeID())) {
+          doesShapeExist = true;
+          break;
+        }
+      }
+
+      IShape newShape;
+
+      if (doesShapeExist) {
+        throw new IllegalArgumentException("Shape with name already exists.");
+      } else if (type.equalsIgnoreCase("rectangle")) {
+        newShape = new AShape(name, ShapeType.RECTANGLE);
+      } else if (type.equalsIgnoreCase("ellipse")) {
+        newShape = new AShape(name, ShapeType.ELLIPSE);
+      } else {
+        throw new IllegalArgumentException("Not a valid shape type.");
+      }
+
+      this.listOfShapes.add(newShape);
+      return this;
+    }
+
+    @Override
+    public AnimationBuilder addMotion(String name, int t1, int x1, int y1, int w1, int h1, int r1,
+                                      int g1, int b1, int t2, int x2, int y2, int w2, int h2,
+                                      int r2, int g2, int b2) {
+      boolean doesShapeExist = false;
+      IShape currentShape = null;
+      for (IShape shape : this.listOfShapes) {
+        if (name.equals(shape.getShapeID())) {
+          doesShapeExist = true;
+          currentShape = shape;
+          break;
+        }
+      }
+
+      if (doesShapeExist) {
+        model.addMotion(new ShapeMotion(currentShape, x1, y1, w1, h1, r1, g1, b1, x2, y2, w2, h2,
+                r2, g2, b2, t1, t2));
+      }
+
+      return this;
+    }
+
+    @Override
+    public AnimationBuilder addKeyframe(String name, int t, int x, int y, int w, int h, int r,
+                                        int g, int b) {
+      return null;
+    }
   }
 
   @Override
@@ -69,7 +166,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     for (IShape shape : this.shapes) {
       for (IMotion motion : this.sortedMoveList.get(shape)) {
         if (motion.getTStart() <= tick && motion.getTEnd() >= tick) {
-          shapesAtTick.add(motion.getShape());
+          shapesAtTick.add(motion.interpolate(tick));
           break;
         }
       }
@@ -220,56 +317,6 @@ public class AnimatorModelImpl implements IAnimatorModel {
     return this.canvasH;
   }
   //Added so that could access and iterate through all of the data in the view
-
-//  private void sortMoveList() {
-//    for (IMotion motion : moveList) {
-//      ReadOnlyIShape currentShape = motion.getShape();
-//
-//      // This is to add a new key to the hashmap
-//      if (sortedMoveList.get(currentShape) == null) {
-//        sortedMoveList.put(currentShape, new ArrayList<>());
-//        this.shapes.add(currentShape);
-//      }
-//
-//      // This is to add a starting motion to a specific key
-//      if (sortedMoveList.get(currentShape).isEmpty()) {
-//        sortedMoveList.get(currentShape).add(motion);
-//      } else {
-//        int size = sortedMoveList.get(currentShape).size();
-//        boolean isOverlapping = false;
-//
-//        // Are the motions overlapping?
-//        for (int i = 0; i < size; i++) {
-//          int motionStartTime = motion.getTStart();
-//          int motionEndTime = motion.getTEnd();
-//          int indexedMotionStart = sortedMoveList.get(currentShape).get(i).getTStart();
-//          int indexedMotionEnd = sortedMoveList.get(currentShape).get(i).getTEnd();
-//          if ((motionStartTime >= indexedMotionStart && motionStartTime < indexedMotionEnd)
-//                  || (motionEndTime > indexedMotionStart && motionEndTime <= indexedMotionEnd)
-//                  || (motionStartTime <= indexedMotionStart && motionEndTime >= indexedMotionEnd)) {
-//            isOverlapping = true;
-//            break;
-//          }
-//        }
-//
-//        if (isOverlapping) {
-//          throw new IllegalArgumentException("Overlapping moves for shape "
-//                  + currentShape.getShapeID() + ".");
-//        } else {
-//          sortedMoveList.get(currentShape).add(motion);
-//        }
-//      }
-//    }
-//
-//    this.bubbleSort();
-//
-//    for (ReadOnlyIShape shape : this.shapes) {
-//      if (!this.isContinuous(sortedMoveList.get(shape))) {
-//        throw new IllegalArgumentException("Motions for " + shape.getShapeID() + " are not "
-//                + "continuous.");
-//      }
-//    }
-//  }
 
   /**
    * Method bubble sort algorithm implemented normally used to sort the list based on start times.
