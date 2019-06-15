@@ -43,8 +43,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
     int y;
     int width;
     int height;
-    ArrayList<IMotion> listOfMotions;
-    ArrayList<IShape> listOfShapes;
+    ArrayList<IMotion> listOfMotions = new ArrayList<>();
+    ArrayList<IShape> listOfShapes = new ArrayList<>();
 
     @Override
     public AnimatorModelImpl build() {
@@ -109,18 +109,20 @@ public class AnimatorModelImpl implements IAnimatorModel {
                                                       int h1, int r1, int g1, int b1, int t2,
                                                       int x2, int y2, int w2, int h2, int r2,
                                                       int g2, int b2) {
-      boolean doesShapeExist = false;
       IShape currentShape = null;
       for (IShape shape : this.listOfShapes) {
-        if (name.equals(shape.getShapeID())) {
-          doesShapeExist = true;
+        if (shape == null) {
+          break;
+        } if (name.equals(shape.getShapeID())) {
           currentShape = shape;
           break;
         }
       }
 
-      if (doesShapeExist) {
-        model.addMotion(new ShapeMotion(currentShape, x1, y1, w1, h1, r1, g1, b1, x2, y2, w2, h2,
+      if (currentShape == null) {
+        throw new IllegalArgumentException("Given shape does not exist.");
+      } else {
+        listOfMotions.add(new ShapeMotion(currentShape, x1, y1, w1, h1, r1, g1, b1, x2, y2, w2, h2,
                 r2, g2, b2, t1, t2));
       }
 
