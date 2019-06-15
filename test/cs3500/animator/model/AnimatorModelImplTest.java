@@ -9,6 +9,7 @@ import cs3500.animator.util.AnimationBuilder;
 
 import org.junit.Test;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -18,7 +19,6 @@ import static org.junit.Assert.assertEquals;
  * Class used to test our animator model.
  */
 public class AnimatorModelImplTest {
-  IAnimatorModel bob = new AnimatorModelImpl.Builder().setBounds(1, 2, 3, 4).declareShape("bob", "rectangle").addMotion("bob", 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7).build();
   // rectangle with basic movements
   private IShape frectangle;
 
@@ -50,7 +50,9 @@ public class AnimatorModelImplTest {
   private IMotion fredOverlap;
   private IMotion ethanDisjoint;
 
-  private AnimatorModelImpl model;
+  private AnimationBuilder builder;
+
+  private IAnimatorModel model;
 
 
   private void setTest() {
@@ -132,26 +134,51 @@ public class AnimatorModelImplTest {
 
 
     // Making the model and adding all shapes and motions
-    model = new AnimatorModelImpl();
-
-    model.addShape(frectangle);
-    model.addShape(amyOval);
-    model.addShape(ethanCircle);
-
-    model.addMotion(ethanColorChanges);
-    model.addMotion(fredMoveLeft);
-    model.addMotion(fredMoveDown);
-    model.addMotion(amyGrowTall);
-    model.addMotion(amyShrinkWidth);
-    model.addMotion(fredMoveRight);
-    model.addMotion(amyGrowWide);
-    model.addMotion(fredMoveUpRight);
-    model.addMotion(amyShrinkHeight);
-    model.addMotion(fredMoveDownLeft);
-    model.addMotion(amyScaleDown);
-    model.addMotion(amyScaleUp);
-    model.addMotion(fredMoveUp);
-    model.addMotion(ethanAllChanges);
+    builder = new AnimatorModelImpl.Builder();
+    model = builder.declareShape("Fred", "RecTanGle")
+            .declareShape("Amy", "ellipse")
+            .declareShape("Ethan", "ELLIPSE")
+            .addMotion("Ethan", 30, 25, 25, 15, 15, 120,
+                    180, 95, 60, 40, 15, 20, 30,
+                    180, 120, 230)
+            .addMotion("Ethan", 0, 25, 25, 15, 15, 180,
+                    120, 230, 30, 25, 25, 15, 15,
+                    120, 180, 95)
+            .addMotion("Amy", 125, 50, 50, 20, 30, 0,
+                    100, 255, 150, 50, 50, 10, 20,
+                    0, 100, 255)
+            .addMotion("Amy", 100, 50, 50, 30, 30, 0,
+                    100, 255, 125, 50, 50, 20, 30, 0, 100, 255)
+            .addMotion("Amy", 75, 50, 50, 30, 35, 0,
+                    100, 255, 100, 50, 50, 30, 30,
+                    0, 100, 255)
+            .addMotion("Amy", 50, 50, 50, 20, 25, 0,
+                    100, 255, 75, 50, 50, 30, 35,
+                    0, 100, 255)
+            .addMotion("Amy", 25, 50, 50, 10, 25, 0,
+                    100, 255, 50, 50, 50, 20, 25,
+                    0, 100, 255)
+            .addMotion("Amy", 0, 50, 50, 10, 20, 0,
+                    100, 255, 25, 50, 50, 10, 25,
+                    0, 100, 255)
+            .addMotion("Fred", 50, 15, 5, 5, 5, 255,
+                    150, 10, 60, 10, 20, 5, 5,
+                    255, 150, 10)
+            .addMotion("Fred", 40, 5, 15, 5, 5, 255,
+                    150, 10, 50, 15, 5, 5, 5,
+                    255, 150, 10)
+            .addMotion("Fred", 5, 5, 5, 5, 255,
+                    150, 10, 5, 15, 5, 5, 255, 150, 10,
+                    30, 40)
+            .addMotion("Fred", 20, 5, 10, 5, 5, 255,
+                    150, 10, 30, 5, 5, 5, 5,
+                    255, 150, 10)
+            .addMotion("Fred", 10, 15, 10, 5, 5, 255,
+                    150, 10, 20, 5, 10, 5, 5,
+                    255, 150, 10)
+            .addMotion("Fred", 0, 10, 10, 5, 5, 255,
+                    150, 10, 10, 15, 10, 5, 5,
+                    255, 150, 10).build();
 
   }
 
@@ -211,41 +238,55 @@ public class AnimatorModelImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void testOverlapStart() {
     setTest();
-    IAnimatorModel badModel = new AnimatorModelImpl();
-    badModel.addShape(frectangle);
-    badModel.addMotion(fredMoveRight);
-    badModel.addMotion(fredBadStart); // starts before previous motion finishes
+    builder.declareShape("Fred", "Rectangle")
+            .addMotion("Fred", 0, 10, 10, 5, 5, 255,
+                    150, 10, 10, 15, 10, 5, 5,
+                    255, 150, 10)
+            .addMotion("Fred", 9, 15, 10, 5, 5, 255,
+                    150, 10, 20, 5, 10, 5, 5,
+                    255, 150, 10).build();
   }
 
   // test that an exception is thrown when the end tick overlaps
   @Test(expected = IllegalArgumentException.class)
   public void testOverlapEnd() {
     setTest();
-    IAnimatorModel badModel = new AnimatorModelImpl();
-    badModel.addShape(amyOval);
-    badModel.addMotion(amyGrowTall);
-    badModel.addMotion(amyBadEnd); // ends after the following motion
-    badModel.addMotion(amyScaleUp);
+    builder.declareShape("Amy", "ellipse")
+            .addMotion("Amy", 0, 50, 50, 10, 20, 0,
+                    100, 255, 25, 50, 50, 10, 25,
+                    0, 100, 255)
+            .addMotion("Amy", 25, 50, 50, 10, 25, 0,
+                    100, 255, 51, 50, 50, 20, 25,
+                    0, 100, 255)
+            .addMotion("Amy", 50, 50, 50, 20, 25, 0,
+                    100, 255, 75, 50, 50, 30, 35,
+                    0, 100, 255).build();
   }
 
   // test that an exception is thrown when one motion encompasses another
   @Test(expected = IllegalArgumentException.class)
   public void testOverlapAll() {
     setTest();
-    IAnimatorModel badModel = new AnimatorModelImpl();
-    badModel.addShape(frectangle);
-    badModel.addMotion(fredMoveLeft);
-    badModel.addMotion(fredOverlap); // starts before and ends after previous
+    builder.declareShape("Fred", "Rectangle")
+            .addMotion("Fred", 20, 5, 10, 5, 5, 255,
+                    150, 10, 30, 5, 5, 5, 5,
+                    255, 150, 10)
+            .addMotion("Fred", 5, 15, 10, 5, 5, 255,
+                    150, 10, 25, 5, 10, 5, 5,
+                    255, 150, 10).build();
   }
 
-  // test that an exception is thrown when one motion encompasses another
+  // test that an exception is thrown if the motions are not continuous
   @Test(expected = IllegalArgumentException.class)
   public void testDisjoint() {
     setTest();
-    IAnimatorModel badModel = new AnimatorModelImpl();
-    badModel.addShape(ethanCircle);
-    badModel.addMotion(ethanColorChanges);
-    badModel.addMotion(ethanDisjoint); // ends 1 after the previous
+    builder.declareShape("Ethan", "ellipse")
+            .addMotion("Ethan", 0, 25, 25, 15, 15, 180,
+                    120, 230, 30, 25, 25, 15, 15,
+                    120, 180, 95)
+            .addMotion("Ethan", 31, 25, 25, 15, 15, 120,
+                    180, 95, 60, 40, 15, 20, 30,
+                    180, 120, 230).build();
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -322,21 +363,21 @@ public class AnimatorModelImplTest {
     setTest();
     model.deleteMotion(fredMoveDownLeft);
     assertEquals("shape Ethan ellipse\n" +
-            "motion Ethan 0 25 25 15 15 180 120 230    30 25 25 15 15 120 180 95\n" +
-            "motion Ethan 30 25 25 15 15 120 180 95    60 40 15 20 30 180 120 230\n" +
-            "shape Fred rectangle\n" +
-            "motion Fred 0 10 10 5 5 255 150 10    10 15 10 5 5 255 150 10\n" +
-            "motion Fred 10 15 10 5 5 255 150 10    20 5 10 5 5 255 150 10\n" +
-            "motion Fred 20 5 10 5 5 255 150 10    30 5 5 5 5 255 150 10\n" +
-            "motion Fred 30 5 5 5 5 255 150 10    40 5 15 5 5 255 150 10\n" +
-            "motion Fred 40 5 15 5 5 255 150 10    50 15 5 5 5 255 150 10\n" +
-            "shape Amy ellipse\n" +
-            "motion Amy 0 50 50 10 20 0 100 255    25 50 50 10 25 0 100 255\n" +
-            "motion Amy 25 50 50 10 25 0 100 255    50 50 50 20 25 0 100 255\n" +
-            "motion Amy 50 50 50 20 25 0 100 255    75 50 50 30 35 0 100 255\n" +
-            "motion Amy 75 50 50 30 35 0 100 255    100 50 50 30 30 0 100 255\n" +
-            "motion Amy 100 50 50 30 30 0 100 255    125 50 50 20 30 0 100 255\n" +
-            "motion Amy 125 50 50 20 30 0 100 255    150 50 50 10 20 0 100 255\n" ,
+                    "motion Ethan 0 25 25 15 15 180 120 230    30 25 25 15 15 120 180 95\n" +
+                    "motion Ethan 30 25 25 15 15 120 180 95    60 40 15 20 30 180 120 230\n" +
+                    "shape Fred rectangle\n" +
+                    "motion Fred 0 10 10 5 5 255 150 10    10 15 10 5 5 255 150 10\n" +
+                    "motion Fred 10 15 10 5 5 255 150 10    20 5 10 5 5 255 150 10\n" +
+                    "motion Fred 20 5 10 5 5 255 150 10    30 5 5 5 5 255 150 10\n" +
+                    "motion Fred 30 5 5 5 5 255 150 10    40 5 15 5 5 255 150 10\n" +
+                    "motion Fred 40 5 15 5 5 255 150 10    50 15 5 5 5 255 150 10\n" +
+                    "shape Amy ellipse\n" +
+                    "motion Amy 0 50 50 10 20 0 100 255    25 50 50 10 25 0 100 255\n" +
+                    "motion Amy 25 50 50 10 25 0 100 255    50 50 50 20 25 0 100 255\n" +
+                    "motion Amy 50 50 50 20 25 0 100 255    75 50 50 30 35 0 100 255\n" +
+                    "motion Amy 75 50 50 30 35 0 100 255    100 50 50 30 30 0 100 255\n" +
+                    "motion Amy 100 50 50 30 30 0 100 255    125 50 50 20 30 0 100 255\n" +
+                    "motion Amy 125 50 50 20 30 0 100 255    150 50 50 10 20 0 100 255\n",
             model.textViewMotions());
   }
 
@@ -344,7 +385,7 @@ public class AnimatorModelImplTest {
   public void getMotionsTest() {
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void negativeTickGetShapes() {
     setTest();
     model.returnShapesAtTick(-1);
