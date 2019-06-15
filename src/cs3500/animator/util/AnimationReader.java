@@ -28,10 +28,10 @@ public class AnimationReader {
    *
    * @param readable The source of data for the animation
    * @param builder  A builder for helping to construct a new animation
-   * @param <Doc>    The main model interface type describing animations
+   * @param <IAnimatorModel>    The main model interface type describing animations
    * @return
    */
-  public static <Doc> Doc parseFile(Readable readable, AnimationBuilder<Doc> builder) {
+  public static <IAnimatorModel> IAnimatorModel parseFile(Readable readable, AnimationBuilder<IAnimatorModel> builder) {
     Objects.requireNonNull(readable, "Must have non-null readable source");
     Objects.requireNonNull(builder, "Must provide a non-null AnimationBuilder");
     Scanner s = new Scanner(readable);
@@ -53,10 +53,10 @@ public class AnimationReader {
           throw new IllegalStateException("Unexpected keyword: " + word + s.nextLine());
       }
     }
-    return builder.build();
+    return (IAnimatorModel) builder.build();
   }
 
-  private static <Doc> void readCanvas(Scanner s, AnimationBuilder<Doc> builder) {
+  private static <IAnimatorModel> void readCanvas(Scanner s, AnimationBuilder<IAnimatorModel> builder) {
     int[] vals = new int[4];
     String[] fieldNames = {"left", "top", "width", "height"};
     for (int i = 0; i < 4; i++) {
@@ -65,7 +65,7 @@ public class AnimationReader {
     builder.setBounds(vals[0], vals[1], vals[2], vals[3]);
   }
 
-  private static <Doc> void readShape(Scanner s, AnimationBuilder<Doc> builder) {
+  private static <IAnimatorModel> void readShape(Scanner s, AnimationBuilder<IAnimatorModel> builder) {
     String name;
     String type;
     if (s.hasNext()) {
@@ -81,7 +81,7 @@ public class AnimationReader {
     builder.declareShape(name, type);
   }
 
-  private static <Doc> void readMotion(Scanner s, AnimationBuilder<Doc> builder) {
+  private static <IAnimatorModel> void readMotion(Scanner s, AnimationBuilder<IAnimatorModel> builder) {
     String[] fieldNames = new String[]{
       "initial time",
       "initial x-coordinate", "initial y-coordinate",
