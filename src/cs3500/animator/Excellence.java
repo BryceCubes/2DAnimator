@@ -1,5 +1,7 @@
 package cs3500.animator;
 
+import com.sun.org.apache.xpath.internal.operations.String;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -33,7 +35,7 @@ public class Excellence {
             while(sc.hasNextLine()){
               input += sc.nextLine();
             }
-            in = in.append(input);
+            in = new StringReader(input);
           } catch (IOException e) {
             throw new IllegalArgumentException("Could not find given input file.");
           }
