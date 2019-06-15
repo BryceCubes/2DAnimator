@@ -113,7 +113,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   @Override
-  public void addShape(IShape shape) {
+  public void addShape(ReadOnlyIShape shape) {
     boolean doesShapeExist = false;
     String shapeName = null;
 
