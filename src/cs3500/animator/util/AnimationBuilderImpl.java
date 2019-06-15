@@ -32,6 +32,11 @@ public class AnimationBuilderImpl implements AnimationBuilder {
       model.addMotion(motion);
     }
 
+    model.setCanvasX(this.x);
+    model.setCanvasY(this.y);
+    model.setCanvasW(this.width);
+    model.setCanvasH(this.height);
+
     return this.model;
   }
 

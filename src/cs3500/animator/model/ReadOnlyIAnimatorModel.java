@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import cs3500.animator.model.motion.IMotion;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
+import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 
 public interface ReadOnlyIAnimatorModel {
@@ -47,7 +48,7 @@ public interface ReadOnlyIAnimatorModel {
    * @param shape the given shape to be added to the hashmap
    * @throws IllegalArgumentException if shape already exists
    */
-  void addShape(ReadOnlyIShape shape) throws IllegalArgumentException;
+  void addShape(IShape shape) throws IllegalArgumentException;
 
   /**
    * Deletes a given shape from the hashmap thus wiping out all of the shapes motions and the shape

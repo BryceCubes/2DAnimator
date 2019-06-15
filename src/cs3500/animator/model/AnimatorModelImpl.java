@@ -15,8 +15,8 @@ import cs3500.animator.model.shape.ReadOnlyIShape;
  */
 public class AnimatorModelImpl implements IAnimatorModel {
 
-  private ArrayList<ReadOnlyIShape> shapes;
-  private HashMap<ReadOnlyIShape, ArrayList<IMotion>> sortedMoveList;
+  private ArrayList<IShape> shapes;
+  private HashMap<IShape, ArrayList<IMotion>> sortedMoveList;
   private int canvasX;
   private int canvasY;
   private int canvasW;
@@ -26,9 +26,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
    * Constructor used to create an animator model. We don't allow a null movelist to be passed
    * because that would mess up our model.
    */
-  AnimatorModelImpl() {
+  public AnimatorModelImpl() {
   }
-  //TODO: delete
 
   @Override
   public ReadOnlyIShape findShape(String shapeID) {
@@ -321,16 +320,6 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
 
     return isConsistent;
-  }
-
-  @Override
-  public void setShapes(ArrayList<ReadOnlyIShape> shapes) {
-    this.shapes = shapes;
-  }
-
-  @Override
-  public void setMoveList(HashMap<ReadOnlyIShape, ArrayList<IMotion>> moveList) {
-    this.sortedMoveList = moveList;
   }
 
   @Override

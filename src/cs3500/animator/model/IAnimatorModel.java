@@ -12,20 +12,6 @@ import cs3500.animator.model.shape.ReadOnlyIShape;
  * General Model to represent the shapes and motions for an animator application.
  */
 public interface IAnimatorModel extends ReadOnlyIAnimatorModel{
-
-  /**
-   * Sets the sorted list of shapes to the given ArrayList.
-   * @param shapes the list of shapes to set for the model
-   */
-  void setShapes(ArrayList<ReadOnlyIShape> shapes);
-
-
-  /**
-   * Sets the sorted HashMap of IMotions to the given HashMap.
-   * @param moveList A HashMap of ArrayLists of IMotions sorted by IShape keys
-   */
-  void setMoveList(HashMap<ReadOnlyIShape, ArrayList<IMotion>> moveList);
-
   /**
    * Sets the canvasX to the given value.
    * @param canvasX the x value to place the canvas
