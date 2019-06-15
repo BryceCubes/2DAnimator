@@ -2,7 +2,7 @@ package cs3500.animator.util;
 
 import cs3500.animator.model.IAnimatorModel;
 
-public interface AnimationBuilder<Doc> {
+public interface AnimationBuilder<IAnimatorModel> {
   /**
    * Constructs a final document.
    * @return the newly constructed document

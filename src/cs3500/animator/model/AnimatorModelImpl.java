@@ -62,7 +62,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
 
     @Override
-    public AnimationBuilder setBounds(int x, int y, int width, int height) {
+    public AnimationBuilder<IAnimatorModel> setBounds(int x, int y, int width, int height) {
       if (x < 0 || y < 0) {
         throw new IllegalArgumentException("The xy coordinate of the frame cannot be negative.");
       } else if (width < 1 || height < 1) {
@@ -77,7 +77,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
 
     @Override
-    public AnimationBuilder declareShape(String name, String type) {
+    public AnimationBuilder<IAnimatorModel> declareShape(String name, String type) {
       boolean doesShapeExist = false;
       for (ReadOnlyIShape shape : this.listOfShapes) {
         if (name.equals(shape.getShapeID())) {
@@ -103,7 +103,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
 
     @Override
-    public AnimationBuilder addMotion(String name, int t1, int x1, int y1, int w1, int h1, int r1,
+    public AnimationBuilder<IAnimatorModel> addMotion(String name, int t1, int x1, int y1, int w1, int h1, int r1,
                                       int g1, int b1, int t2, int x2, int y2, int w2, int h2,
                                       int r2, int g2, int b2) {
       boolean doesShapeExist = false;
