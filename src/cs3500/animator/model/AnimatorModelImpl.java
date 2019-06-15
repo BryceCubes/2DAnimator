@@ -268,14 +268,15 @@ public class AnimatorModelImpl implements IAnimatorModel {
     for (IShape shape : this.shapes) {
       if (shapeName.equals(shape.getShapeID())) {
         doesShapeExist = true;
-        int index = -1;
+        int index = 0;
         IMotion possibility = null;
 
         for (IMotion mot : this.sortedMoveList.get(shape)) {
-          index++;
-          if (mot.equals(motion)) {
+          if (equalMotions(mot, motion)) {
             possibility = motion;
+            break;
           }
+          index++;
         }
         if (possibility == null) {
           throw new IllegalArgumentException("Given motion for given shape does not exist.");
@@ -294,6 +295,17 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Shape given does not exist.");
     }
   }
+
+  private boolean equalMotions(IMotion mot, IMotion motion) {
+    return mot.getShape().getShapeID().equals(motion.getShape().getShapeID())
+            && mot.getTStart() == motion.getTStart()
+            && mot.getTEnd() == motion.getTEnd()
+            && mot.getXStart() == motion.getXStart()
+            && mot.getXEnd() == motion.getXEnd();
+    //TODO: finish this
+  }
+
+
   // Added so that we could offer additional functionality to the commands
 
   @Override
@@ -379,6 +391,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
     return isConsistent;
   }
+
 
   @Override
   public void setCanvasX(int canvasX) {
