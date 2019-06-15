@@ -38,7 +38,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
    * Constructor used to create an animator model.
    */
   public static final class Builder implements AnimationBuilder<IAnimatorModel> {
-    IAnimatorModel model;
+    AnimatorModelImpl model;
     int x;
     int y;
     int width;
@@ -47,7 +47,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     ArrayList<IShape> listOfShapes;
 
     @Override
-    public IAnimatorModel build() {
+    public AnimatorModelImpl build() {
       model = new AnimatorModelImpl();
 
       for (IShape shape : this.listOfShapes) {
