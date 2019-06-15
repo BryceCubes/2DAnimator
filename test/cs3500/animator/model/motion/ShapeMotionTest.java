@@ -12,8 +12,7 @@ import static org.junit.Assert.assertEquals;
  * Tests for the shapemotion class.
  */
 public class ShapeMotionTest {
-  private IShape frectangle = new AShape("Fred", ShapeType.RECTANGLE, 10.0, 10.0, 5.0, 5.0,
-          255, 150, 10);
+  private IShape frectangle = new AShape("Fred", ShapeType.RECTANGLE);
   private IMotion fredMoveRight = new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
           150, 10, 15, 10, 5, 5, 255, 150, 10,
           0, 10);
