@@ -5,6 +5,7 @@ import cs3500.animator.model.motion.ShapeMotion;
 import cs3500.animator.model.shape.AShape;
 import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ShapeType;
+import cs3500.animator.util.AnimationBuilder;
 
 import org.junit.Test;
 
@@ -17,6 +18,7 @@ import static org.junit.Assert.assertEquals;
  * Class used to test our animator model.
  */
 public class AnimatorModelImplTest {
+  IAnimatorModel bob = new AnimatorModelImpl.Builder().setBounds(1, 2, 3, 4).declareShape("bob", "rectangle").addMotion("bob", 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7).build();
   // rectangle with basic movements
   private IShape frectangle;
 

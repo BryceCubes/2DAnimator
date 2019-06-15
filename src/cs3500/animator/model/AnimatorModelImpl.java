@@ -37,7 +37,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   /**
    * Constructor used to create an animator model.
    */
-  public static final class AnimationModelBuilder implements AnimationBuilder<IAnimatorModel> {
+  public static final class Builder implements AnimationBuilder<IAnimatorModel> {
     IAnimatorModel model;
     int x;
     int y;
