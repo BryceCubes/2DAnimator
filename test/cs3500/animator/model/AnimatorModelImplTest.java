@@ -50,8 +50,6 @@ public class AnimatorModelImplTest {
   private IMotion fredOverlap;
   private IMotion ethanDisjoint;
 
-  private AnimationBuilder builder;
-
   private IAnimatorModel model;
 
 
@@ -134,8 +132,7 @@ public class AnimatorModelImplTest {
 
 
     // Making the model and adding all shapes and motions
-    builder = new AnimatorModelImpl.Builder();
-    model = builder.declareShape("Fred", "RecTanGle")
+    model = new AnimatorModelImpl.Builder().declareShape("Fred", "RecTanGle")
             .declareShape("Amy", "ellipse")
             .declareShape("Ethan", "ELLIPSE")
             .addMotion("Ethan", 30, 25, 25, 15, 15, 120,
@@ -238,7 +235,7 @@ public class AnimatorModelImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void testOverlapStart() {
     setTest();
-    builder.declareShape("Fred", "Rectangle")
+    new AnimatorModelImpl.Builder().declareShape("Fred", "Rectangle")
             .addMotion("Fred", 0, 10, 10, 5, 5, 255,
                     150, 10, 10, 15, 10, 5, 5,
                     255, 150, 10)
@@ -251,7 +248,7 @@ public class AnimatorModelImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void testOverlapEnd() {
     setTest();
-    builder.declareShape("Amy", "ellipse")
+    new AnimatorModelImpl.Builder().declareShape("Amy", "ellipse")
             .addMotion("Amy", 0, 50, 50, 10, 20, 0,
                     100, 255, 25, 50, 50, 10, 25,
                     0, 100, 255)
@@ -267,7 +264,7 @@ public class AnimatorModelImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void testOverlapAll() {
     setTest();
-    builder.declareShape("Fred", "Rectangle")
+    new AnimatorModelImpl.Builder().declareShape("Fred", "Rectangle")
             .addMotion("Fred", 20, 5, 10, 5, 5, 255,
                     150, 10, 30, 5, 5, 5, 5,
                     255, 150, 10)
@@ -280,7 +277,7 @@ public class AnimatorModelImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void testDisjoint() {
     setTest();
-    builder.declareShape("Ethan", "ellipse")
+    new AnimatorModelImpl.Builder().declareShape("Ethan", "ellipse")
             .addMotion("Ethan", 0, 25, 25, 15, 15, 180,
                     120, 230, 30, 25, 25, 15, 15,
                     120, 180, 95)
