@@ -32,7 +32,8 @@ public class AnimationReader {
    * @param builder  A builder for helping to construct a new animation
    * @return
    */
-  public static IAnimatorModel parseFile(Readable readable, AnimationBuilder<IAnimatorModel> builder) {
+  public static IAnimatorModel parseFile(Readable readable,
+                                         AnimationBuilder<IAnimatorModel> builder) {
     Objects.requireNonNull(readable, "Must have non-null readable source");
     Objects.requireNonNull(builder, "Must provide a non-null AnimationBuilder");
     Scanner s = new Scanner(readable);
@@ -57,7 +58,8 @@ public class AnimationReader {
     return builder.build();
   }
 
-  private static <IAnimatorModel> void readCanvas(Scanner s, AnimationBuilder<IAnimatorModel> builder) {
+  private static <IAnimatorModel> void readCanvas(Scanner s,
+                                                  AnimationBuilder<IAnimatorModel> builder) {
     int[] vals = new int[4];
     String[] fieldNames = {"left", "top", "width", "height"};
     for (int i = 0; i < 4; i++) {
@@ -66,7 +68,8 @@ public class AnimationReader {
     builder.setBounds(vals[0], vals[1], vals[2], vals[3]);
   }
 
-  private static <IAnimatorModel> void readShape(Scanner s, AnimationBuilder<IAnimatorModel> builder) {
+  private static <IAnimatorModel> void readShape(Scanner s,
+                                                 AnimationBuilder<IAnimatorModel> builder) {
     String name;
     String type;
     if (s.hasNext()) {
@@ -82,7 +85,8 @@ public class AnimationReader {
     builder.declareShape(name, type);
   }
 
-  private static <IAnimatorModel> void readMotion(Scanner s, AnimationBuilder<IAnimatorModel> builder) {
+  private static <IAnimatorModel> void readMotion(Scanner s,
+                                                  AnimationBuilder<IAnimatorModel> builder) {
     String[] fieldNames = new String[]{
       "initial time",
       "initial x-coordinate", "initial y-coordinate",

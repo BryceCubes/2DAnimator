@@ -63,6 +63,11 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
     @Override
     public AnimationBuilder setBounds(int x, int y, int width, int height) {
+      if (x < 0 || y < 0) {
+        throw new IllegalArgumentException("The xy coordinate of the frame cannot be negative.");
+      } else if (width < 1 || height < 1) {
+        throw new IllegalArgumentException("The width and height cannot be less than 1.");
+      }
       this.x = x;
       this.y = y;
       this.width = width;
@@ -117,12 +122,6 @@ public class AnimatorModelImpl implements IAnimatorModel {
       }
 
       return this;
-    }
-
-    @Override
-    public AnimationBuilder addKeyframe(String name, int t, int x, int y, int w, int h, int r,
-                                        int g, int b) {
-      return null;
     }
   }
 
