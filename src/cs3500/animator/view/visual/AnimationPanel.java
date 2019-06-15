@@ -3,9 +3,11 @@ package cs3500.animator.view.visual;
 import java.awt.*;
 import java.util.List;
 
+
 import javax.swing.*;
 
 import cs3500.animator.model.shape.ReadOnlyIShape;
+import cs3500.animator.model.shape.ShapeType;
 
 public class AnimationPanel extends JPanel implements IAnimationPanel {
   List<ReadOnlyIShape> shapes = null;
@@ -17,10 +19,14 @@ public class AnimationPanel extends JPanel implements IAnimationPanel {
   public void paintComponent(Graphics g){
     super.paintComponent(g);
     if ( shapes != null ){
-      g.setColor( Color.pink );
       for ( ReadOnlyIShape shape : shapes ){
-        g.fillRect((int)shape.getXPos(),(int)shape.getYPos(),(int)shape.getWidth(), (int)shape.getHeight());
-        //TODO: don't cast this
+        Color newColor = new Color(shape.getRed(), shape.getGreen(), shape.getBlue());
+        g.setColor(newColor);
+        if(shape.getShapeTypeAsString().equals("rectangle")) {
+          g.fillRect((int)shape.getXPos(),(int)shape.getYPos(),(int)shape.getWidth(), (int)shape.getHeight());
+        } else {
+          g.fillOval((int)shape.getXPos(),(int)shape.getYPos(),(int)shape.getWidth(), (int)shape.getHeight());
+        }
       }
     }
   }

@@ -30,7 +30,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
     panel = new AnimationPanel();
     panel.setMinimumSize( new Dimension(500,500));
     panel.setPreferredSize( new Dimension(2000,2000));
-    panel.setBackground(Color.yellow);
+    panel.setBackground(Color.white);
 
 
     scrollPane = new JScrollPane(panel);
