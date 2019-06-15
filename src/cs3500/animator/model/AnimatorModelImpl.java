@@ -95,11 +95,11 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   @Override
-  public void addShape(ReadOnlyIShape shape) {
+  public void addShape(IShape shape) {
     boolean doesShapeExist = false;
     String shapeName = null;
 
-    for (ReadOnlyIShape key : this.shapes) {
+    for (IShape key : this.shapes) {
       if (shape.getShapeID().equals(key.getShapeID())) {
         doesShapeExist = true;
         shapeName = key.getShapeID();
@@ -191,7 +191,14 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   @Override
   public ArrayList<ReadOnlyIShape> returnShapes() {
-    return this.shapes;
+    ReadOnlyIShape currentShape;
+    ArrayList<ReadOnlyIShape> newShapes = new ArrayList<>();
+    for (IShape shape : this.shapes) {
+      currentShape = shape;
+      newShapes.add(currentShape);
+    }
+
+    return newShapes;
   }
 
   @Override

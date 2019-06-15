@@ -4,9 +4,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import cs3500.animator.model.IAnimatorModel;
-import cs3500.animator.model.motion.IMotion;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
-import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 
 public class SVGView implements IAnimatorView {

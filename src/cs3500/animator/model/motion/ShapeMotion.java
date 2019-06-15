@@ -82,7 +82,7 @@ public class ShapeMotion implements IMotion {
   }
 
   @Override
-  public ReadOnlyIShape getShape() {
+  public IShape getShape() {
     return this.shape;
   }
 
