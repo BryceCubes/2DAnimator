@@ -1,5 +1,6 @@
 package cs3500.animator.model.motion;
 
+import cs3500.animator.model.shape.AShape;
 import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 
@@ -182,7 +183,8 @@ public class ShapeMotion implements IMotion {
   }
 
   @Override
-  public void interpolate(int tick) {
+  public IShape interpolate(int tick) {
+    IShape newShape = new AShape(this.shape.getShapeID(), this.shape.getShapeType());
     double deltaX = this.toX - this.xStart;
     double deltaY = this.toY - this.yStart;
     double deltaW = this.toW - this.wStart;
@@ -200,13 +202,13 @@ public class ShapeMotion implements IMotion {
     int newG = (int) ((currTick / deltaT) * deltaG) + this.gStart;
     int newB = (int) ((currTick / deltaT) * deltaB) + this.bStart;
 
-    this.shape.setX(newX);
-    this.shape.setY(newY);
-    this.shape.setW(newW);
-    this.shape.setH(newH);
-    this.shape.setR(newR);
-    this.shape.setG(newG);
-    this.shape.setB(newB);
-
+    newShape.setX(newX);
+    newShape.setY(newY);
+    newShape.setW(newW);
+    newShape.setH(newH);
+    newShape.setR(newR);
+    newShape.setG(newG);
+    newShape.setB(newB);
+    return newShape;
   }
 }

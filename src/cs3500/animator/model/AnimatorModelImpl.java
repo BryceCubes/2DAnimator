@@ -27,8 +27,15 @@ public class AnimatorModelImpl implements IAnimatorModel {
   private int canvasH;
 
   /**
-   * Constructor used to create an animator model. We don't allow a null movelist to be passed
-   * because that would mess up our model.
+   * Base constructor used to initialize the variables
+   */
+  private AnimatorModelImpl() {
+    this.shapes = new ArrayList<>();
+    this.sortedMoveList = new HashMap<>();
+  }
+
+  /**
+   * Constructor used to create an animator model.
    */
   public static final class Builder implements AnimationBuilder<IAnimatorModel> {
     IAnimatorModel model;
@@ -42,7 +49,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     @Override
     public IAnimatorModel build() {
       model = new AnimatorModelImpl();
-      
+
       for (IShape shape : this.listOfShapes) {
         model.addShape(shape);
       }
@@ -51,7 +58,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
         model.addMotion(motion);
       }
 
-      return this.model;
+      return model;
     }
 
     @Override
@@ -92,8 +99,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
     @Override
     public AnimationBuilder addMotion(String name, int t1, int x1, int y1, int w1, int h1, int r1,
-                                      int g1, int b1, int t2, int x2, int y2, int w2, int h2, int r2,
-                                      int g2, int b2) {
+                                      int g1, int b1, int t2, int x2, int y2, int w2, int h2,
+                                      int r2, int g2, int b2) {
       boolean doesShapeExist = false;
       IShape currentShape = null;
       for (IShape shape : this.listOfShapes) {
@@ -105,16 +112,16 @@ public class AnimatorModelImpl implements IAnimatorModel {
       }
 
       if (doesShapeExist) {
-        model.addMotion(new ShapeMotion(currentShape, x1, y1, w1, h1, r1, g1, b1, x2, y2, w2, h2, r2,
-                g2, b2, t1, t2));
+        model.addMotion(new ShapeMotion(currentShape, x1, y1, w1, h1, r1, g1, b1, x2, y2, w2, h2,
+                r2, g2, b2, t1, t2));
       }
 
       return this;
     }
 
     @Override
-    public AnimationBuilder addKeyframe(String name, int t, int x, int y, int w, int h, int r, int g,
-                                        int b) {
+    public AnimationBuilder addKeyframe(String name, int t, int x, int y, int w, int h, int r,
+                                        int g, int b) {
       return null;
     }
   }
@@ -159,7 +166,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     for (IShape shape : this.shapes) {
       for (IMotion motion : this.sortedMoveList.get(shape)) {
         if (motion.getTStart() <= tick && motion.getTEnd() >= tick) {
-          shapesAtTick.add(motion.getShape());
+          shapesAtTick.add(motion.interpolate(tick));
           break;
         }
       }
@@ -310,56 +317,6 @@ public class AnimatorModelImpl implements IAnimatorModel {
     return this.canvasH;
   }
   //Added so that could access and iterate through all of the data in the view
-
-//  private void sortMoveList() {
-//    for (IMotion motion : moveList) {
-//      ReadOnlyIShape currentShape = motion.getShape();
-//
-//      // This is to add a new key to the hashmap
-//      if (sortedMoveList.get(currentShape) == null) {
-//        sortedMoveList.put(currentShape, new ArrayList<>());
-//        this.shapes.add(currentShape);
-//      }
-//
-//      // This is to add a starting motion to a specific key
-//      if (sortedMoveList.get(currentShape).isEmpty()) {
-//        sortedMoveList.get(currentShape).add(motion);
-//      } else {
-//        int size = sortedMoveList.get(currentShape).size();
-//        boolean isOverlapping = false;
-//
-//        // Are the motions overlapping?
-//        for (int i = 0; i < size; i++) {
-//          int motionStartTime = motion.getTStart();
-//          int motionEndTime = motion.getTEnd();
-//          int indexedMotionStart = sortedMoveList.get(currentShape).get(i).getTStart();
-//          int indexedMotionEnd = sortedMoveList.get(currentShape).get(i).getTEnd();
-//          if ((motionStartTime >= indexedMotionStart && motionStartTime < indexedMotionEnd)
-//                  || (motionEndTime > indexedMotionStart && motionEndTime <= indexedMotionEnd)
-//                  || (motionStartTime <= indexedMotionStart && motionEndTime >= indexedMotionEnd)) {
-//            isOverlapping = true;
-//            break;
-//          }
-//        }
-//
-//        if (isOverlapping) {
-//          throw new IllegalArgumentException("Overlapping moves for shape "
-//                  + currentShape.getShapeID() + ".");
-//        } else {
-//          sortedMoveList.get(currentShape).add(motion);
-//        }
-//      }
-//    }
-//
-//    this.bubbleSort();
-//
-//    for (ReadOnlyIShape shape : this.shapes) {
-//      if (!this.isContinuous(sortedMoveList.get(shape))) {
-//        throw new IllegalArgumentException("Motions for " + shape.getShapeID() + " are not "
-//                + "continuous.");
-//      }
-//    }
-//  }
 
   /**
    * Method bubble sort algorithm implemented normally used to sort the list based on start times.
