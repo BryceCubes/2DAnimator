@@ -18,7 +18,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   private ArrayList<IMotion> moveList;
   private ArrayList<IShape> shapes;
   private ArrayList<ReadOnlyIShape> shapesAtTick;
-  private HashMap<ReadOnlyIShape, ArrayList<IMotion>> sortedMoveList;
+  private HashMap<IShape, ArrayList<IMotion>> sortedMoveList;
   private int canvasX;
   private int canvasY;
   private int canvasW;
@@ -70,7 +70,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   @Override
   public HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> returnMotions() {
     HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> motions = new HashMap<>();
-    for (ReadOnlyIShape shape : this.shapes) {
+    for (IShape shape : this.shapes) {
       motions.put(shape, new ArrayList<>());
       for (ReadOnlyIMotion motion : sortedMoveList.get(shape)) {
         motions.get(shape).add(motion);
@@ -86,7 +86,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Tick must be a positive integer.");
     }
 
-    for (ReadOnlyIShape shape : this.shapes) {
+    for (IShape shape : this.shapes) {
       for (IMotion motion : this.sortedMoveList.get(shape)) {
         if (motion.getTStart() <= tick && motion.getTEnd() >= tick) {
           shapesAtTick.add(motion.getShape());
@@ -102,7 +102,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   public String textViewMotions() {
     StringBuilder textView = new StringBuilder();
 
-    for (ReadOnlyIShape shape : this.shapes) {
+    for (IShape shape : this.shapes) {
       textView.append("shape ").append(shape.getShapeID()).append(" ").append(shape
               .getShapeTypeAsString()).append("\n");
       for (IMotion motion : this.sortedMoveList.get(shape)) {
@@ -138,7 +138,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   @Override
   public void deleteShape(String shapeID) {
     boolean doesShapeExist = false;
-    for (ReadOnlyIShape shape : this.shapes) {
+    for (IShape shape : this.shapes) {
       if (shape.getShapeID().equals(shapeID)) {
         this.sortedMoveList.remove(shape);
         doesShapeExist = true;
@@ -157,7 +157,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     ReadOnlyIShape currentShape = motion.getShape();
     String shapeName = currentShape.getShapeID();
 
-    for (ReadOnlyIShape shape : this.shapes) {
+    for (IShape shape : this.shapes) {
       if (shapeName.equals(shape.getShapeID())) {
         sortedMoveList.get(shape).add(motion);
         this.bubbleSort();
@@ -184,7 +184,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     ReadOnlyIShape currentShape = motion.getShape();
     String shapeName = currentShape.getShapeID();
 
-    for (ReadOnlyIShape shape : this.shapes) {
+    for (IShape shape : this.shapes) {
       if (shapeName.equals(shape.getShapeID())) {
         doesShapeExist = true;
         int motionIndex = sortedMoveList.get(shape).indexOf(motion);
@@ -283,7 +283,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
     this.bubbleSort();
 
-    for (ReadOnlyIShape shape : this.shapes) {
+    for (IShape shape : this.shapes) {
       if (!this.isContinuous(sortedMoveList.get(shape))) {
         throw new IllegalArgumentException("Motions for " + shape.getShapeID() + " are not "
                 + "continuous.");
@@ -295,7 +295,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
    * Method bubble sort algorithm implemented normally used to sort the list based on start times.
    */
   private void bubbleSort() {
-    for (ReadOnlyIShape shape : this.shapes) {
+    for (IShape shape : this.shapes) {
       int size = sortedMoveList.get(shape).size();
 
       for (int i = 0; i < size; i++) {

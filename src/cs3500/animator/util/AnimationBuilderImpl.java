@@ -1,11 +1,10 @@
 package cs3500.animator.util;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import cs3500.animator.model.AnimatorModelImpl;
 import cs3500.animator.model.IAnimatorModel;
-import cs3500.animator.model.motion.ReadOnlyIMotion;
+import cs3500.animator.model.motion.IMotion;
 import cs3500.animator.model.motion.ShapeMotion;
 import cs3500.animator.model.shape.AShape;
 import cs3500.animator.model.shape.IShape;
@@ -18,7 +17,7 @@ public class AnimationBuilderImpl implements AnimationBuilder {
   int y;
   int width;
   int height;
-  ArrayList<ReadOnlyIMotion> listOfMotions;
+  ArrayList<IMotion> listOfMotions;
   ArrayList<IShape> listOfShapes;
 
 
@@ -28,6 +27,12 @@ public class AnimationBuilderImpl implements AnimationBuilder {
     for (IShape shape : this.listOfShapes) {
       model.addShape(shape);
     }
+
+    for (IMotion motion: this.listOfMotions) {
+      model.addMotion(motion);
+    }
+
+    return this.model;
   }
 
   @Override

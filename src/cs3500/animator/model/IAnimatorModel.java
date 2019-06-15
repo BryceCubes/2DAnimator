@@ -89,24 +89,28 @@ public interface IAnimatorModel {
 
   /**
    * Gets the x value of the top left of the canvas frame.
+   *
    * @return The x value of the top left of the canvas frame
    */
   int getCanvasX();
 
   /**
    * Gets the y value of the top left of the canvas frame.
+   *
    * @return The y value of the top left of the canvas frame
    */
   int getCanvasY();
 
   /**
    * Gets the width value of the canvas.
+   *
    * @return the width value of the canvas
    */
   int getCanvasW();
 
   /**
    * Gets the height of the canvas.
+   *
    * @return the height value of the canvas
    */
   int getCanvasH();
