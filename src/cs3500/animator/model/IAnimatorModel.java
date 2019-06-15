@@ -19,14 +19,14 @@ public interface IAnimatorModel {
    * @param shapeID name of given shape
    * @return a shape with same name
    */
-  IShape findShape(String shapeID);
+  ReadOnlyIShape findShape(String shapeID);
 
   /**
    * Gives the hashmap of motions.
    *
    * @return a hashmap of motiosn
    */
-  HashMap<String, ArrayList<ReadOnlyIMotion>> returnMotions();
+  HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> returnMotions();
 
 
   /**
@@ -85,5 +85,29 @@ public interface IAnimatorModel {
    *
    * @return the list of keys of all shapes in the model
    */
-  ArrayList<String> returnKeys();
+  ArrayList<ReadOnlyIShape> returnShapes();
+
+  /**
+   * Gets the x value of the top left of the canvas frame.
+   * @return The x value of the top left of the canvas frame
+   */
+  int getCanvasX();
+
+  /**
+   * Gets the y value of the top left of the canvas frame.
+   * @return The y value of the top left of the canvas frame
+   */
+  int getCanvasY();
+
+  /**
+   * Gets the width value of the canvas.
+   * @return the width value of the canvas
+   */
+  int getCanvasW();
+
+  /**
+   * Gets the height of the canvas.
+   * @return the height value of the canvas
+   */
+  int getCanvasH();
 }

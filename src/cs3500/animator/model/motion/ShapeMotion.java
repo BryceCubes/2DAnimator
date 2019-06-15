@@ -1,6 +1,7 @@
 package cs3500.animator.model.motion;
 
 import cs3500.animator.model.shape.IShape;
+import cs3500.animator.model.shape.ReadOnlyIShape;
 
 /**
  * Class represents a motion of a shape in a 2D space.
@@ -81,7 +82,7 @@ public class ShapeMotion implements IMotion {
   }
 
   @Override
-  public IShape getShape() {
+  public ReadOnlyIShape getShape() {
     return this.shape;
   }
 

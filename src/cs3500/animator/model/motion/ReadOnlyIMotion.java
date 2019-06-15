@@ -1,6 +1,6 @@
 package cs3500.animator.model.motion;
 
-import cs3500.animator.model.shape.IShape;
+import cs3500.animator.model.shape.ReadOnlyIShape;
 
 /**
  * IMotion interface only available publicly.
@@ -18,7 +18,7 @@ public interface ReadOnlyIMotion {
    *
    * @return an IShape associated with the given motion
    */
-  IShape getShape();
+  ReadOnlyIShape getShape();
 
   /**
    * Method used to get the start time of the given motion. We put a standard 4 spaces in between
