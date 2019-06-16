@@ -282,28 +282,29 @@ public class AnimatorModelImplTest {
 
   @Test
   public void getMotionsTest() {
+    setTest();
     HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> motions = model.returnMotions();
-    ArrayList<ReadOnlyIShape> shapes = model.returnShapes();
+    ArrayList<ReadOnlyIShape> shapes = model.getShapes();
     boolean hasFred = false;
     boolean hasAmy = false;
     boolean hasEthan = false;
     for (ReadOnlyIShape shape : shapes) {
-      if(motions.get(shape) != null)
-      switch (motions.get(shape).get(0).getTextOutput()) {
-        case "Fred":
+      int length = motions.get(shape).size();
+      for (int i = 0; i < length; i++) {
+        String textOut = motions.get(shape).get(i).getTextOutput();
+        if (textOut.contains("Fred")) {
           hasFred = true;
-          break;
-        case "Amy":
+        } else if (textOut.contains("Amy")) {
           hasAmy = true;
-          break;
-        case "Ethan":
+        } else if (textOut.contains("Ethan")) {
           hasEthan = true;
-        default:
+        }
       }
     }
     assertTrue(hasFred && hasAmy && hasEthan);
     //TODO: this is worse than when I started but I think you can see what I'm tryna do
   }
+
 
   @Test(expected = IllegalArgumentException.class)
   public void negativeTickGetShapes() {
