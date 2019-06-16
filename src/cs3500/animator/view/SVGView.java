@@ -7,6 +7,10 @@ import cs3500.animator.model.IAnimatorModel;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 
+/**
+ * Class used to construct a valid SVGview that can be animated to construct a valid formatting
+ * for an svg file. These can be viewed either through System.out or in a given output file.
+ */
 public class SVGView implements IAnimatorView {
   private IAnimatorModel model;
   private String out;
