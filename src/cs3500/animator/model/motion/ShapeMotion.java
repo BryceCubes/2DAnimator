@@ -4,7 +4,7 @@ import cs3500.animator.model.shape.AShape;
 import cs3500.animator.model.shape.IShape;
 
 /**
- * Class represents a motion of a shape in a 2D space.
+ * Class represents a motion of a shape in a 2D space with a position, color, and dimensions.
  */
 public class ShapeMotion implements IMotion {
   private IShape shape;
