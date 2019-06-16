@@ -21,13 +21,17 @@ public class TextView implements IAnimatorView {
   }
 
   /**
-   * The Builder method used to set the model and the output for the TextView
+   * The Builder method used to set the model and the output for the TextView.
    */
   public static class Builder {
     private TextView textView = new TextView();
     private IAnimatorModel model = null;
     private String out = "System.out";
 
+    /**
+     * The method used to construct a valid text view that can output properly.
+     * @return a text view that can be animated
+     */
     public TextView build() {
       if (this.model == null) {
         throw new IllegalArgumentException("Model must be set to a value.");
@@ -38,6 +42,11 @@ public class TextView implements IAnimatorView {
       return textView;
     }
 
+    /**
+     * Method used to declare the model for the given view to animate.
+     * @param model the model that will be animated for the given view
+     * @return a Builder to continue to be built on
+     */
     public Builder declareModel(IAnimatorModel model) {
       if (model == null) {
         throw new IllegalArgumentException("Model cannot be null.");
@@ -46,6 +55,11 @@ public class TextView implements IAnimatorView {
       return this;
     }
 
+    /**
+     * Method used to declare the output for where the view will produce its animation.
+     * @param out the output where the view will produce the animation
+     * @return the Builder to continue to be built on
+     */
     public Builder declareOut(String out) {
       if (out == null) {
         throw new IllegalArgumentException("Out cannot be null.");
@@ -58,14 +72,25 @@ public class TextView implements IAnimatorView {
     }
   }
 
+  /**
+   * Method used to initialize the text output stringbuilder.
+   */
   private void setTextOutput() {
     this.textOutput = new StringBuilder();
   }
 
+  /**
+   * Method used to set the output to where the view should animate to.
+   * @param out the output to where the view will animate to
+   */
   private void setOut(String out) {
     this.out = out;
   }
 
+  /**
+   * Method used to set the model to be animated on for the given view.
+   * @param model the model to be animated for the given view
+   */
   private void setModel(IAnimatorModel model) {
     this.model = model;
   }
