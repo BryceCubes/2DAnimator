@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -24,7 +25,18 @@ public class AnimatorModelImplTest {
   private IAnimatorModel model;
   private IAnimatorModel mtModel;
 
-  private static boolean equals(ReadOnlyIShape shape1, )
+
+  private static boolean equals(ReadOnlyIShape shape1, ReadOnlyIShape shape2) {
+    return shape1.getShapeID().equals(shape2.getShapeID())
+            && shape1.getShapeType() == shape2.getShapeType()
+            && shape1.getHeight() == shape2.getHeight()
+            && shape1.getWidth() == shape2.getWidth()
+            && shape1.getXPos() == shape2.getXPos()
+            && shape1.getYPos() == shape2.getYPos()
+            && shape1.getRed() == shape2.getRed()
+            && shape1.getGreen() == shape2.getGreen()
+            && shape1.getBlue() == shape2.getBlue();
+  }
 
 
   private void setTest() {
@@ -78,6 +90,7 @@ public class AnimatorModelImplTest {
                     255, 150, 10).build();
 
     mtModel = new AnimatorModelImpl.Builder().setBounds(0, 0, 100, 100).build();
+
   }
 
   // test that Fred can be found in the list of motions once added
@@ -207,6 +220,19 @@ public class AnimatorModelImplTest {
     assertTrue(shapeFound);
   }
 
+  @Test
+  public void testDeleteShape() {
+    setTest();
+    model.deleteShape("Fred");
+    assertFalse(model.textViewMotions().contains("Fred"));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testDeleteBadShape() {
+    setTest();
+    model.deleteShape("Bob");
+  }
+
   @Test(expected = IllegalArgumentException.class)
   public void addMotionAlreadyExists() {
     setTest();
@@ -316,14 +342,26 @@ public class AnimatorModelImplTest {
   }
 
   @Test
-  public void returnShapesAtTickTestAt0() {
-
+  public void returnShapesAtTickTestAt70() {
+    setTest();
+    ArrayList<ReadOnlyIShape> shapes = model.getShapesAtTick(70);
+    boolean hasFred = false;
+    boolean hasAmy = false;
+    boolean hasEthan = false;
+    for (ReadOnlyIShape shape : shapes) {
+      String textOut =  shape.getShapeID();
+      if (textOut.contains("Fred")) {
+        hasFred = true;
+      } else if (textOut.contains("Amy")) {
+        hasAmy = true;
+      } else if (textOut.contains("Ethan")) {
+        hasEthan = true;
+      }
+    }
+    assertTrue(!hasFred && hasAmy && !hasEthan);
   }
 
-  @Test
-  public void returnShapesAtTickTestAt10() {
 
-  }
 
   //TODO: test getters and delete shape
 }

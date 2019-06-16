@@ -1,6 +1,5 @@
 package cs3500.animator.view;
 
-import com.oracle.javafx.jmx.SGMXBean;
 
 import org.junit.Test;
 
