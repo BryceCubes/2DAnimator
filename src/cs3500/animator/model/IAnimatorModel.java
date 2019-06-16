@@ -37,6 +37,12 @@ public interface IAnimatorModel extends ReadOnlyIAnimatorModel{
   void setCanvasH(int canvasH);
 
   /**
+   * Sets the speed that the animation will run at.
+   * @param speed the speed that the animator will be set to run at
+   */
+  void setSpeed(int speed);
+
+  /**
    * Adds motion to the animation for an already existing shape used for the builder.
    *
    * @param motion motion to be added to a shapes arraylist of motions

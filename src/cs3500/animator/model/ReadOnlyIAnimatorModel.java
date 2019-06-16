@@ -60,7 +60,8 @@ public interface ReadOnlyIAnimatorModel {
   void deleteShape(String shapeID) throws IllegalArgumentException;
 
   /**
-   * Adds motion to the animation for an already existing shape.
+   * Lets a user add a motion for a shape with the attributes as follows as long as it keeps the
+   * motions for the shape continuous.
    *
    * @param shapeID the name of the shape that we are trying to add a motion to
    * @param xStart  the starting x coordinate
@@ -150,26 +151,8 @@ public interface ReadOnlyIAnimatorModel {
   int getCanvasH();
 
   /**
-   * Lets a user add a motion for a shape with the attributes as follows as long as it keeps the
-   * motions for the shape continuous.
-   * @param name name of shape to add motion to
-   * @param t1 start time of motion
-   * @param x1 x value at start of motion
-   * @param y1 y value at start of motion
-   * @param w1 width at start of motion
-   * @param h1 height at start of motion
-   * @param r1 red value at start of motion
-   * @param g1 green value at start of motion
-   * @param b1 blue value at start of motion
-   * @param t2 time value at end of motion
-   * @param x2 x value at end of motion
-   * @param y2 y value at end of motion
-   * @param w2 width value at end of motion
-   * @param h2 height value at end of motion
-   * @param r2 red value at end of motion
-   * @param g2 green value at end of motion
-   * @param b2 blue value at end of motion
+   * Gets the speed of the animation.
+   * @return the speed of the animation
    */
-  void declareMotion(String name, int t1, int x1, int y1, int w1, int h1, int r1, int g1, int b1,
-                     int t2, int x2, int y2, int w2, int h2, int r2, int g2, int b2);
+  int getSpeed();
 }

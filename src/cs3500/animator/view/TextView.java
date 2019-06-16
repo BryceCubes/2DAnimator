@@ -5,36 +5,50 @@ import java.io.PrintWriter;
 import cs3500.animator.model.IAnimatorModel;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.shape.ReadOnlyIShape;
-import javafx.util.Builder;
 
 /**
  * Textual view for viewing an animation.
  */
 public class TextView implements IAnimatorView {
-  private final IAnimatorModel model;
+  private IAnimatorModel model;
   private StringBuilder textOutput;
-  private final String out;
+  private String out;
 
   /**
    * Constructor used to create a text view using a Builder to input the model and the output.
-   * @param builder The Builder given to the textView containing the model and output
    */
   private TextView() {
+  }
+
+  @Override
+  public void setOut(String out) {
+    this.out = out;
+  }
+
+  @Override
+  public void setModel(IAnimatorModel model) {
+    this.model = model;
   }
 
   /**
    * The Builder method used to set the model and the output for the TextView
    */
-  public static class TextBuilder {
-    private TextView = new;
+  public static class Builder {
+    private TextView textView = new TextView();
     private IAnimatorModel model = null;
     private String out = "System.out";
 
     public TextView build() {
-      ;
+      if (this.model == null) {
+        throw new IllegalArgumentException("Model must be set to a value.");
+      }
+      textView.setModel(this.model);
+
+      this.textView.setOut(this.out);
+      return textView;
     }
 
-    public TextBuilder setModel(IAnimatorModel model) {
+    public Builder setModel(IAnimatorModel model) {
       if (model == null) {
         throw new IllegalArgumentException("Model cannot be null.");
       }
@@ -42,7 +56,7 @@ public class TextView implements IAnimatorView {
       return this;
     }
 
-    public TextBuilder setOut(String out) {
+    public Builder setOut(String out) {
       if (out == null) {
         throw new IllegalArgumentException("Out cannot be null.");
       } else if ((!out.contains(".txt") && !out.equals("System.out")) || out.length() < 5) {
