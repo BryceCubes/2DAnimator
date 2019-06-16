@@ -87,14 +87,14 @@ public class AnimationReader {
   private static <IAnimatorModel> void readMotion(Scanner s,
                                                   AnimationBuilder<IAnimatorModel> builder) {
     String[] fieldNames = new String[]{
-            "initial time",
-            "initial x-coordinate", "initial y-coordinate",
-            "initial width", "initial height",
-            "initial red value", "initial green value", "initial blue value",
-            "final time",
-            "final x-coordinate", "final y-coordinate",
-            "final width", "final height",
-            "final red value", "final green value", "final blue value",
+        "initial time",
+        "initial x-coordinate", "initial y-coordinate",
+        "initial width", "initial height",
+        "initial red value", "initial green value", "initial blue value",
+        "final time",
+        "final x-coordinate", "final y-coordinate",
+        "final width", "final height",
+        "final red value", "final green value", "final blue value",
     };
     int[] vals = new int[16];
     String name;

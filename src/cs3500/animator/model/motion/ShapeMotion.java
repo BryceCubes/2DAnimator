@@ -2,7 +2,6 @@ package cs3500.animator.model.motion;
 
 import cs3500.animator.model.shape.AShape;
 import cs3500.animator.model.shape.IShape;
-import cs3500.animator.model.shape.ReadOnlyIShape;
 
 /**
  * Class represents a motion of a shape in a 2D space.

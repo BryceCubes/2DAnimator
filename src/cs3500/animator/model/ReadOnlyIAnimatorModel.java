@@ -7,6 +7,10 @@ import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 
+/**
+ * Interface to represent an the model for an animation engine with 2D shapes and motions. This
+ * hides direct setters from the view.
+ */
 public interface ReadOnlyIAnimatorModel {
 
   /**
@@ -59,7 +63,7 @@ public interface ReadOnlyIAnimatorModel {
   void deleteShape(String shapeID) throws IllegalArgumentException;
 
   /**
-   * Deletes a motion with the given values
+   * Deletes a motion with the given values.
    *
    * @param shapeID the name of the shape that we are trying to add a motion to
    * @param xStart  the starting x coordinate

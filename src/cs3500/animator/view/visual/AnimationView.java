@@ -13,9 +13,11 @@ import cs3500.animator.model.ReadOnlyIAnimatorModel;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.view.IAnimatorView;
 
+/**
+ * Represents the outer window that contains the animation panel.
+ */
 public class AnimationView extends JFrame implements IAnimatorView {
   private AnimationPanel panel;
-  private JScrollPane scrollPane;
   private ReadOnlyIAnimatorModel model;
   private ArrayList<ReadOnlyIShape> shapesToRender;
   private Timer timer;
@@ -25,10 +27,17 @@ public class AnimationView extends JFrame implements IAnimatorView {
     super();
   }
 
+  /**
+   * Class to build Animation views.
+   */
   public static class Builder {
     private IAnimatorModel model = null;
     private int speed = 1;
 
+    /**
+     * Builds the completed AnimationView based on the previously added fields.
+     * @return finished AnimationView
+     */
     public AnimationView build() {
       AnimationView animationView = new AnimationView();
       if (this.model == null) {
@@ -42,6 +51,11 @@ public class AnimationView extends JFrame implements IAnimatorView {
       }
     }
 
+    /**
+     * Declares a new model to be added to the AnimationView.
+     * @param model the model to be added
+     * @return the builder is returned back so it can continue building
+     */
     public Builder declareModel(IAnimatorModel model) {
       if (model == null) {
         throw new IllegalArgumentException("Model cannot be null.");
@@ -50,6 +64,11 @@ public class AnimationView extends JFrame implements IAnimatorView {
       return this;
     }
 
+    /**
+     * Declares a new speed to be added for the AnimationView to make a timer.
+     * @param speed the speed to be added
+     * @return the builder is returned back so it can continue building
+     */
     public Builder declareSpeed(int speed) {
       if (speed < 1) {
         throw new IllegalArgumentException("Speed cannot be less than 1.");
@@ -59,6 +78,10 @@ public class AnimationView extends JFrame implements IAnimatorView {
     }
   }
 
+  /**
+   * Sets the final model for the AnimationView.
+   * @param model the model to be set
+   */
   private void setModel(IAnimatorModel model) {
     this.model = model;
   }
@@ -69,10 +92,18 @@ public class AnimationView extends JFrame implements IAnimatorView {
     timer.start();
   }
 
+  /**
+   * Renders the actual shapes based on the list of shapes passed.
+   * @param shapes the list of shapes to render
+   */
   private void render(ArrayList<ReadOnlyIShape> shapes) {
     panel.draw(shapes);
   }
 
+  /**
+   * Sets the timer to determine the animation rate
+   * @param speed the speed of the timer in 10ms
+   */
   private void setTimer(int speed) {
     this.timer = new Timer(100 / speed, e -> {
       shapesToRender = model.getShapesAtTick(tick++);
@@ -80,6 +111,9 @@ public class AnimationView extends JFrame implements IAnimatorView {
     });
   }
 
+  /**
+   * Sets the Panel attributes for the AnimationView.
+   */
   private void setPanel() {
 
     int width = model.getCanvasX() + model.getCanvasW();
@@ -90,7 +124,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
     panel.setPreferredSize(new Dimension(width, height));
     panel.setBackground(Color.white);
 
-    scrollPane = new JScrollPane(panel);
+    JScrollPane scrollPane = new JScrollPane(panel);
 
     setSize(width, height);
     setLocation(model.getCanvasX(), model.getCanvasY());

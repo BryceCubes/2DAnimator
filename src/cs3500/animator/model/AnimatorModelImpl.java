@@ -27,7 +27,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   private int canvasH;
 
   /**
-   * Base constructor used to initialize the variables
+   * Base constructor used to initialize the variables.
    */
   private AnimatorModelImpl() {
     this.shapes = new ArrayList<>();
@@ -317,29 +317,30 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   /**
    * Checks if the given motion matches all the given fields.
-   * @param mot the given motion from the model
+   *
+   * @param mot     the given motion from the model
    * @param shapeID the shapeID as a string to compare to mot
-   * @param xStart the starting x location to compare to mot
-   * @param yStart the starting y location to compare to mot
-   * @param wStart the starting width to compare to mot
-   * @param hStart the starting height to compare to mot
-   * @param rStart the starting red value to compare to mot
-   * @param gStart the starting green value to compare to mot
-   * @param bStart the starting blue value to compare to mot
-   * @param toX the destination x value to compare to mot
-   * @param toY the destination y value to compare to mot
-   * @param toW the destination width to compare to mot
-   * @param toH the destination height to compare to mot
-   * @param toR the destination red value to compare to mot
-   * @param toG the destination green value to compare to mot
-   * @param toB the destination blue value to compare to mot
-   * @param tStart the starting tick value to compare to mot
-   * @param tEnd the destination tick value to compare to mot
+   * @param xStart  the starting x location to compare to mot
+   * @param yStart  the starting y location to compare to mot
+   * @param wStart  the starting width to compare to mot
+   * @param hStart  the starting height to compare to mot
+   * @param rStart  the starting red value to compare to mot
+   * @param gStart  the starting green value to compare to mot
+   * @param bStart  the starting blue value to compare to mot
+   * @param toX     the destination x value to compare to mot
+   * @param toY     the destination y value to compare to mot
+   * @param toW     the destination width to compare to mot
+   * @param toH     the destination height to compare to mot
+   * @param toR     the destination red value to compare to mot
+   * @param toG     the destination green value to compare to mot
+   * @param toB     the destination blue value to compare to mot
+   * @param tStart  the starting tick value to compare to mot
+   * @param tEnd    the destination tick value to compare to mot
    * @return whether all the given values match the value in the given IMotion
    */
-  private boolean equalMotions(IMotion mot, String shapeID, int xStart, int yStart, int wStart, int hStart,
-                               int rStart, int gStart, int bStart, int toX, int toY, int toW, int toH,
-                               int toR, int toG, int toB, int tStart, int tEnd) {
+  private boolean equalMotions(IMotion mot, String shapeID, int xStart, int yStart, int wStart,
+                               int hStart, int rStart, int gStart, int bStart, int toX, int toY,
+                               int toW, int toH, int toR, int toG, int toB, int tStart, int tEnd) {
     return mot.getShape().getShapeID().equals(shapeID)
             && mot.getTStart() == tStart
             && mot.getTEnd() == tEnd
