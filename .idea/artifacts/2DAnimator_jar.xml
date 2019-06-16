@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="2DAnimator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/2DAnimator_jar</output-path>
+    <root id="archive" name="2DAnimator.jar">
+      <element id="module-output" name="2DAnimator" />
+    </root>
+  </artifact>
+</component>
