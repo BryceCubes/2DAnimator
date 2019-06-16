@@ -4,11 +4,13 @@ import cs3500.animator.model.motion.IMotion;
 import cs3500.animator.model.motion.ShapeMotion;
 import cs3500.animator.model.shape.AShape;
 import cs3500.animator.model.shape.IShape;
+import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.model.shape.ShapeType;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Class used to test our animator model.
@@ -46,6 +48,7 @@ public class AnimatorModelImplTest {
   private IMotion ethanDisjoint;
 
   private IAnimatorModel model;
+  private IAnimatorModel mtModel;
 
 
   private void setTest() {
@@ -172,6 +175,7 @@ public class AnimatorModelImplTest {
                     150, 10, 10, 15, 10, 5, 5,
                     255, 150, 10).build();
 
+    mtModel = new AnimatorModelImpl.Builder().build();
   }
 
   // test that Fred can be found in the list of motions once added
@@ -290,70 +294,74 @@ public class AnimatorModelImplTest {
   @Test
   public void addShapeTest() {
     setTest();
-    IShape george = new AShape("George", ShapeType.RECTANGLE);
-    model.addShape(george);
-    assertEquals(model.returnMotions().get("George"), model.returnMotions().get(george
-            .getShapeID()));
+    mtModel.addShape(new AShape("George", ShapeType.RECTANGLE));
+    boolean shapeFound = false;
+    for (ReadOnlyIShape shape : mtModel.returnShapes()) {
+      if (shape.getShapeID().equals("George")) {
+        shapeFound = true;
+        break;
+      }
+    }
+    assertTrue(shapeFound);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void addMotionAlreadyExists() {
     setTest();
-    model.declareMotion(new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
+    model.declareMotion("Fred", 10, 10, 5, 5, 255,
             150, 10, 15, 10, 5, 5, 255, 150, 10,
-            0, 10));
+            0, 10);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void addMotionInconsistent() {
     setTest();
-    model.declareMotion(new ShapeMotion(frectangle, 20, 30, 5, 5, 255,
+    model.declareMotion("Fred", 20, 30, 5, 5, 255,
             150, 10, 15, 10, 5, 5, 255, 150, 10,
-            0, 10));
+            0, 10);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void addMotionDisjoint() {
     setTest();
-    model.declareMotion(new ShapeMotion(frectangle, 10, 20, 5, 5, 255,
+    model.declareMotion("Fred", 10, 20, 5, 5, 255,
             150, 10, 10, 20, 5, 5, 255, 150, 10,
-            61, 70));
+            61, 70);
   }
 
   @Test
   public void addMotionTest() {
     setTest();
-    IMotion newFred = new ShapeMotion(frectangle, 10, 20, 5, 5, 255,
+    model.declareMotion("Fred", 10, 20, 5, 5, 255,
             150, 10, 10, 20, 5, 5, 255, 150, 10,
             60, 70);
-    model.declareMotion(newFred);
-    assertEquals(model.returnMotions().get("Fred").get(6), newFred);
+    assertEquals(model.returnMotions().get(frectangle).get(6).getTStart(), 60);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void shapeForMotionDoesntExist() {
     setTest();
     IShape george = new AShape("George", ShapeType.RECTANGLE);
-    IMotion georgeMoves = new ShapeMotion(george, 10, 20, 5, 5, 255,
+    model.declareMotion("George", 10, 20, 5, 5, 255,
             150, 10, 10, 20, 5, 5, 255, 150, 10,
             60, 70);
-    model.deleteMotion(georgeMoves);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void motionDoesntExist() {
     setTest();
-    IMotion newFred = new ShapeMotion(frectangle, 10, 20, 5, 5, 255,
+    model.deleteMotion("Fred", 10, 20, 5, 5, 255,
             150, 10, 10, 20, 5, 5, 255, 150, 10,
             60, 70);
-    model.deleteMotion(newFred);
   }
 
   //Doesnt pass yet
   @Test
   public void deleteMotionTest() {
     setTest();
-    model.deleteMotion(fredMoveDownLeft);
+    model.deleteMotion("Fred", 50, 15, 5, 5, 5, 255,
+            150, 10, 60, 10, 20, 5, 5,
+            255, 150, 10);
     assertEquals("shape Ethan ellipse\n" +
                     "motion Ethan 0 25 25 15 15 180 120 230    30 25 25 15 15 120 180 95\n" +
                     "motion Ethan 30 25 25 15 15 120 180 95    60 40 15 20 30 180 120 230\n" +

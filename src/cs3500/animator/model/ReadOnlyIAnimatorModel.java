@@ -60,33 +60,6 @@ public interface ReadOnlyIAnimatorModel {
   void deleteShape(String shapeID) throws IllegalArgumentException;
 
   /**
-   * Adds motion to the animation for an already existing shape.
-   *
-   * @param shapeID the name of the shape that we are trying to add a motion to
-   * @param xStart  the starting x coordinate
-   * @param yStart  the starting y coordinate
-   * @param wStart  the starting width
-   * @param hStart  the starting height
-   * @param rStart  the starting red value
-   * @param gStart  the starting green value
-   * @param bStart  the starting blue value
-   * @param toX     the destination x coordinate
-   * @param toY     the destination y coordinate
-   * @param toW     the destination width
-   * @param toH     the destination height
-   * @param toR     the destination red value
-   * @param toG     the destination green value
-   * @param toB     the destination blue value
-   * @param tStart  the starting tick
-   * @param tEnd    the destination tick
-   * @throws IllegalArgumentException when motion already exists for given time, if motion is *
-   *                                  inconsistent, or disjoint
-   */
-  void declareMotion(String shapeID, int xStart, int yStart, int wStart, int hStart, int rStart,
-                     int gStart, int bStart, int toX, int toY, int toW, int toH, int toR, int toG,
-                     int toB, int tStart, int tEnd) throws IllegalArgumentException;
-
-  /**
    * Deletes a motion with the given values
    *
    * @param shapeID the name of the shape that we are trying to add a motion to
@@ -110,8 +83,8 @@ public interface ReadOnlyIAnimatorModel {
    *                                  inconsistent, or disjoint
    */
   void deleteMotion(String shapeID, int xStart, int yStart, int wStart, int hStart, int rStart,
-                 int gStart, int bStart, int toX, int toY, int toW, int toH, int toR, int toG,
-                 int toB, int tStart, int tEnd) throws IllegalArgumentException;
+                    int gStart, int bStart, int toX, int toY, int toW, int toH, int toR, int toG,
+                    int toB, int tStart, int tEnd) throws IllegalArgumentException;
 
 
   /**
@@ -150,26 +123,29 @@ public interface ReadOnlyIAnimatorModel {
   int getCanvasH();
 
   /**
-   * Lets a user add a motion for a shape with the attributes as follows as long as it keeps the
-   * motions for the shape continuous.
-   * @param name
-   * @param t1
-   * @param x1
-   * @param y1
-   * @param w1
-   * @param h1
-   * @param r1
-   * @param g1
-   * @param b1
-   * @param t2
-   * @param x2
-   * @param y2
-   * @param w2
-   * @param h2
-   * @param r2
-   * @param g2
-   * @param b2
+   * Adds motion to the animation for an already existing shape.
+   *
+   * @param shapeID the name of the shape that we are trying to add a motion to
+   * @param xStart  the starting x coordinate
+   * @param yStart  the starting y coordinate
+   * @param wStart  the starting width
+   * @param hStart  the starting height
+   * @param rStart  the starting red value
+   * @param gStart  the starting green value
+   * @param bStart  the starting blue value
+   * @param toX     the destination x coordinate
+   * @param toY     the destination y coordinate
+   * @param toW     the destination width
+   * @param toH     the destination height
+   * @param toR     the destination red value
+   * @param toG     the destination green value
+   * @param toB     the destination blue value
+   * @param tStart  the starting tick
+   * @param tEnd    the destination tick
+   * @throws IllegalArgumentException when motion already exists for given time, if motion is *
+   *                                  inconsistent, or disjoint
    */
-  void declareMotion(String name, int t1, int x1, int y1, int w1, int h1, int r1, int g1, int b1,
-                     int t2, int x2, int y2, int w2, int h2, int r2, int g2, int b2);
+  void declareMotion(String shapeID, int xStart, int yStart, int wStart, int hStart, int rStart,
+                     int gStart, int bStart, int toX, int toY, int toW, int toH, int toR, int toG,
+                     int toB, int tStart, int tEnd) throws IllegalArgumentException;
 }
