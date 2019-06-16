@@ -53,7 +53,13 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
   public static class Builder {
     private IAnimatorModel model = null;
-    private int speed = 1;
+    private Timer timer = new Timer(60 , new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        shapesToRender = model.getShapesAtTick(tick++);
+        render(shapesToRender);
+      }
+    });
 
     public AnimationView build() {
       AnimationView animationView = new AnimationView();
@@ -79,7 +85,10 @@ public class AnimationView extends JFrame implements IAnimatorView {
       if (speed < 1) {
         throw new IllegalArgumentException("Speed cannot be less than 1.");
       }
-      this.speed = speed;
+      this.timer = new Timer(60 / speed, e -> {
+        shapesToRender = model.getShapesAtTick(tick++);
+        render(shapesToRender);
+      });
       return this;
     }
 
@@ -101,5 +110,15 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
   private void render(ArrayList<ReadOnlyIShape> shapes) {
     panel.draw(shapes);
+  }
+
+  private void setTimer(int speed) {
+    this.timer = timer = new Timer(60 / speed, new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        shapesToRender = model.getShapesAtTick(tick++);
+        render(shapesToRender);
+      }
+    });
   }
 }
