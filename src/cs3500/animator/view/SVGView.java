@@ -11,37 +11,60 @@ public class SVGView implements IAnimatorView {
   private final int speed;
   private StringBuilder svgOutput;
   private final IAnimatorModel model;
-  private final int width;
-  private final int height;
   private final String out;
 
-  public SVGView(IAnimatorModel model, int width, int height) {
-    this(model, 1, "System.out", width, height);
-  }
-
-  public SVGView(IAnimatorModel model, int speed, int width, int height) {
-    this(model, speed, "System.out", width, height);
-  }
-
-  public SVGView(IAnimatorModel model, String out, int width, int height) {
-    this(model, 1, out, width, height);
-  }
-
-  public SVGView(IAnimatorModel model, int speed, String out, int width, int height) {
-    if (model == null || out == null) {
-      throw new IllegalArgumentException("Model and out input cannot be null.");
-    } else if (width <= 0 || height <= 0) {
-      throw new IllegalArgumentException("Width and height cannot be 0 or less.");
-    } else if ((!out.contains(".svg") && !out.equals("System.out")) || out.length() < 5) {
+  /**
+   * The base constructor for an SVGView that takes in a builder that provides the model, standard
+   * speed that could be changed, width, height, and standard out that can be changed.
+   * @param builder the builder associated with this class providing all necessary inputs
+   */
+  private SVGView(Builder builder) {
+    if (builder.model == null) {
+      throw new IllegalArgumentException("Model cannot be null.");
+    } else if ((!builder.out.contains(".svg") && !builder.out.equals("System.out"))
+            || builder.out.length() < 5) {
       throw new IllegalArgumentException("Out must be formatted in the following manner: name.svg "
               + "or System.out");
     }
 
-    this.model = model;
-    this.speed = speed;
-    this.width = width;
-    this.height = height;
-    this.out = out;
+    this.model = builder.model;
+    this.speed = builder.speed;
+    this.out = builder.out;
+  }
+
+  /**
+   * The Builder for the svg class that provides for the user to input the model, speed, and output
+   * source, and, if they don't, it provides the standard values for them.
+   */
+  public static class Builder {
+    IAnimatorModel model = null;
+    int speed = 1;
+    String out = "System.out";
+
+    public SVGView build() {
+      return new SVGView(this);
+    }
+
+    public Builder setModel(IAnimatorModel model) {
+      this.model = model;
+      return this;
+    }
+
+    public Builder setSpeed(int speed) {
+      if (speed < 1) {
+        throw new IllegalArgumentException("Speed cannot be less than 1.");
+      }
+      this.speed = speed;
+      return this;
+    }
+
+    public Builder setOut(String out) {
+      if (out == null) {
+        throw new IllegalArgumentException("Out cannot be null.");
+      }
+
+      return this;
+    }
   }
 
   /**
@@ -49,8 +72,8 @@ public class SVGView implements IAnimatorView {
    */
   @Override
   public void animate() {
-    this.svgOutput = new StringBuilder("<svg width=\"" + this.width + "\" height=\""
-            + this.height + "\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n");
+    this.svgOutput = new StringBuilder("<svg width=\"" + this.model.getCanvasW() + "\" height=\""
+            + this.model.getCanvasH() + "\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\">\n");
     ArrayList<ReadOnlyIShape> shapes = this.model.returnShapes();
 
     for (ReadOnlyIShape shape : shapes) {

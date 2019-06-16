@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import cs3500.animator.model.IAnimatorModel;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.shape.ReadOnlyIShape;
+import javafx.util.Builder;
 
 /**
  * Textual view for viewing an animation.
@@ -15,24 +16,43 @@ public class TextView implements IAnimatorView {
   private final String out;
 
   /**
-   * Constructor used to construct a textual animation.
-   *
-   * @param model   given animation model to get the data from
-   * @param out     given output file path
+   * Constructor used to create a text view using a Builder to input the model and the output.
+   * @param builder The Builder given to the textView containing the model and output
    */
-  public TextView(IAnimatorModel model, String out) {
-    if (model == null || out == null) {
-      throw new IllegalArgumentException("Model and out input cannot be null.");
-    } else if ((!out.contains(".txt") && !out.equals("System.out")) || out.length() < 5) {
-      throw new IllegalArgumentException("Out must be formatted in the following manner: name.txt "
-              + "or System.out");
+  private TextView() {
+  }
+
+  /**
+   * The Builder method used to set the model and the output for the TextView
+   */
+  public static class TextBuilder {
+    private TextView = new;
+    private IAnimatorModel model = null;
+    private String out = "System.out";
+
+    public TextView build() {
+      ;
     }
 
-    this.textOutput = new StringBuilder();
-    this.model = model;
-    this.out = out;
+    public TextBuilder setModel(IAnimatorModel model) {
+      if (model == null) {
+        throw new IllegalArgumentException("Model cannot be null.");
+      }
+      this.model = model;
+      return this;
+    }
 
+    public TextBuilder setOut(String out) {
+      if (out == null) {
+        throw new IllegalArgumentException("Out cannot be null.");
+      } else if ((!out.contains(".txt") && !out.equals("System.out")) || out.length() < 5) {
+        throw new IllegalArgumentException("Out must be formatted in the following manner: name.txt"
+                + " or System.out");
+      }
 
+      this.out = out;
+      return this;
+    }
   }
 
   /**

@@ -1,28 +1,23 @@
 package cs3500.animator;
 
-import com.sun.org.apache.xpath.internal.operations.String;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 import cs3500.animator.model.AnimatorModelImpl;
 import cs3500.animator.model.IAnimatorModel;
 import cs3500.animator.util.AnimationReader;
 import cs3500.animator.view.IAnimatorView;
+import cs3500.animator.view.TextView;
 
 /**
  * Main class to run the animator through.
  */
 public class Excellence {
   public static void main(String[] args) {
-    StringReader in = null;
-    String input = null;
-    String out = null;
-    Integer speed = null;
-    IAnimatorView view = null;
+    String in = null;
+    String out = "System.out";
+    Integer speed = 1;
+    String view = null;
     IAnimatorModel model = null;
     int index = 0;
 
@@ -30,29 +25,45 @@ public class Excellence {
       switch (arg) {
         case "-in":
           index ++;
+          in = args[index];
           try {
-            Scanner sc = new Scanner(new File(args[index]));
-            while(sc.hasNextLine()){
-              input += sc.nextLine();
-            }
-            in = new StringReader(input);
-          } catch (IOException e) {
+            FileReader fileReader = new FileReader(in);
+            AnimationReader reader = new AnimationReader();
+            model = reader.parseFile(fileReader, new AnimatorModelImpl.Builder());
+          } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Could not find given input file.");
           }
-
-
-
+          break;
+        case "out":
+          index ++;
+          out = args[index];
+          break;
+        case "view":
+          index++;
+          view = args[index];
+          break;
+        case "speed":
+          index++;
+          speed = Integer.parseInt(args[index]);
+          break;
+        default:
+          index++;
+          break;
       }
     }
 
-    if (in == null || view == null) {
-      throw new IllegalArgumentException("The in file and view must be specified.");
+    if (in == null) {
+      throw new IllegalArgumentException("The in file must be specified.");
     } else if (model == null) {
       throw new IllegalArgumentException("Our program could not parse your file, please provide a "
               + "file in the correct format.");
+    } else if (view == null){
+      throw new IllegalArgumentException("Must provide a valid view of type visual, svg, or text.");
     } else {
-      AnimationReader reader = new AnimationReader();
-      reader.parseFile(in, new AnimatorModelImpl.Builder());
+      switch (view) {
+        case "text":
+          TextView.Builder.set
+      }
     }
 
   }

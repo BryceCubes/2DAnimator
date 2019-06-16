@@ -50,12 +50,17 @@ public class AnimatorModelImpl implements IAnimatorModel {
     public AnimatorModelImpl build() {
       model = new AnimatorModelImpl();
 
+      model.setCanvasX(this.x);
+      model.setCanvasY(this.y);
+      model.setCanvasW(this.width);
+      model.setCanvasH(this.height);
+
       for (IShape shape : this.listOfShapes) {
         model.addShape(shape);
       }
 
-      for (IMotion motion : this.listOfMotions) {
-        model.addMotion(motion);
+      for (IMotion motion: this.listOfMotions) {
+        model.builderMotion(motion);
       }
 
       return this.model;
@@ -235,8 +240,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   // Added so that a shape can be removed with ease.
 
-  //TODO: Delete
-  public void addMotion(IMotion motion) {
+  @Override
+  public void builderMotion(IMotion motion) {
     boolean doesShapeExist = false;
     IShape currentShape = motion.getShape();
     String shapeName = currentShape.getShapeID();

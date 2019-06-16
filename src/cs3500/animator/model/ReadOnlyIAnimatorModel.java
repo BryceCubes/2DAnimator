@@ -148,4 +148,28 @@ public interface ReadOnlyIAnimatorModel {
    * @return the height value of the canvas
    */
   int getCanvasH();
+
+  /**
+   * Lets a user add a motion for a shape with the attributes as follows as long as it keeps the
+   * motions for the shape continuous.
+   * @param name
+   * @param t1
+   * @param x1
+   * @param y1
+   * @param w1
+   * @param h1
+   * @param r1
+   * @param g1
+   * @param b1
+   * @param t2
+   * @param x2
+   * @param y2
+   * @param w2
+   * @param h2
+   * @param r2
+   * @param g2
+   * @param b2
+   */
+  void declareMotion(String name, int t1, int x1, int y1, int w1, int h1, int r1, int g1, int b1,
+                     int t2, int x2, int y2, int w2, int h2, int r2, int g2, int b2);
 }
