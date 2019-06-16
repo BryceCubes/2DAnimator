@@ -27,7 +27,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
     timer = new Timer(1000 / this.speed, new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        ArrayList<ReadOnlyIShape> shapesToRender = model.returnShapesAtTick(tick++);
+        ArrayList<ReadOnlyIShape> shapesToRender = model.getShapesAtTick(tick++);
       }
     });
 
