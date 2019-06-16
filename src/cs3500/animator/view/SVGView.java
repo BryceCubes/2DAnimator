@@ -35,6 +35,7 @@ public class SVGView implements IAnimatorView {
       }
       svgView.setModel(this.model);
       svgView.setOut(this.out);
+      svgView.setSpeed(this.speed);
       return svgView;
     }
 

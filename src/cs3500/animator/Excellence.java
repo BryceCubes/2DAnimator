@@ -18,7 +18,7 @@ public class Excellence {
   public static void main(String[] args) {
     String in = null;
     String out = "System.out";
-    Integer speed = 1;
+    int speed = 1;
     String view = null;
     IAnimatorModel model = null;
     int index = 0;
@@ -32,19 +32,20 @@ public class Excellence {
             FileReader fileReader = new FileReader(in);
             AnimationReader reader = new AnimationReader();
             model = reader.parseFile(fileReader, new AnimatorModelImpl.Builder());
+            break;
           } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Could not find given input file.");
           }
-          break;
-        case "out":
+        case "-out":
           index ++;
           out = args[index];
           break;
-        case "view":
+        case "-view":
           index++;
           view = args[index];
+          System.out.println(view);
           break;
-        case "speed":
+        case "-speed":
           index++;
           speed = Integer.parseInt(args[index]);
           break;
