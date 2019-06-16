@@ -164,9 +164,9 @@ public class AnimatorModelImplTest {
             .addMotion("Fred", 40, 5, 15, 5, 5, 255,
                     150, 10, 50, 15, 5, 5, 5,
                     255, 150, 10)
-            .addMotion("Fred", 5, 5, 5, 5, 255,
-                    150, 10, 5, 15, 5, 5, 255, 150, 10,
-                    30, 40)
+            .addMotion("Fred", 30, 5, 5, 5, 5, 255,
+                    150, 10, 40, 5, 15, 5, 5,
+                    255, 150, 10)
             .addMotion("Fred", 20, 5, 10, 5, 5, 255,
                     150, 10, 30, 5, 5, 5, 5,
                     255, 150, 10)
@@ -190,7 +190,7 @@ public class AnimatorModelImplTest {
   @Test
   public void testFindAmy() {
     setTest();
-    assertEquals(amyOval.getShapeID(), model.findShape("Amy").getShapeID());
+    assertEquals("Amy", model.findShape("Amy").getShapeID());
   }
 
   // test that Fred can be found in the list of motions once added
