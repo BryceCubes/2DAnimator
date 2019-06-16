@@ -1,25 +1,35 @@
 package cs3500.animator.view.visual;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 import javax.swing.*;
 
 import cs3500.animator.model.IAnimatorModel;
+import cs3500.animator.model.ReadOnlyIAnimatorModel;
+import cs3500.animator.model.shape.ReadOnlyIShape;
+import cs3500.animator.util.AnimationBuilder;
 import cs3500.animator.view.IAnimatorView;
 
 public class AnimationView extends JFrame implements IAnimatorView {
   private AnimationPanel panel;
   private JScrollPane scrollPane;
-  private IAnimatorModel model;
+  private ReadOnlyIAnimatorModel model;
   private Timer timer;
   private int speed;
   private int tick;
 
   private AnimationView() {
     super();
-    //TODO: 1500?
-    timer = new Timer(1000 / this.speed, e -> animate());
+    timer = new Timer(1000 / this.speed, new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        ArrayList<ReadOnlyIShape> shapesToRender = model.returnShapesAtTick(tick++);
+      }
+    });
 
     panel = new AnimationPanel();
     panel.setMinimumSize(new Dimension(500, 500));

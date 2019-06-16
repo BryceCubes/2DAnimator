@@ -1,5 +1,8 @@
 package cs3500.animator.model;
 
+import cs3500.animator.model.motion.IMotion;
+import cs3500.animator.model.motion.ReadOnlyIMotion;
+import cs3500.animator.model.motion.ShapeMotion;
 import cs3500.animator.model.shape.AShape;
 import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;
@@ -219,7 +222,7 @@ public class AnimatorModelImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void addMotionDisjoint() {
     setTest();
-    model.declareMotion("Fred",  20, 5, 5, 255,
+    model.declareMotion("Fred", 20, 5, 5, 255,
             150, 10, 10, 5, 5, 255, 150, 10,
             61, 70, 10, 20);
   }
@@ -255,7 +258,7 @@ public class AnimatorModelImplTest {
   @Test
   public void deleteMotionTest() {
     setTest();
-    model.deleteMotion("Fred",  15, 5, 5, 5, 255,
+    model.deleteMotion("Fred", 15, 5, 5, 5, 255,
             150, 10, 10, 20, 5, 5,
             255, 150, 10, 50, 60);
     assertEquals("shape Fred rectangle\n" +
@@ -279,9 +282,27 @@ public class AnimatorModelImplTest {
 
   @Test
   public void getMotionsTest() {
-    HashMap motions = model.returnMotions();
-    ArrayList shapes = model.getShapes();
-    //TODO: figure out wtf to check
+    HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> motions = model.returnMotions();
+    ArrayList<ReadOnlyIShape> shapes = model.returnShapes();
+    boolean hasFred = false;
+    boolean hasAmy = false;
+    boolean hasEthan = false;
+    for (ReadOnlyIShape shape : shapes) {
+      if(motions.get(shape) != null)
+      switch (motions.get(shape).get(0).getTextOutput()) {
+        case "Fred":
+          hasFred = true;
+          break;
+        case "Amy":
+          hasAmy = true;
+          break;
+        case "Ethan":
+          hasEthan = true;
+        default:
+      }
+    }
+    assertTrue(hasFred && hasAmy && hasEthan);
+    //TODO: this is worse than when I started but I think you can see what I'm tryna do
   }
 
   @Test(expected = IllegalArgumentException.class)
