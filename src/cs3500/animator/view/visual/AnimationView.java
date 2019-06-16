@@ -26,13 +26,6 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
   private AnimationView() {
     super();
-    timer = new Timer(1000 / 10 * this.speed, new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        shapesToRender = model.getShapesAtTick(tick++);
-        render(shapesToRender);
-      }
-    });
 
     panel = new AnimationPanel();
     panel.setMinimumSize(new Dimension(360, 360));
@@ -53,13 +46,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
   public static class Builder {
     private IAnimatorModel model = null;
-    private Timer timer = new Timer(60 , new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        shapesToRender = model.getShapesAtTick(tick++);
-        render(shapesToRender);
-      }
-    });
+    private int speed;
 
     public AnimationView build() {
       AnimationView animationView = new AnimationView();
@@ -68,9 +55,10 @@ public class AnimationView extends JFrame implements IAnimatorView {
       } else {
         animationView.setModel(this.model);
         animationView.setSpeed(this.speed);
-      }
+        animationView.setTimer(this.speed);
 
-      return animationView;
+        return animationView;
+      }
     }
 
     public Builder declareModel(IAnimatorModel model) {
@@ -85,10 +73,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
       if (speed < 1) {
         throw new IllegalArgumentException("Speed cannot be less than 1.");
       }
-      this.timer = new Timer(60 / speed, e -> {
-        shapesToRender = model.getShapesAtTick(tick++);
-        render(shapesToRender);
-      });
+      this.speed = speed;
       return this;
     }
 
@@ -113,7 +98,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
   }
 
   private void setTimer(int speed) {
-    this.timer = timer = new Timer(60 / speed, new ActionListener() {
+    this.timer = new Timer(100 / speed, new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         shapesToRender = model.getShapesAtTick(tick++);
