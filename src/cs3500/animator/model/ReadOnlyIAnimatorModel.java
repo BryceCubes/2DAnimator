@@ -60,13 +60,59 @@ public interface ReadOnlyIAnimatorModel {
   void deleteShape(String shapeID) throws IllegalArgumentException;
 
   /**
-   * Deletes a given motion for a given shape.
+   * Adds motion to the animation for an already existing shape.
    *
-   * @param motion motion to be deleted from a given shape
-   * @throws IllegalArgumentException when given shape doesnt exist or given motion for shape
-   *                                  does not exist
+   * @param shapeID the name of the shape that we are trying to add a motion to
+   * @param xStart  the starting x coordinate
+   * @param yStart  the starting y coordinate
+   * @param wStart  the starting width
+   * @param hStart  the starting height
+   * @param rStart  the starting red value
+   * @param gStart  the starting green value
+   * @param bStart  the starting blue value
+   * @param toX     the destination x coordinate
+   * @param toY     the destination y coordinate
+   * @param toW     the destination width
+   * @param toH     the destination height
+   * @param toR     the destination red value
+   * @param toG     the destination green value
+   * @param toB     the destination blue value
+   * @param tStart  the starting tick
+   * @param tEnd    the destination tick
+   * @throws IllegalArgumentException when motion already exists for given time, if motion is *
+   *                                  inconsistent, or disjoint
    */
-  void deleteMotion(IMotion motion) throws IllegalArgumentException;
+  void declareMotion(String shapeID, int xStart, int yStart, int wStart, int hStart, int rStart,
+                     int gStart, int bStart, int toX, int toY, int toW, int toH, int toR, int toG,
+                     int toB, int tStart, int tEnd) throws IllegalArgumentException;
+
+  /**
+   * Deletes a motion with the given values
+   *
+   * @param shapeID the name of the shape that we are trying to add a motion to
+   * @param xStart  the starting x coordinate
+   * @param yStart  the starting y coordinate
+   * @param wStart  the starting width
+   * @param hStart  the starting height
+   * @param rStart  the starting red value
+   * @param gStart  the starting green value
+   * @param bStart  the starting blue value
+   * @param toX     the destination x coordinate
+   * @param toY     the destination y coordinate
+   * @param toW     the destination width
+   * @param toH     the destination height
+   * @param toR     the destination red value
+   * @param toG     the destination green value
+   * @param toB     the destination blue value
+   * @param tStart  the starting tick
+   * @param tEnd    the destination tick
+   * @throws IllegalArgumentException when motion already exists for given time, if motion is *
+   *                                  inconsistent, or disjoint
+   */
+  void deleteMotion(String shapeID, int xStart, int yStart, int wStart, int hStart, int rStart,
+                 int gStart, int bStart, int toX, int toY, int toW, int toH, int toR, int toG,
+                 int toB, int tStart, int tEnd) throws IllegalArgumentException;
+
 
   /**
    * Generates the list of keys used to iterate through the hashmap of motions.
@@ -77,24 +123,28 @@ public interface ReadOnlyIAnimatorModel {
 
   /**
    * Gets the x value of the top left of the canvas frame.
+   *
    * @return The x value of the top left of the canvas frame
    */
   int getCanvasX();
 
   /**
    * Gets the y value of the top left of the canvas frame.
+   *
    * @return The y value of the top left of the canvas frame
    */
   int getCanvasY();
 
   /**
    * Gets the width value of the canvas.
+   *
    * @return the width value of the canvas
    */
   int getCanvasW();
 
   /**
    * Gets the height of the canvas.
+   *
    * @return the height value of the canvas
    */
   int getCanvasH();

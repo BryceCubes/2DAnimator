@@ -118,7 +118,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
       for (IShape shape : this.listOfShapes) {
         if (shape == null) {
           break;
-        } if (name.equals(shape.getShapeID())) {
+        }
+        if (name.equals(shape.getShapeID())) {
           currentShape = shape;
           break;
         }
@@ -235,6 +236,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException(shapeID + " shape does not exist.");
     }
   }
+
+
   // Added so that a shape can be removed with ease.
 
   @Override
@@ -262,9 +265,10 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Adding given motion causes motions to be noncontinuous.");
     }
   }
+
   // Added for additional functionality to commands when creating a model
 
-  @Override
+  //TODO: Delete
   public void deleteMotion(IMotion motion) {
     boolean doesShapeExist = false;
     IShape currentShape = motion.getShape();
@@ -367,8 +371,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   /**
-   * Used to return whether or not a list is in sequence given the start and stop times,
-   * and the starting and ending x and y coordinates.
+   * Used to return whether or not a list is in sequence given the start and stop times, and the
+   * starting and ending x and y coordinates.
    *
    * @param list list given from the hashmap associated with a certain key
    * @return a boolean regarding whether or not the list is in sequence
