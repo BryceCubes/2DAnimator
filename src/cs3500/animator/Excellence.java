@@ -7,6 +7,7 @@ import cs3500.animator.model.AnimatorModelImpl;
 import cs3500.animator.model.IAnimatorModel;
 import cs3500.animator.util.AnimationReader;
 import cs3500.animator.view.IAnimatorView;
+import cs3500.animator.view.SVGView;
 import cs3500.animator.view.TextView;
 
 /**
@@ -62,7 +63,15 @@ public class Excellence {
     } else {
       switch (view) {
         case "text":
-          TextView.Builder.set
+          IAnimatorView textView = new TextView.Builder().setModel(model).setOut(out).build();
+          textView.animate();
+          break;
+        case "svg":
+          IAnimatorView svgView = new SVGView.Builder().setModel(model).setOut(out).build();
+          svgView.animate();
+          break;
+        case "visual":
+
       }
     }
 
