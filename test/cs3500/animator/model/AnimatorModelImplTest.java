@@ -5,13 +5,8 @@ import cs3500.animator.model.motion.ShapeMotion;
 import cs3500.animator.model.shape.AShape;
 import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ShapeType;
-import cs3500.animator.util.AnimationBuilder;
 
 import org.junit.Test;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -304,7 +299,7 @@ public class AnimatorModelImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void addMotionAlreadyExists() {
     setTest();
-    model.addMotion(new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
+    model.declareMotion(new ShapeMotion(frectangle, 10, 10, 5, 5, 255,
             150, 10, 15, 10, 5, 5, 255, 150, 10,
             0, 10));
   }
@@ -312,7 +307,7 @@ public class AnimatorModelImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void addMotionInconsistent() {
     setTest();
-    model.addMotion(new ShapeMotion(frectangle, 20, 30, 5, 5, 255,
+    model.declareMotion(new ShapeMotion(frectangle, 20, 30, 5, 5, 255,
             150, 10, 15, 10, 5, 5, 255, 150, 10,
             0, 10));
   }
@@ -320,7 +315,7 @@ public class AnimatorModelImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void addMotionDisjoint() {
     setTest();
-    model.addMotion(new ShapeMotion(frectangle, 10, 20, 5, 5, 255,
+    model.declareMotion(new ShapeMotion(frectangle, 10, 20, 5, 5, 255,
             150, 10, 10, 20, 5, 5, 255, 150, 10,
             61, 70));
   }
@@ -331,7 +326,7 @@ public class AnimatorModelImplTest {
     IMotion newFred = new ShapeMotion(frectangle, 10, 20, 5, 5, 255,
             150, 10, 10, 20, 5, 5, 255, 150, 10,
             60, 70);
-    model.addMotion(newFred);
+    model.declareMotion(newFred);
     assertEquals(model.returnMotions().get("Fred").get(6), newFred);
   }
 
