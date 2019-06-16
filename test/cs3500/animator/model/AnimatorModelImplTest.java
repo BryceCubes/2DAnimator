@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -25,10 +26,24 @@ public class AnimatorModelImplTest {
   private IAnimatorModel mtModel;
 
 
+  private static boolean equals(ReadOnlyIShape shape1, ReadOnlyIShape shape2) {
+    return shape1.getShapeID().equals(shape2.getShapeID())
+            && shape1.getShapeType() == shape2.getShapeType()
+            && shape1.getHeight() == shape2.getHeight()
+            && shape1.getWidth() == shape2.getWidth()
+            && shape1.getXPos() == shape2.getXPos()
+            && shape1.getYPos() == shape2.getYPos()
+            && shape1.getRed() == shape2.getRed()
+            && shape1.getGreen() == shape2.getGreen()
+            && shape1.getBlue() == shape2.getBlue();
+  }
+
+
   private void setTest() {
 
     // Making the model and adding all shapes and motions
-    model = new AnimatorModelImpl.Builder().declareShape("Fred", "RecTanGle")
+    model = new AnimatorModelImpl.Builder().setBounds(0, 0, 100, 100)
+            .declareShape("Fred", "RecTanGle")
             .declareShape("Amy", "ellipse")
             .declareShape("Ethan", "ELLIPSE")
             .addMotion("Ethan", 30, 25, 25, 15, 15, 120,
@@ -41,7 +56,8 @@ public class AnimatorModelImplTest {
                     100, 255, 150, 50, 50, 10, 20,
                     0, 100, 255)
             .addMotion("Amy", 100, 50, 50, 30, 30, 0,
-                    100, 255, 125, 50, 50, 20, 30, 0, 100, 255)
+                    100, 255, 125, 50, 50, 20, 30,
+                    0, 100, 255)
             .addMotion("Amy", 75, 50, 50, 30, 35, 0,
                     100, 255, 100, 50, 50, 30, 30,
                     0, 100, 255)
@@ -73,7 +89,8 @@ public class AnimatorModelImplTest {
                     150, 10, 10, 15, 10, 5, 5,
                     255, 150, 10).build();
 
-    mtModel = new AnimatorModelImpl.Builder().build();
+    mtModel = new AnimatorModelImpl.Builder().setBounds(0, 0, 100, 100).build();
+
   }
 
   // test that Fred can be found in the list of motions once added
@@ -203,6 +220,19 @@ public class AnimatorModelImplTest {
     assertTrue(shapeFound);
   }
 
+  @Test
+  public void testDeleteShape() {
+    setTest();
+    model.deleteShape("Fred");
+    assertFalse(model.textViewMotions().contains("Fred"));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testDeleteBadShape() {
+    setTest();
+    model.deleteShape("Bob");
+  }
+
   @Test(expected = IllegalArgumentException.class)
   public void addMotionAlreadyExists() {
     setTest();
@@ -312,14 +342,26 @@ public class AnimatorModelImplTest {
   }
 
   @Test
-  public void returnShapesAtTickTestAt0() {
-    
+  public void returnShapesAtTickTestAt70() {
+    setTest();
+    ArrayList<ReadOnlyIShape> shapes = model.getShapesAtTick(70);
+    boolean hasFred = false;
+    boolean hasAmy = false;
+    boolean hasEthan = false;
+    for (ReadOnlyIShape shape : shapes) {
+      String textOut =  shape.getShapeID();
+      if (textOut.contains("Fred")) {
+        hasFred = true;
+      } else if (textOut.contains("Amy")) {
+        hasAmy = true;
+      } else if (textOut.contains("Ethan")) {
+        hasEthan = true;
+      }
+    }
+    assertTrue(!hasFred && hasAmy && !hasEthan);
   }
 
-  @Test
-  public void returnShapesAtTickTestAt10() {
 
-  }
 
   //TODO: test getters and delete shape
 }

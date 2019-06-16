@@ -227,15 +227,20 @@ public class AnimatorModelImpl implements IAnimatorModel {
   @Override
   public void deleteShape(String shapeID) {
     boolean doesShapeExist = false;
-    for (IShape shape : this.shapes) {
-      if (shape.getShapeID().equals(shapeID)) {
-        this.sortedMoveList.remove(shape);
+    int length = this.getShapes().size();
+    int index = 0;
+    for (int i = 0; i < length; i++) {
+      if (shapes.get(i).getShapeID().equals(shapeID)) {
+        this.sortedMoveList.remove(shapes.get(i));
         doesShapeExist = true;
+        break;
       }
     }
 
     if (!doesShapeExist) {
       throw new IllegalArgumentException(shapeID + " shape does not exist.");
+    } else {
+      shapes.remove(index);
     }
   }
 
