@@ -57,7 +57,6 @@ public class TextView implements IAnimatorView {
         throw new IllegalArgumentException("Out must be formatted in the following manner: name.txt"
                 + " or System.out");
       }
-
       this.out = out;
       return this;
     }

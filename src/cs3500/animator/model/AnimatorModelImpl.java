@@ -422,9 +422,4 @@ public class AnimatorModelImpl implements IAnimatorModel {
   public void setCanvasH(int canvasH) {
     this.canvasH = canvasH;
   }
-
-  @Override
-  public int getSpeed() {
-    return this.speed;
-  }
 }

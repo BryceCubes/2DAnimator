@@ -67,7 +67,8 @@ public class Excellence {
           textView.animate();
           break;
         case "svg":
-          IAnimatorView svgView = new SVGView.Builder().setModel(model).setOut(out).build();
+          IAnimatorView svgView = new SVGView.Builder().setModel(model).setOut(out).setSpeed(speed)
+                  .build();
           svgView.animate();
           break;
         case "visual":
