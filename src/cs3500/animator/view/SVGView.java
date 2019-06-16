@@ -20,7 +20,8 @@ public class SVGView implements IAnimatorView {
 
   /**
    * The Builder for the svg class that provides for the user to input the model, speed, and output
-   * source, and, if they don't, it provides the standard values for them.
+   * source, and, if they don't, it provides the standard values for them. This view runs at 10
+   * ticks per second.
    */
   public static class Builder {
     private SVGView svgView = new SVGView();
@@ -28,6 +29,11 @@ public class SVGView implements IAnimatorView {
     private String out = "System.out";
     private int speed = 1;
 
+    /**
+     * Method used to build the SVGView with the correct parameters such that no errors should be
+     * thrown.
+     * @return A valid SVGView
+     */
     public SVGView build() {
       if (this.model == null) {
         throw new IllegalArgumentException("Model cannot be null.");
@@ -38,11 +44,21 @@ public class SVGView implements IAnimatorView {
       return svgView;
     }
 
+    /**
+     * Method used to declare a model to be input into the SVGView.
+     * @param model the given model to be used for the view
+     * @return the Builder such that it can continue being built
+     */
     public Builder declareModel(IAnimatorModel model) {
       this.model = model;
       return this;
     }
 
+    /**
+     * Method used to input the desired ouput for where the view should animate to.
+     * @param out the given output the view will animate to
+     * @return the Builder such that it can continue to be built on
+     */
     public Builder declareOut(String out) {
       if (out == null) {
         throw new IllegalArgumentException("Out cannot be null.");
@@ -54,6 +70,11 @@ public class SVGView implements IAnimatorView {
       return this;
     }
 
+    /**
+     * Method used to declare the speed for the given view so the animation will be run at speed.
+     * @param speed the given speed for the view to animate at
+     * @return a builder so it can continue to be built on
+     */
     public Builder declareSpeed(int speed) {
       if (speed < 1) {
         throw new IllegalArgumentException("Speed cannot be less than 1.");
@@ -65,14 +86,26 @@ public class SVGView implements IAnimatorView {
     }
   }
 
+  /**
+   * Method used to set the output of the given view.
+   * @param out the output for the given view
+   */
   private void setOut(String out) {
     this.out = out;
   }
 
+  /**
+   * The method used to set the model for the given view.
+   * @param model the model for the given view
+   */
   private void setModel(IAnimatorModel model) {
     this.model = model;
   }
 
+  /**
+   * The method used to set the speed for the given view.
+   * @param speed the speed for the view to run at
+   */
   private void setSpeed(int speed) {
     this.speed = speed;
   }
@@ -173,11 +206,11 @@ public class SVGView implements IAnimatorView {
     svgOutput.append("</svg>");
 
     if (out.equals("System.out")) {
-      System.out.println(svgOutput);
+      System.out.print(svgOutput);
     } else {
       try {
         PrintWriter writer = new PrintWriter(out, "UTF-8");
-        writer.println(svgOutput);
+        writer.print(svgOutput);
         writer.close();
       } catch (Exception e) {
         throw new IllegalStateException("Your computer was not able to write to an output file.");

@@ -150,6 +150,6 @@ public class SVGViewTest {
             + "begin=\"3000ms\" dur=\"3000ms\" attributeName=\"fill\" from=\"rgb(120,180,95)\" "
             + "to=\"rgb(180,120,230)\" fill=\"freeze\" />\n    <set attributeType=\"xml\" "
             + "begin=\"0ms\" dur=\"2460ms\" attributeName=\"visibility\" from=\"hidden\" "
-            + "to=\"visible\" />\n</ellipse>\n</svg>\n", newOut.toString());
+            + "to=\"visible\" />\n</ellipse>\n</svg>", newOut.toString());
   }
 }
