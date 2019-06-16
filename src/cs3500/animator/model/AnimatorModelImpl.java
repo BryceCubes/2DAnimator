@@ -310,7 +310,6 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
 
-
   // checks if the given motion has all the same given fields
   private boolean equalMotions(IMotion mot, String shapeID, int xStart, int yStart, int wStart, int hStart,
                                int rStart, int gStart, int bStart, int toX, int toY, int toW, int toH,
@@ -370,10 +369,25 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   @Override
-  public void declareMotion(String shapeID, int xStart, int yStart, int wStart, int hStart, int rStart, int gStart, int bStart, int toX, int toY, int toW, int toH, int toR, int toG, int toB, int tStart, int tEnd) throws IllegalArgumentException {
+  public void declareMotion(String shapeID, int xStart, int yStart, int wStart, int hStart,
+                            int rStart, int gStart, int bStart, int toX, int toY, int toW, int toH,
+                            int toR, int toG, int toB, int tStart, int tEnd)
+          throws IllegalArgumentException {
 
+    for (IShape shape : this.shapes) {
+      if (shapeID.equals(shape.getShapeID())) {
+        sortedMoveList.get(shape).add(new ShapeMotion(shape, xStart, yStart, wStart, hStart,
+                rStart, gStart, bStart, toX, toY, toW, toH,
+                toR, toG, toB, tStart, tEnd));
+        bubbleSort();
+      }
+
+      if (!this.isContinuous(sortedMoveList.get(shape))) {
+        throw new IllegalArgumentException("Deleting given motion causes motions to be "
+                + "noncontinuous.");
+      }
+    }
   }
-  //Added so that could access and iterate through all of the data in the view
 
   /**
    * Method bubble sort algorithm implemented normally used to sort the list based on start times.

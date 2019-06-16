@@ -302,4 +302,6 @@ public class AnimatorModelImplTest {
   public void returnShapesAtTickTestAt10() {
 
   }
+
+  //TODO: test getters and delete shape
 }

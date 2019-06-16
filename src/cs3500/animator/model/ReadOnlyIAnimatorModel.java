@@ -23,8 +23,8 @@ public interface ReadOnlyIAnimatorModel {
    *
    * @return a hashmap of motiosn
    */
-  HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> returnMotions();
 
+  HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> returnMotions();
 
   /**
    * Method to return all the shapes the view will need to display.
