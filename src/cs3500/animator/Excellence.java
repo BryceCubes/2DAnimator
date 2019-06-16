@@ -73,7 +73,8 @@ public class Excellence {
           svgView.animate();
           break;
         case "visual":
-          IAnimatorView animationView = new AnimationView.Builder().declareModel(model).declareSpeed(speed)
+          IAnimatorView animationView = new AnimationView.Builder().declareModel(model)
+                  .declareSpeed(speed)
                   .build();
           animationView.animate();
           break;

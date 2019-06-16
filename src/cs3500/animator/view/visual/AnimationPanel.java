@@ -9,9 +9,9 @@ import javax.swing.JPanel;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 
 public class AnimationPanel extends JPanel implements IAnimationPanel {
-  List<ReadOnlyIShape> shapes = null;
+  private List<ReadOnlyIShape> shapes = null;
 
-  public AnimationPanel(){
+  AnimationPanel(){
     super();
   }
 

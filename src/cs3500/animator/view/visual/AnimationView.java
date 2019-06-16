@@ -21,13 +21,12 @@ public class AnimationView extends JFrame implements IAnimatorView {
   private ReadOnlyIAnimatorModel model;
   private ArrayList<ReadOnlyIShape> shapesToRender;
   private Timer timer;
-  private int speed;
+  private int speed = 1;
   private int tick = 0;
 
   private AnimationView() {
     super();
-    this.speed = 1;
-    timer = new Timer(this.speed * 60, new ActionListener() {
+    timer = new Timer(60 / this.speed, new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         shapesToRender = model.getShapesAtTick(tick++);
