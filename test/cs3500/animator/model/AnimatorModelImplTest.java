@@ -255,11 +255,21 @@ public class AnimatorModelImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void shapeForMotionDoesntExist() {
     setTest();
-    IShape george = new AShape("George", ShapeType.RECTANGLE);
     model.declareMotion("George", 10, 20, 5, 5, 255,
             150, 10, 10, 20, 5, 5, 255, 150, 10,
             60, 70);
   }
+
+  @Test
+  public void testDeclareMotion() {
+    setTest();
+    model.declareMotion("Fred",10, 20, 5, 5,
+            255, 150, 10, 20, 10, 5, 5,
+            255, 150, 10, 60, 70);
+    assertTrue(model.textViewMotions().contains("Fred 60 10 20 5 5 255 150 10    " +
+            "70 20 10 5 5 255 150 10"));
+  }
+
 
   @Test(expected = IllegalArgumentException.class)
   public void motionDoesntExist() {
@@ -334,7 +344,7 @@ public class AnimatorModelImplTest {
     boolean hasAmy = false;
     boolean hasEthan = false;
     for (ReadOnlyIShape shape : shapes) {
-      String textOut =  shape.getShapeID();
+      String textOut = shape.getShapeID();
       if (textOut.contains("Fred")) {
         hasFred = true;
       } else if (textOut.contains("Amy")) {
@@ -373,4 +383,51 @@ public class AnimatorModelImplTest {
     model.setCanvasH(400);
     assertEquals(model.getCanvasH(), 400);
   }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testNegXBuild() {
+    new AnimatorModelImpl.Builder().setBounds(-1, 0, 1, 1)
+            .build();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testNegYBuild() {
+    new AnimatorModelImpl.Builder().setBounds(0, -1, 1, 1)
+            .build();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void test0WBuild() {
+    new AnimatorModelImpl.Builder().setBounds(0, 0, 0, 1)
+            .build();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void test0HBuild() {
+    new AnimatorModelImpl.Builder().setBounds(0, 0, 1, 0)
+            .build();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void noDoubleShapeBuild() {
+    new AnimatorModelImpl.Builder().setBounds(0, 0, 1, 0)
+            .declareShape("Ethan", "rectangle")
+            .declareShape("Ethan", "ellipse").build();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void noInvalidShapeBuild() {
+    new AnimatorModelImpl.Builder().setBounds(0, 0, 1, 0)
+            .declareShape("Ethan", "hi :)").build();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void notAddedShapeBuild() {
+    new AnimatorModelImpl.Builder().setBounds(0, 0, 1, 0)
+            .declareShape("Ethan", "rectangle")
+            .addMotion("Amy", 0, 50, 50, 10, 20, 0,
+                    100, 255, 25, 50, 50, 10, 25,
+                    0, 100, 255).build();
+  }
+
 }

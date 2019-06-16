@@ -3,6 +3,8 @@ package cs3500.animator;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
+import javax.swing.*;
+
 import cs3500.animator.model.AnimatorModelImpl;
 import cs3500.animator.model.IAnimatorModel;
 import cs3500.animator.util.AnimationReader;
@@ -33,6 +35,9 @@ public class Excellence {
             model = AnimationReader.parseFile(fileReader, new AnimatorModelImpl.Builder());
             break;
           } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "Could not find given input file.", "No file warning",
+                    JOptionPane.WARNING_MESSAGE);
             throw new IllegalArgumentException("Could not find given input file.");
           }
         case "-out":
@@ -54,11 +59,21 @@ public class Excellence {
     }
 
     if (in == null) {
+      JOptionPane.showMessageDialog(new JFrame(),
+              "The in file must be specified.", "No file specified warning",
+              JOptionPane.WARNING_MESSAGE);
       throw new IllegalArgumentException("The in file must be specified.");
     } else if (model == null) {
+      JOptionPane.showMessageDialog(new JFrame(),
+              "Cannot parse the given file.", "Invalid file warning",
+              JOptionPane.WARNING_MESSAGE);
       throw new IllegalArgumentException("Our program could not parse your file, please provide a "
               + "file in the correct format.");
     } else if (view == null) {
+      JOptionPane.showMessageDialog(new JFrame(),
+              "Must provide a valid view of type visual, svg, or text.",
+              "Invalid view type warning",
+              JOptionPane.WARNING_MESSAGE);
       throw new IllegalArgumentException("Must provide a valid view of type visual, svg, or text.");
     } else {
       switch (view) {
@@ -78,8 +93,11 @@ public class Excellence {
           animationView.animate();
           break;
         default:
-          throw new IllegalArgumentException("Must provide a valid view of type visual, svg, or "
-                  + "text.");
+          JOptionPane.showMessageDialog(new JFrame(),
+                  "This is our fault if you get here, sorry.",
+                  "Sorry :(",
+                  JOptionPane.WARNING_MESSAGE);
+          throw new IllegalArgumentException("This is our fault if you get here, sorry.");
       }
     }
 
