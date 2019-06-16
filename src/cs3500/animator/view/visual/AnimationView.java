@@ -24,6 +24,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
   private AnimationView() {
     super();
+    this.speed = 1;
     timer = new Timer(1000 / this.speed, new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -49,12 +50,11 @@ public class AnimationView extends JFrame implements IAnimatorView {
   }
 
   public static class Builder {
-    private AnimationView animationView;
     private IAnimatorModel model = null;
     private int speed = 1;
 
     public AnimationView build() {
-      this.animationView = new AnimationView();
+      AnimationView animationView = new AnimationView();
       if (this.model == null) {
         throw new IllegalArgumentException("Model must be set to a value.");
       } else {
@@ -65,7 +65,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
       return animationView;
     }
 
-    public Builder setModel(IAnimatorModel model) {
+    public Builder declareModel(IAnimatorModel model) {
       if (model == null) {
         throw new IllegalArgumentException("Model cannot be null.");
       }
@@ -73,7 +73,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
       return this;
     }
 
-    public Builder setSpeed(int speed) {
+    public Builder declareSpeed(int speed) {
       if (speed < 1) {
         throw new IllegalArgumentException("Speed cannot be less than 1.");
       }
