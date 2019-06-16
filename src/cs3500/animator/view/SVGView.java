@@ -46,8 +46,7 @@ public class SVGView implements IAnimatorView {
     public Builder declareOut(String out) {
       if (out == null) {
         throw new IllegalArgumentException("Out cannot be null.");
-      } else if ((!this.out.contains(".svg") && !this.out.equals("System.out"))
-              || this.out.length() < 5) {
+      } else if ((!out.contains(".svg") && !out.equals("System.out")) || out.length() < 5) {
         throw new IllegalArgumentException("Out must be formatted in the following manner: name.svg"
                 + " or System.out");
       }

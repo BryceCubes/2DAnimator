@@ -1,5 +1,7 @@
 package cs3500.animator.view;
 
+import com.oracle.javafx.jmx.SGMXBean;
+
 import org.junit.Test;
 
 import cs3500.animator.model.AnimatorModelImpl;
@@ -63,5 +65,20 @@ public class SVGViewTest {
   @Test (expected = IllegalArgumentException.class)
   public void modelSetToNull() {
     new SVGView.Builder().declareModel(null).build();
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void outLessThan5Chars() {
+    new SVGView.Builder().declareModel(model).declareOut("ab").build();
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void outDoesntContainSVG() {
+    new SVGView.Builder().declareModel(model).declareOut("abcdefg").build();
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void outIsNull() {
+    new SVGView.Builder().declareModel(model).declareOut(null).build();
   }
 }
