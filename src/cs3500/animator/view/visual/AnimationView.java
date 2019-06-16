@@ -26,7 +26,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
   private AnimationView() {
     super();
-    timer = new Timer(60 / this.speed, new ActionListener() {
+    timer = new Timer(1000 / 10 * this.speed, new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         shapesToRender = model.getShapesAtTick(tick++);
@@ -82,6 +82,8 @@ public class AnimationView extends JFrame implements IAnimatorView {
       this.speed = speed;
       return this;
     }
+
+
   }
 
   private void setModel(IAnimatorModel model) {
