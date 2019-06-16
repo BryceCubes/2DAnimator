@@ -283,7 +283,7 @@ public class AnimatorModelImplTest {
   @Test
   public void getMotionsTest() {
     HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> motions = model.returnMotions();
-    ArrayList<ReadOnlyIShape> shapes = model.returnShapes();
+    ArrayList<ReadOnlyIShape> shapes = model.getShapes();
     boolean hasFred = false;
     boolean hasAmy = false;
     boolean hasEthan = false;
