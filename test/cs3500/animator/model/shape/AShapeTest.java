@@ -10,56 +10,6 @@ import static org.junit.Assert.assertEquals;
 public class AShapeTest {
   private IShape frectangle = new AShape("Fred", ShapeType.RECTANGLE);
 
-  @Test(expected = IllegalArgumentException.class)
-  public void widthNegative() {
-    new AShape("Fred", ShapeType.RECTANGLE);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void heightNegative() {
-    new AShape("Fred", ShapeType.RECTANGLE);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void rNegative() {
-    new AShape("Fred", ShapeType.RECTANGLE);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void gNegative() {
-    new AShape("Fred", ShapeType.RECTANGLE);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void bNegative() {
-    new AShape("Fred", ShapeType.RECTANGLE);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void rGreaterThan255() {
-    new AShape("Fred", ShapeType.RECTANGLE);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void gGreaterThan255() {
-    new AShape("Fred", ShapeType.RECTANGLE);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void bGreaterThan255() {
-    new AShape("Fred", ShapeType.RECTANGLE);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void nameEmptyString() {
-    new AShape("", ShapeType.RECTANGLE);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void nameNull() {
-    new AShape(null, ShapeType.RECTANGLE);
-  }
-
   @Test
   public void getShapeIDTest() {
     assertEquals("Fred", frectangle.getShapeID());
@@ -68,41 +18,6 @@ public class AShapeTest {
   @Test
   public void getShapeTypeTest() {
     assertEquals(ShapeType.RECTANGLE, frectangle.getShapeType());
-  }
-
-  @Test
-  public void getXPosTest() {
-    assertEquals(10.0, frectangle.getXPos(), .0);
-  }
-
-  @Test
-  public void getYPosTest() {
-    assertEquals(10.0, frectangle.getYPos(), .0);
-  }
-
-  @Test
-  public void getWidthTest() {
-    assertEquals(5.0, frectangle.getWidth(), .0);
-  }
-
-  @Test
-  public void getHeightTest() {
-    assertEquals(5.0, frectangle.getHeight(), .0);
-  }
-
-  @Test
-  public void getRedTest() {
-    assertEquals(255, frectangle.getRed());
-  }
-
-  @Test
-  public void getGreenTest() {
-    assertEquals(150, frectangle.getGreen());
-  }
-
-  @Test
-  public void getBlueTest() {
-    assertEquals(10, frectangle.getBlue());
   }
 
   @Test
@@ -150,5 +65,40 @@ public class AShapeTest {
   public void setBTest() {
     frectangle.setB(66);
     assertEquals(66, frectangle.getBlue());
+  }
+
+  @Test
+  public void getXPosTest() {
+    assertEquals(1.0, frectangle.getXPos(), .0);
+  }
+
+  @Test
+  public void getYPosTest() {
+    assertEquals(1.0, frectangle.getYPos(), .0);
+  }
+
+  @Test
+  public void getWidthTest() {
+    assertEquals(1.0, frectangle.getWidth(), .0);
+  }
+
+  @Test
+  public void getHeightTest() {
+    assertEquals(1.0, frectangle.getHeight(), .0);
+  }
+
+  @Test
+  public void getRedTest() {
+    assertEquals(1, frectangle.getRed());
+  }
+
+  @Test
+  public void getGreenTest() {
+    assertEquals(1, frectangle.getGreen());
+  }
+
+  @Test
+  public void getBlueTest() {
+    assertEquals(1, frectangle.getBlue());
   }
 }
