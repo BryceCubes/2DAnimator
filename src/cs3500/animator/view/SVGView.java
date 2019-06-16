@@ -8,28 +8,15 @@ import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 
 public class SVGView implements IAnimatorView {
-  private final int speed;
   private StringBuilder svgOutput;
-  private final IAnimatorModel model;
-  private final String out;
+  private IAnimatorModel model;
+  private String out;
+  private int speed;
 
   /**
-   * The base constructor for an SVGView that takes in a builder that provides the model, standard
-   * speed that could be changed, width, height, and standard out that can be changed.
-   * @param builder the builder associated with this class providing all necessary inputs
+   * The base constructor for an SVGView that just makes an empty view.
    */
-  private SVGView(Builder builder) {
-    if (builder.model == null) {
-      throw new IllegalArgumentException("Model cannot be null.");
-    } else if ((!builder.out.contains(".svg") && !builder.out.equals("System.out"))
-            || builder.out.length() < 5) {
-      throw new IllegalArgumentException("Out must be formatted in the following manner: name.svg "
-              + "or System.out");
-    }
-
-    this.model = builder.model;
-    this.speed = builder.speed;
-    this.out = builder.out;
+  private SVGView() {
   }
 
   /**
@@ -37,12 +24,18 @@ public class SVGView implements IAnimatorView {
    * source, and, if they don't, it provides the standard values for them.
    */
   public static class Builder {
-    IAnimatorModel model = null;
-    int speed = 1;
-    String out = "System.out";
+    private SVGView svgView = new SVGView();
+    private IAnimatorModel model = null;
+    private String out = "System.out";
+    private int speed = 1;
 
     public SVGView build() {
-      return new SVGView(this);
+      if (this.model == null) {
+        throw new IllegalArgumentException("Model cannot be null.");
+      }
+      svgView.setModel(this.model);
+      svgView.setOut(this.out);
+      return svgView;
     }
 
     public Builder setModel(IAnimatorModel model) {
@@ -50,21 +43,42 @@ public class SVGView implements IAnimatorView {
       return this;
     }
 
-    public Builder setSpeed(int speed) {
-      if (speed < 1) {
-        throw new IllegalArgumentException("Speed cannot be less than 1.");
-      }
-      this.speed = speed;
-      return this;
-    }
-
     public Builder setOut(String out) {
       if (out == null) {
         throw new IllegalArgumentException("Out cannot be null.");
+      } else if ((!this.out.contains(".svg") && !this.out.equals("System.out"))
+              || this.out.length() < 5) {
+        throw new IllegalArgumentException("Out must be formatted in the following manner: name.svg"
+                + " or System.out");
       }
 
       return this;
     }
+
+    public Builder setSpeed(int speed) {
+      if (speed < 1) {
+        throw new IllegalArgumentException("Speed cannot be less than 1.");
+      } else {
+        this.speed = speed;
+      }
+
+      return this;
+    }
+  }
+
+  @Override
+  public void setOut(String out) {
+    this.out = out;
+  }
+
+  @Override
+  public void setModel(IAnimatorModel model) {
+    this.model = model;
+  }
+
+  @Override
+  public void setSpeed(int speed) {
+    this.speed = speed;
   }
 
   /**

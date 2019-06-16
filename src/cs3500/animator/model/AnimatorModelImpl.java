@@ -25,6 +25,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   private int canvasY;
   private int canvasW;
   private int canvasH;
+  private int speed;
 
   /**
    * Base constructor used to initialize the variables
@@ -38,13 +39,13 @@ public class AnimatorModelImpl implements IAnimatorModel {
    * Constructor used to create an animator model.
    */
   public static final class Builder implements AnimationBuilder<IAnimatorModel> {
-    AnimatorModelImpl model;
-    int x;
-    int y;
-    int width;
-    int height;
-    ArrayList<IMotion> listOfMotions = new ArrayList<>();
-    ArrayList<IShape> listOfShapes = new ArrayList<>();
+    private AnimatorModelImpl model;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    private ArrayList<IMotion> listOfMotions = new ArrayList<>();
+    private ArrayList<IShape> listOfShapes = new ArrayList<>();
 
     @Override
     public AnimatorModelImpl build() {
@@ -444,5 +445,10 @@ public class AnimatorModelImpl implements IAnimatorModel {
   @Override
   public void setCanvasH(int canvasH) {
     this.canvasH = canvasH;
+  }
+
+  @Override
+  public int getSpeed() {
+    return this.speed;
   }
 }
