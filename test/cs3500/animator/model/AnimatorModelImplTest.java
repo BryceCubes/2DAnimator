@@ -302,7 +302,6 @@ public class AnimatorModelImplTest {
       }
     }
     assertTrue(hasFred && hasAmy && hasEthan);
-    //TODO: this is worse than when I started but I think you can see what I'm tryna do
   }
 
 
@@ -314,7 +313,7 @@ public class AnimatorModelImplTest {
 
   @Test
   public void returnShapesAtTickTestAt0() {
-
+    
   }
 
   @Test
