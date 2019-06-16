@@ -1,5 +1,9 @@
 package cs3500.animator.util;
 
+/**
+ * Class to build IAnimatorModels
+ * @param <IAnimatorModel>
+ */
 public interface AnimationBuilder<IAnimatorModel> {
   /**
    * Constructs a final document.

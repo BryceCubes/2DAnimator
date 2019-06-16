@@ -3,7 +3,8 @@ package cs3500.animator;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.JFrame;
 
 import cs3500.animator.model.AnimatorModelImpl;
 import cs3500.animator.model.IAnimatorModel;
@@ -17,6 +18,18 @@ import cs3500.animator.view.visual.AnimationView;
  * Main class to run the animator through.
  */
 public class Excellence {
+
+  /**
+   * Runs the Animation based on the given commands in the below format.
+   * -in "name-of-animation-file".
+   * -view "type-of-view".
+   * -out "where-output-show-go".
+   * -speed "integer-ticks-per-second".
+   *
+   * This has 3 different views: SVG, Visual, and Text.
+   * Speed is measured in 10's of ms per frame.
+   * @param args The input for the program
+   */
   public static void main(String[] args) {
     String in = null;
     String out = "System.out";

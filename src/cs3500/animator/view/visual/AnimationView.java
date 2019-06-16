@@ -101,7 +101,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
   }
 
   /**
-   * Sets the timer to determine the animation rate
+   * Sets the timer to determine the animation rate.
    * @param speed the speed of the timer in 10ms
    */
   private void setTimer(int speed) {

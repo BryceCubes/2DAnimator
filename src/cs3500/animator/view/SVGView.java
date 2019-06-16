@@ -7,6 +7,7 @@ import cs3500.animator.model.IAnimatorModel;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 
+
 public class SVGView implements IAnimatorView {
   private IAnimatorModel model;
   private String out;
