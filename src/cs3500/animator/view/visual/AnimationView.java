@@ -11,7 +11,6 @@ import javax.swing.*;
 import cs3500.animator.model.IAnimatorModel;
 import cs3500.animator.model.ReadOnlyIAnimatorModel;
 import cs3500.animator.model.shape.ReadOnlyIShape;
-import cs3500.animator.util.AnimationBuilder;
 import cs3500.animator.view.IAnimatorView;
 
 public class AnimationView extends JFrame implements IAnimatorView {
@@ -20,10 +19,11 @@ public class AnimationView extends JFrame implements IAnimatorView {
   private ReadOnlyIAnimatorModel model;
   private Timer timer;
   private int speed;
-  private int tick;
+  private int tick = 0;
 
   private AnimationView() {
     super();
+    speed = 1;
     timer = new Timer(1000 / this.speed, new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
