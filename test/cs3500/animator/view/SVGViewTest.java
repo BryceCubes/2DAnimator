@@ -4,7 +4,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 
 import cs3500.animator.model.AnimatorModelImpl;
@@ -60,7 +66,9 @@ public class SVGViewTest {
           .addMotion("Fred", 0, 10, 10, 5, 5, 255,
                   150, 10, 10, 15, 10, 5, 5,
                   255, 150, 10).setBounds(1, 2, 3, 4).build();
-  private IAnimatorView modelView = new SVGView.Builder().declareModel(model).build();
+  private IAnimatorView modelSystemView = new SVGView.Builder().declareModel(model).build();
+  private IAnimatorView modelFileView = new SVGView.Builder().declareModel(model)
+          .declareOut("test.svg").build();
   private final ByteArrayOutputStream newOut = new ByteArrayOutputStream();
   private final PrintStream originalOut = System.out;
 
@@ -101,7 +109,7 @@ public class SVGViewTest {
 
   @Test
   public void testSystemOut() {
-    modelView.animate();
+    modelSystemView.animate();
     assertEquals("<svg width=\"4\" height=\"6\" version=\"1.1\" "
             + "xmlns=\"http://www.w3.org/2000/svg\">\n<rect id=\"Fred\" x=\"10\" y=\"10\" "
             + "width=\"5\" height=\"5\" fill=\"rgb(255,150,10)\" visibility=\"hidden\" >\n    "
@@ -151,5 +159,76 @@ public class SVGViewTest {
             + "to=\"rgb(180,120,230)\" fill=\"freeze\" />\n    <set attributeType=\"xml\" "
             + "begin=\"0ms\" dur=\"2460ms\" attributeName=\"visibility\" from=\"hidden\" "
             + "to=\"visible\" />\n</ellipse>\n</svg>", newOut.toString());
+  }
+
+  @Test
+  public void fileWrite() {
+    modelFileView.animate();
+    try {
+      InputStream stream = new FileInputStream("test.svg");
+      BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+
+      String line = reader.readLine();
+      StringBuilder sb = new StringBuilder();
+
+      while (line != null) {
+        sb.append(line).append("\n");
+        line = reader.readLine();
+      }
+
+      String fileAsString = sb.toString();
+      assertEquals("<svg width=\"4\" height=\"6\" version=\"1.1\" "
+              + "xmlns=\"http://www.w3.org/2000/svg\">\n<rect id=\"Fred\" x=\"10\" y=\"10\" "
+              + "width=\"5\" height=\"5\" fill=\"rgb(255,150,10)\" visibility=\"hidden\" >\n    "
+              + "<animate attributeType=\"xml\" begin=\"0ms\" dur=\"1000ms\" attributeName=\"x\" "
+              + "from=\"10\" to=\"15\" fill=\"freeze\" />\n    <animate attributeType=\"xml\" "
+              + "begin=\"1000ms\" dur=\"1000ms\" attributeName=\"x\" from=\"15\" to=\"5\" "
+              + "fill=\"freeze\" />\n    <animate attributeType=\"xml\" begin=\"2000ms\" "
+              + "dur=\"1000ms\" attributeName=\"y\" from=\"10\" to=\"5\" fill=\"freeze\" />\n    "
+              + "<animate attributeType=\"xml\" begin=\"3000ms\" dur=\"1000ms\" attributeName=\"y\" "
+              + "from=\"5\" to=\"15\" fill=\"freeze\" />\n    <animate attributeType=\"xml\" "
+              + "begin=\"4000ms\" dur=\"1000ms\" attributeName=\"x\" from=\"5\" to=\"15\" "
+              + "fill=\"freeze\" />\n    <animate attributeType=\"xml\" begin=\"4000ms\" "
+              + "dur=\"1000ms\" attributeName=\"y\" from=\"15\" to=\"5\" fill=\"freeze\" />\n    "
+              + "<animate attributeType=\"xml\" begin=\"5000ms\" dur=\"1000ms\" attributeName=\"x\" "
+              + "from=\"15\" to=\"10\" fill=\"freeze\" />\n    <animate attributeType=\"xml\" "
+              + "begin=\"5000ms\" dur=\"1000ms\" attributeName=\"y\" from=\"5\" to=\"20\" "
+              + "fill=\"freeze\" />\n    <set attributeType=\"xml\" begin=\"0ms\" dur=\"2460ms\" "
+              + "attributeName=\"visibility\" from=\"hidden\" to=\"visible\" />\n</rect>\n"
+              + "<ellipse id=\"Amy\" cx=\"50\" cy=\"50\" rx=\"5\" ry=\"10\" fill=\"rgb(0,100,255)\" "
+              + "visibility=\"hidden\" >\n    <animate attributeType=\"xml\" begin=\"0ms\" "
+              + "dur=\"2500ms\" attributeName=\"ry\" from=\"10\" to=\"12\" fill=\"freeze\" />\n    "
+              + "<animate attributeType=\"xml\" begin=\"2500ms\" dur=\"2500ms\" attributeName=\"rx\" "
+              + "from=\"5\" to=\"10\" fill=\"freeze\" />\n    <animate attributeType=\"xml\" "
+              + "begin=\"5000ms\" dur=\"2500ms\" attributeName=\"rx\" from=\"10\" to=\"15\" "
+              + "fill=\"freeze\" />\n    <animate attributeType=\"xml\" begin=\"5000ms\" "
+              + "dur=\"2500ms\" attributeName=\"ry\" from=\"12\" to=\"17\" fill=\"freeze\" />\n    "
+              + "<animate attributeType=\"xml\" begin=\"7500ms\" dur=\"2500ms\" attributeName=\"ry\" "
+              + "from=\"17\" to=\"15\" fill=\"freeze\" />\n    <animate attributeType=\"xml\" "
+              + "begin=\"10000ms\" dur=\"2500ms\" attributeName=\"rx\" from=\"15\" to=\"10\" "
+              + "fill=\"freeze\" />\n    <animate attributeType=\"xml\" begin=\"12500ms\" "
+              + "dur=\"2500ms\" attributeName=\"rx\" from=\"10\" to=\"5\" fill=\"freeze\" />\n    "
+              + "<animate attributeType=\"xml\" begin=\"12500ms\" dur=\"2500ms\" attributeName=\"ry\""
+              + " from=\"15\" to=\"10\" fill=\"freeze\" />\n    <set attributeType=\"xml\" "
+              + "begin=\"0ms\" dur=\"6150ms\" attributeName=\"visibility\" from=\"hidden\" "
+              + "to=\"visible\" />\n</ellipse>\n<ellipse id=\"Ethan\" cx=\"25\" cy=\"25\" rx=\"7\" "
+              + "ry=\"7\" fill=\"rgb(180,120,230)\" visibility=\"hidden\" >\n    <animate "
+              + "attributeType=\"xml\" begin=\"0ms\" dur=\"3000ms\" attributeName=\"fill\" "
+              + "from=\"rgb(180,120,230)\" to=\"rgb(120,180,95)\" fill=\"freeze\" />\n    <animate "
+              + "attributeType=\"xml\" begin=\"3000ms\" dur=\"3000ms\" attributeName=\"cx\" "
+              + "from=\"25\" to=\"40\" fill=\"freeze\" />\n    <animate attributeType=\"xml\" "
+              + "begin=\"3000ms\" dur=\"3000ms\" attributeName=\"cy\" from=\"25\" to=\"15\" "
+              + "fill=\"freeze\" />\n    <animate attributeType=\"xml\" begin=\"3000ms\" "
+              + "dur=\"3000ms\" attributeName=\"rx\" from=\"7\" to=\"10\" fill=\"freeze\" />\n    "
+              + "<animate attributeType=\"xml\" begin=\"3000ms\" dur=\"3000ms\" attributeName=\"ry\" "
+              + "from=\"7\" to=\"15\" fill=\"freeze\" />\n    <animate attributeType=\"xml\" "
+              + "begin=\"3000ms\" dur=\"3000ms\" attributeName=\"fill\" from=\"rgb(120,180,95)\" "
+              + "to=\"rgb(180,120,230)\" fill=\"freeze\" />\n    <set attributeType=\"xml\" "
+              + "begin=\"0ms\" dur=\"2460ms\" attributeName=\"visibility\" from=\"hidden\" "
+              + "to=\"visible\" />\n</ellipse>\n</svg>\n", fileAsString);
+
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Could not read from file.");
+    }
   }
 }

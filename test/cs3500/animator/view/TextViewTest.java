@@ -4,7 +4,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 
 import cs3500.animator.model.AnimatorModelImpl;
@@ -61,6 +66,9 @@ public class TextViewTest {
                   150, 10, 10, 15, 10, 5, 5,
                   255, 150, 10).setBounds(1, 2, 3, 4).build();
   private IAnimatorView modelView = new TextView.Builder().declareModel(model).build();
+  private IAnimatorView modelFileView = new TextView.Builder().declareModel(model)
+          .declareOut("test.txt").build();
+
   private final ByteArrayOutputStream newOut = new ByteArrayOutputStream();
   private final PrintStream originalOut = System.out;
 
@@ -121,5 +129,46 @@ public class TextViewTest {
             + "motion Ethan 0 25 25 15 15 180 120 230    30 25 25 15 15 120 180 95\n"
             + "motion Ethan 30 25 25 15 15 120 180 95    60 40 15 20 30 180 120 230\n",
             newOut.toString());
+  }
+
+  @Test
+  public void fileOut() {
+    modelFileView.animate();
+    try {
+      InputStream stream = new FileInputStream("test.txt");
+      BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+
+      String line = reader.readLine();
+      StringBuilder sb = new StringBuilder();
+
+      while (line != null) {
+        sb.append(line).append("\n");
+        line = reader.readLine();
+      }
+
+      String fileAsString = sb.toString();
+      assertEquals("canvas 1 2 3 4\n"
+              + "shape Fred rectangle\n"
+              + "motion Fred 0 10 10 5 5 255 150 10    10 15 10 5 5 255 150 10\n"
+              + "motion Fred 10 15 10 5 5 255 150 10    20 5 10 5 5 255 150 10\n"
+              + "motion Fred 20 5 10 5 5 255 150 10    30 5 5 5 5 255 150 10\n"
+              + "motion Fred 30 5 5 5 5 255 150 10    40 5 15 5 5 255 150 10\n"
+              + "motion Fred 40 5 15 5 5 255 150 10    50 15 5 5 5 255 150 10\n"
+              + "motion Fred 50 15 5 5 5 255 150 10    60 10 20 5 5 255 150 10\n"
+              + "shape Amy ellipse\n"
+              + "motion Amy 0 50 50 10 20 0 100 255    25 50 50 10 25 0 100 255\n"
+              + "motion Amy 25 50 50 10 25 0 100 255    50 50 50 20 25 0 100 255\n"
+              + "motion Amy 50 50 50 20 25 0 100 255    75 50 50 30 35 0 100 255\n"
+              + "motion Amy 75 50 50 30 35 0 100 255    100 50 50 30 30 0 100 255\n"
+              + "motion Amy 100 50 50 30 30 0 100 255    125 50 50 20 30 0 100 255\n"
+              + "motion Amy 125 50 50 20 30 0 100 255    150 50 50 10 20 0 100 255\n"
+              + "shape Ethan ellipse\n"
+              + "motion Ethan 0 25 25 15 15 180 120 230    30 25 25 15 15 120 180 95\n"
+              + "motion Ethan 30 25 25 15 15 120 180 95    60 40 15 20 30 180 120 230\n",
+              fileAsString);
+
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Could not read from file.");
+    }
   }
 }
