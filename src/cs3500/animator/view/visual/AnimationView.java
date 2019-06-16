@@ -29,7 +29,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
   public static class Builder {
     private IAnimatorModel model = null;
-    private int speed;
+    private int speed = 1;
 
     public AnimationView build() {
       AnimationView animationView = new AnimationView();
