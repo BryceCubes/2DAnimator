@@ -60,15 +60,6 @@ public interface ReadOnlyIAnimatorModel {
   void deleteShape(String shapeID) throws IllegalArgumentException;
 
   /**
-   * Adds motion to the animation for an already existing shape.
-   *
-   * @param motion motion to be added to a shapes arraylist of motions
-   * @throws IllegalArgumentException when motion already exists for given time, if motion is
-   *                                  inconsistent, or disjoint
-   */
-  void addMotion(IMotion motion) throws IllegalArgumentException;
-
-  /**
    * Deletes a given motion for a given shape.
    *
    * @param motion motion to be deleted from a given shape
