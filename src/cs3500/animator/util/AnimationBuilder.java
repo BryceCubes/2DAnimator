@@ -1,8 +1,8 @@
 package cs3500.animator.util;
 
 /**
- * Class to build IAnimatorModels
- * @param <IAnimatorModel>
+ * Class to build IAnimatorModels.
+ * @param <IAnimatorModel> The model type to be created
  */
 public interface AnimationBuilder<IAnimatorModel> {
   /**
