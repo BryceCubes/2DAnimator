@@ -75,4 +75,9 @@ public class TextViewTest {
   public void outDoesntContainTXT() {
     new TextView.Builder().declareModel(model).declareOut("abcdefg");
   }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void outIsNull() {
+    new TextView.Builder().declareModel(model).declareOut(null);
+  }
 }
