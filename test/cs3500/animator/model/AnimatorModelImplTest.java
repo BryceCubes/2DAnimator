@@ -1,8 +1,6 @@
 package cs3500.animator.model;
 
-import cs3500.animator.model.motion.IMotion;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
-import cs3500.animator.model.motion.ShapeMotion;
 import cs3500.animator.model.shape.AShape;
 import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;
@@ -24,19 +22,6 @@ public class AnimatorModelImplTest {
 
   private IAnimatorModel model;
   private IAnimatorModel mtModel;
-
-
-  private static boolean equals(ReadOnlyIShape shape1, ReadOnlyIShape shape2) {
-    return shape1.getShapeID().equals(shape2.getShapeID())
-            && shape1.getShapeType() == shape2.getShapeType()
-            && shape1.getHeight() == shape2.getHeight()
-            && shape1.getWidth() == shape2.getWidth()
-            && shape1.getXPos() == shape2.getXPos()
-            && shape1.getYPos() == shape2.getYPos()
-            && shape1.getRed() == shape2.getRed()
-            && shape1.getGreen() == shape2.getGreen()
-            && shape1.getBlue() == shape2.getBlue();
-  }
 
 
   private void setTest() {
@@ -361,7 +346,31 @@ public class AnimatorModelImplTest {
     assertTrue(!hasFred && hasAmy && !hasEthan);
   }
 
+  @Test
+  public void testSetCanX() {
+    setTest();
+    model.setCanvasX(5);
+    assertEquals(model.getCanvasX(), 5);
+  }
 
+  @Test
+  public void testSetCanY() {
+    setTest();
+    model.setCanvasY(5);
+    assertEquals(model.getCanvasY(), 5);
+  }
 
-  //TODO: test getters and delete shape
+  @Test
+  public void testSetCanW() {
+    setTest();
+    model.setCanvasW(400);
+    assertEquals(model.getCanvasW(), 400);
+  }
+
+  @Test
+  public void testSetCanH() {
+    setTest();
+    model.setCanvasH(400);
+    assertEquals(model.getCanvasH(), 400);
+  }
 }
