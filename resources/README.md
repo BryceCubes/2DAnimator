@@ -51,7 +51,9 @@ to get access to the fields of AShape, and allow for those
 fields to be passed to a view. We implemented shape to only
 store the values associated with the shape itself, x, y, w,
 h, r, g, b, shape type, and shapeid such that the shape can
-know exactly where it is and its own state at all times.
+know exactly where it is and its own state at all times. We
+changed AShape to have an empty constructor so that all that
+could change  it are the setters
 
 IMOTION INTERFACE
 IMotion interface was implemented with the 6 getters it
