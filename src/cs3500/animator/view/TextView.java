@@ -85,11 +85,11 @@ public class TextView implements IAnimatorView {
     }
 
     if (out.equals("System.out")) {
-      System.out.println(textOutput);
+      System.out.print(textOutput);
     } else {
       try {
         PrintWriter writer = new PrintWriter(out, "UTF-8");
-        writer.println(textOutput);
+        writer.print(textOutput);
         writer.close();
       } catch (Exception e) {
         throw new IllegalStateException("Your computer was not able to write to file.");

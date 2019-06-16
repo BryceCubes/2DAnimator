@@ -119,7 +119,7 @@ public class TextViewTest {
             + "motion Amy 125 50 50 20 30 0 100 255    150 50 50 10 20 0 100 255\n"
             + "shape Ethan ellipse\n"
             + "motion Ethan 0 25 25 15 15 180 120 230    30 25 25 15 15 120 180 95\n"
-            + "motion Ethan 30 25 25 15 15 120 180 95    60 40 15 20 30 180 120 230\n\n",
+            + "motion Ethan 30 25 25 15 15 120 180 95    60 40 15 20 30 180 120 230\n",
             newOut.toString());
   }
 }
