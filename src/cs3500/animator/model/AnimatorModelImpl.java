@@ -60,7 +60,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
         model.addShape(shape);
       }
 
-      for (IMotion motion: this.listOfMotions) {
+      for (IMotion motion : this.listOfMotions) {
         model.builderMotion(motion);
       }
 
@@ -238,6 +238,48 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
   }
 
+  // deletes the motion with the given values
+  @Override
+  public void deleteMotion(String shapeID, int xStart, int yStart, int wStart, int hStart,
+                           int rStart, int gStart, int bStart, int toX, int toY, int toW, int toH,
+                           int toR, int toG, int toB, int tStart, int tEnd)
+          throws IllegalArgumentException {
+    boolean doesShapeExist = false;
+    boolean doesMotionExist = false;
+
+    for (IShape shape : this.shapes) {
+      if (shapeID.equals(shape.getShapeID())) {
+        doesShapeExist = true;
+
+        int index = 0;
+
+        for (IMotion mot : this.sortedMoveList.get(shape)) {
+          if (equalMotions(mot, shapeID, xStart, yStart, wStart, hStart,
+                  rStart, gStart, bStart, toX, toY, toW, toH,
+                  toR, toG, toB, tStart, tEnd)) {
+            doesMotionExist = true;
+            break;
+          }
+          index++;
+        }
+        if (!doesMotionExist) {
+          throw new IllegalArgumentException("Given motion for given shape does not exist.");
+        } else {
+          sortedMoveList.get(shape).remove(index);
+        }
+
+        if (!this.isContinuous(sortedMoveList.get(shape))) {
+          throw new IllegalArgumentException("Deleting given motion causes motions to be "
+                  + "noncontinuous.");
+        }
+      }
+    }
+
+    if (!doesShapeExist) {
+      throw new IllegalArgumentException("Shape given does not exist.");
+    }
+  }
+
 
   // Added so that a shape can be removed with ease.
 
@@ -267,52 +309,29 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
   }
 
-  // Added for additional functionality to commands when creating a model
 
-  //TODO: Delete
-  public void deleteMotion(IMotion motion) {
-    boolean doesShapeExist = false;
-    IShape currentShape = motion.getShape();
-    String shapeName = currentShape.getShapeID();
 
-    for (IShape shape : this.shapes) {
-      if (shapeName.equals(shape.getShapeID())) {
-        doesShapeExist = true;
-        int index = 0;
-        IMotion possibility = null;
-
-        for (IMotion mot : this.sortedMoveList.get(shape)) {
-          if (equalMotions(mot, motion)) {
-            possibility = motion;
-            break;
-          }
-          index++;
-        }
-        if (possibility == null) {
-          throw new IllegalArgumentException("Given motion for given shape does not exist.");
-        } else {
-          sortedMoveList.get(shape).remove(index);
-        }
-
-        if (!this.isContinuous(sortedMoveList.get(shape))) {
-          throw new IllegalArgumentException("Deleting given motion causes motions to be "
-                  + "noncontinuous.");
-        }
-      }
-    }
-
-    if (!doesShapeExist) {
-      throw new IllegalArgumentException("Shape given does not exist.");
-    }
-  }
-
-  private boolean equalMotions(IMotion mot, IMotion motion) {
-    return mot.getShape().getShapeID().equals(motion.getShape().getShapeID())
-            && mot.getTStart() == motion.getTStart()
-            && mot.getTEnd() == motion.getTEnd()
-            && mot.getXStart() == motion.getXStart()
-            && mot.getXEnd() == motion.getXEnd();
-    //TODO: finish this
+  // checks if the given motion has all the same given fields
+  private boolean equalMotions(IMotion mot, String shapeID, int xStart, int yStart, int wStart, int hStart,
+                               int rStart, int gStart, int bStart, int toX, int toY, int toW, int toH,
+                               int toR, int toG, int toB, int tStart, int tEnd) {
+    return mot.getShape().getShapeID().equals(shapeID)
+            && mot.getTStart() == tStart
+            && mot.getTEnd() == tEnd
+            && mot.getXStart() == xStart
+            && mot.getYStart() == yStart
+            && mot.getWStart() == wStart
+            && mot.getHStart() == hStart
+            && mot.getRStart() == rStart
+            && mot.getGStart() == gStart
+            && mot.getBStart() == bStart
+            && mot.getXEnd() == toX
+            && mot.getYEnd() == toY
+            && mot.getWEnd() == toW
+            && mot.getHEnd() == toH
+            && mot.getREnd() == toR
+            && mot.getGEnd() == toG
+            && mot.getBEnd() == toB;
   }
 
 
@@ -348,6 +367,11 @@ public class AnimatorModelImpl implements IAnimatorModel {
   @Override
   public int getCanvasH() {
     return this.canvasH;
+  }
+
+  @Override
+  public void declareMotion(String shapeID, int xStart, int yStart, int wStart, int hStart, int rStart, int gStart, int bStart, int toX, int toY, int toW, int toH, int toR, int toG, int toB, int tStart, int tEnd) throws IllegalArgumentException {
+
   }
   //Added so that could access and iterate through all of the data in the view
 
