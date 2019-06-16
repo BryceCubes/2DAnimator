@@ -26,7 +26,7 @@ public class Excellence {
     for (String arg : args) {
       switch (arg) {
         case "-in":
-          index ++;
+          index++;
           in = args[index];
           try {
             FileReader fileReader = new FileReader(in);
@@ -36,7 +36,7 @@ public class Excellence {
             throw new IllegalArgumentException("Could not find given input file.");
           }
         case "-out":
-          index ++;
+          index++;
           out = args[index];
           break;
         case "-view":
@@ -58,7 +58,7 @@ public class Excellence {
     } else if (model == null) {
       throw new IllegalArgumentException("Our program could not parse your file, please provide a "
               + "file in the correct format.");
-    } else if (view == null){
+    } else if (view == null) {
       throw new IllegalArgumentException("Must provide a valid view of type visual, svg, or text.");
     } else {
       switch (view) {

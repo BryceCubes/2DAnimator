@@ -151,6 +151,4 @@ public class AShapeTest {
     frectangle.setB(66);
     assertEquals(66, frectangle.getBlue());
   }
-
-
 }

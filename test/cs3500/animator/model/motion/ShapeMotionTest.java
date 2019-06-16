@@ -240,4 +240,14 @@ public class ShapeMotionTest {
   public void getBEndTest() {
     assertEquals(10, fredMoveRight.getBEnd());
   }
+
+  @Test
+  public void getShapeNameTest() {
+    assertEquals("Fred", fredMoveRight.getShapeName());
+  }
+
+  @Test
+  public void getShape() {
+    assertEquals(frectangle, fredMoveRight.getShape());
+  }
 }

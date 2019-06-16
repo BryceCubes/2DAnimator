@@ -1,7 +1,5 @@
 package cs3500.animator.model.motion;
 
-import cs3500.animator.model.shape.ReadOnlyIShape;
-
 /**
  * IMotion interface only available publicly.
  */
@@ -130,6 +128,7 @@ public interface ReadOnlyIMotion {
 
   /**
    * Gets the shape name of the given motion.
+   *
    * @return the name of the shape the motion is acting upon
    */
   String getShapeName();
