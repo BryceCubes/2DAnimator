@@ -127,4 +127,10 @@ public interface ReadOnlyIMotion {
    * @return the blue value at the end of the motion
    */
   int getBEnd();
+
+  /**
+   * Gets the shape name of the given motion.
+   * @return the name of the shape the motion is acting upon
+   */
+  String getShapeName();
 }
