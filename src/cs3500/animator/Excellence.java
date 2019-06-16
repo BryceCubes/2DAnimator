@@ -74,8 +74,7 @@ public class Excellence {
           break;
         case "visual":
           IAnimatorView animationView = new AnimationView.Builder().declareModel(model)
-                  .declareSpeed(speed)
-                  .build();
+                  .declareSpeed(speed).build();
           animationView.animate();
           break;
         default:

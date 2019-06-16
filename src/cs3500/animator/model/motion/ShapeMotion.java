@@ -168,6 +168,11 @@ public class ShapeMotion implements IMotion {
   }
 
   @Override
+  public String getShapeName() {
+    return this.shape.getShapeID();
+  }
+
+  @Override
   public String getTextOutput() {
     StringBuilder textView = new StringBuilder();
 
