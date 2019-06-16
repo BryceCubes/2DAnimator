@@ -9,6 +9,7 @@ import cs3500.animator.util.AnimationReader;
 import cs3500.animator.view.IAnimatorView;
 import cs3500.animator.view.SVGView;
 import cs3500.animator.view.TextView;
+import cs3500.animator.view.visual.AnimationView;
 
 /**
  * Main class to run the animator through.
@@ -67,11 +68,18 @@ public class Excellence {
           textView.animate();
           break;
         case "svg":
-          IAnimatorView svgView = new SVGView.Builder().setModel(model).setOut(out).build();
+          IAnimatorView svgView = new SVGView.Builder().setModel(model).setOut(out).setSpeed(speed)
+                  .build();
           svgView.animate();
           break;
         case "visual":
-
+          IAnimatorView animationView = new AnimationView.Builder().setModel(model).setSpeed(speed)
+                  .build();
+          animationView.animate();
+          break;
+        default:
+          throw new IllegalArgumentException("Must provide a valid view of type visual, svg, or "
+                  + "text.");
       }
     }
 
