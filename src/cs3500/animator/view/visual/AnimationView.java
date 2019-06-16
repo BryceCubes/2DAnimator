@@ -21,27 +21,10 @@ public class AnimationView extends JFrame implements IAnimatorView {
   private ReadOnlyIAnimatorModel model;
   private ArrayList<ReadOnlyIShape> shapesToRender;
   private Timer timer;
-  private int speed = 1;
   private int tick = 0;
 
   private AnimationView() {
     super();
-
-    panel = new AnimationPanel();
-    panel.setMinimumSize(new Dimension(360, 360));
-    panel.setPreferredSize(new Dimension(360, 360));
-    panel.setBackground(Color.white);
-
-
-    scrollPane = new JScrollPane(panel);
-
-    setSize(800, 800);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setLocation(200, 200);
-
-    add(scrollPane);
-
-    setVisible(true);
   }
 
   public static class Builder {
@@ -54,8 +37,8 @@ public class AnimationView extends JFrame implements IAnimatorView {
         throw new IllegalArgumentException("Model must be set to a value.");
       } else {
         animationView.setModel(this.model);
-        animationView.setSpeed(this.speed);
         animationView.setTimer(this.speed);
+        animationView.setPanel();
 
         return animationView;
       }
@@ -76,17 +59,12 @@ public class AnimationView extends JFrame implements IAnimatorView {
       this.speed = speed;
       return this;
     }
-
-
   }
 
   private void setModel(IAnimatorModel model) {
     this.model = model;
   }
 
-  private void setSpeed(int speed) {
-    this.speed = speed;
-  }
 
   @Override
   public void animate() {
@@ -98,12 +76,33 @@ public class AnimationView extends JFrame implements IAnimatorView {
   }
 
   private void setTimer(int speed) {
-    this.timer = new Timer(100 / speed, new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        shapesToRender = model.getShapesAtTick(tick++);
-        render(shapesToRender);
-      }
+    this.timer = new Timer(100 / speed, e -> {
+      shapesToRender = model.getShapesAtTick(tick++);
+      render(shapesToRender);
     });
   }
+
+  private void setPanel() {
+
+    int width = model.getCanvasX() + model.getCanvasW();
+    int height = model.getCanvasY() + model.getCanvasH();
+
+    panel = new AnimationPanel();
+    panel.setMinimumSize(new Dimension(200, 200));
+    panel.setPreferredSize(new Dimension(width, height));
+    panel.setBackground(Color.white);
+
+    scrollPane = new JScrollPane(panel);
+
+    setSize(width, height);
+    setLocation(model.getCanvasX(), model.getCanvasY());
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    add(scrollPane);
+
+    setVisible(true);
+  }
 }
+
+
+
