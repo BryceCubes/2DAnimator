@@ -39,17 +39,19 @@ public class AnimatorModelImpl implements IAnimatorModel {
    * Constructor used to create an animator model.
    */
   public static final class Builder implements AnimationBuilder<IAnimatorModel> {
-    private int x;
-    private int y;
-    private int width;
-    private int height;
+    private Integer x = null;
+    private Integer y = null;
+    private Integer width = null;
+    private Integer height = null;
     private ArrayList<IMotion> listOfMotions = new ArrayList<>();
     private ArrayList<IShape> listOfShapes = new ArrayList<>();
 
     @Override
     public AnimatorModelImpl build() {
       AnimatorModelImpl model = new AnimatorModelImpl();
-
+      if (this.x == null || this.y == null || this.width == null || this.height == null) {
+        throw new IllegalArgumentException("The bounds of the view must be set.");
+      }
       model.setCanvasX(this.x);
       model.setCanvasY(this.y);
       model.setCanvasW(this.width);
