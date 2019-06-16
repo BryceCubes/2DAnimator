@@ -16,8 +16,8 @@ public class AShape implements IShape {
   // changed position and size to doubles so could have smooth animations
 
   /**
-   * Constructor creates a base shape with dummy values so the user can simply enter a name and
-   * type and choose its properties through adding motions.
+   * Constructor creates a base shape with dummy values so the user can simply enter a name and type
+   * and choose its properties through adding motions.
    *
    * @param shapeID   name of shape
    * @param shapeType shape type (Rectangle, Ellipse)

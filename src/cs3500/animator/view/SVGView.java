@@ -186,8 +186,8 @@ public class SVGView implements IAnimatorView {
   }
 
   /**
-   * Method used to add a vector to the svg object for a specific shape so that the individual
-   * parts of the shape could be animated.
+   * Method used to add a vector to the svg object for a specific shape so that the individual parts
+   * of the shape could be animated.
    *
    * @param motion   the given motion to be animated in the svg format
    * @param property the given property to be animated

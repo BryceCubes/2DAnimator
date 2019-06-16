@@ -2,8 +2,6 @@ package cs3500.animator.view.visual;
 
 import java.awt.Dimension;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;

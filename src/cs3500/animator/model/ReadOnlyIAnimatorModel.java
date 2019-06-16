@@ -3,7 +3,6 @@ package cs3500.animator.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import cs3500.animator.model.motion.IMotion;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;

@@ -5,5 +5,4 @@ package cs3500.animator.model.shape;
  */
 public enum ShapeType {
   ELLIPSE, RECTANGLE
-
 }

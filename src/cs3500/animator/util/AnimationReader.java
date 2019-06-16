@@ -11,20 +11,20 @@ import cs3500.animator.model.IAnimatorModel;
  */
 public class AnimationReader {
   /**
-   * A factory for producing new animations, given a source of shapes and a
-   * builder for constructing animations.
+   * A factory for producing new animations, given a source of shapes and a builder for constructing
+   * animations.
    *
    * <p>
    * The input file format consists of two types of lines:
    * <ul>
    * <li>Shape lines: the keyword "shape" followed by two identifiers (i.e.
-   * alphabetic strings with no spaces), giving the unique name of the shape,
-   * and the type of shape it is.</li>
+   * alphabetic strings with no spaces), giving the unique name of the shape, and the type of shape
+   * it is.</li>
    * <li>Motion lines: the keyword "motion" followed by an identifier giving the name
    * of the shape to move, and 16 integers giving the initial and final conditions of the motion:
-   * eight numbers giving the time, the x and y coordinates, the width and height,
-   * and the red, green and blue color values at the start of the motion; followed by
-   * eight numbers for the end of the motion.  See {@link AnimationBuilder#addMotion}</li>
+   * eight numbers giving the time, the x and y coordinates, the width and height, and the red,
+   * green and blue color values at the start of the motion; followed by eight numbers for the end
+   * of the motion.  See {@link AnimationBuilder#addMotion}</li>
    * </ul>
    * </p>
    *

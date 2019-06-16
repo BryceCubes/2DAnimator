@@ -31,8 +31,7 @@ public class ShapeMotion implements IMotion {
    * Constructor for a shape motion. Invariants are both time values cannot be less than 0 because
    * time can never be negative, and end time cannot be less than start time because time always
    * needs to be moving forward. All width and height values cannot be less than 0. All rgb values
-   * cannot be less than 0 or greater than 255 because rgb hex values can only have
-   * that range.
+   * cannot be less than 0 or greater than 255 because rgb hex values can only have that range.
    *
    * @param shape  given shape to be moved
    * @param xStart starting x value at the center of the shape

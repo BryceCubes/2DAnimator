@@ -5,8 +5,8 @@ package cs3500.animator.model.shape;
  */
 public interface ReadOnlyIShape {
   /**
-   * This method is used to return the name of the shape to be used by the controller to pass
-   * to the view.
+   * This method is used to return the name of the shape to be used by the controller to pass to the
+   * view.
    *
    * @return shape name as a string
    */
