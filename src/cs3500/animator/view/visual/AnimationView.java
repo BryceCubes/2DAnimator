@@ -19,6 +19,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
   private AnimationPanel panel;
   private JScrollPane scrollPane;
   private ReadOnlyIAnimatorModel model;
+  private ArrayList<ReadOnlyIShape> shapesToRender;
   private Timer timer;
   private int speed;
   private int tick = 0;
@@ -26,16 +27,17 @@ public class AnimationView extends JFrame implements IAnimatorView {
   private AnimationView() {
     super();
     this.speed = 1;
-    timer = new Timer(1000 / this.speed, new ActionListener() {
+    timer = new Timer(this.speed * 60, new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        ArrayList<ReadOnlyIShape> shapesToRender = model.getShapesAtTick(tick++);
+        shapesToRender = model.getShapesAtTick(tick++);
+        render(shapesToRender);
       }
     });
 
     panel = new AnimationPanel();
     panel.setMinimumSize(new Dimension(500, 500));
-    panel.setPreferredSize(new Dimension(2000, 2000));
+    panel.setPreferredSize(new Dimension(1000, 1000));
     panel.setBackground(Color.white);
 
 
@@ -94,6 +96,9 @@ public class AnimationView extends JFrame implements IAnimatorView {
   @Override
   public void animate() {
     timer.start();
-    panel.draw(model.getShapesAtTick(tick++));
+  }
+
+  private void render(ArrayList<ReadOnlyIShape> shapes) {
+    panel.draw(shapes);
   }
 }

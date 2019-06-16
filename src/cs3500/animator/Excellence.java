@@ -30,8 +30,7 @@ public class Excellence {
           in = args[index];
           try {
             FileReader fileReader = new FileReader(in);
-            AnimationReader reader = new AnimationReader();
-            model = reader.parseFile(fileReader, new AnimatorModelImpl.Builder());
+            model = AnimationReader.parseFile(fileReader, new AnimatorModelImpl.Builder());
             break;
           } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Could not find given input file.");
@@ -74,7 +73,7 @@ public class Excellence {
           svgView.animate();
           break;
         case "visual":
-          IAnimatorView animationView = new AnimationView.Builder().setModel(model).setSpeed(speed)
+          IAnimatorView animationView = new AnimationView.Builder().declareModel(model).declareSpeed(speed)
                   .build();
           animationView.animate();
           break;
