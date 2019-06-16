@@ -1,7 +1,7 @@
 package cs3500.animator.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import cs3500.animator.model.motion.IMotion;
@@ -297,7 +297,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     for (IShape shape : this.shapes) {
       if (shapeName.equals(shape.getShapeID())) {
         sortedMoveList.get(shape).add(motion);
-        this.bubbleSort();
+        this.sort();
         doesShapeExist = true;
         break;
       }
@@ -307,7 +307,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Shape given does not exist.");
     }
 
-    this.bubbleSort();
+    this.sort();
 
     if (!this.isContinuous(sortedMoveList.get(currentShape))) {
       throw new IllegalArgumentException("Adding given motion causes motions to be noncontinuous.");
@@ -407,7 +407,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
         sortedMoveList.get(shape).add(new ShapeMotion(shape, xStart, yStart, wStart, hStart,
                 rStart, gStart, bStart, toX, toY, toW, toH,
                 toR, toG, toB, tStart, tEnd));
-        bubbleSort();
+        sort();
         if (!this.isContinuous(sortedMoveList.get(shape))) {
           throw new IllegalArgumentException("Deleting given motion causes motions to be "
                   + "noncontinuous.");
@@ -423,20 +423,9 @@ public class AnimatorModelImpl implements IAnimatorModel {
   /**
    * Method bubble sort algorithm implemented normally used to sort the list based on start times.
    */
-  private void bubbleSort() {
+  private void sort() {
     for (IShape shape : this.shapes) {
-      int size = sortedMoveList.get(shape).size();
-
-      for (int i = 0; i < size; i++) {
-        for (int j = i; j < size; j++) {
-          IMotion currentMotion = sortedMoveList.get(shape).get(i);
-          IMotion checkingMotion = sortedMoveList.get(shape).get(j);
-
-          if (currentMotion.getTStart() > checkingMotion.getTStart()) {
-            Collections.swap(sortedMoveList.get(shape), j, i);
-          }
-        }
-      }
+      sortedMoveList.get(shape).sort(Comparator.comparingInt(ReadOnlyIMotion::getTStart));
     }
   }
 
