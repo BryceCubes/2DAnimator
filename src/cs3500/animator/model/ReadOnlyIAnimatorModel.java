@@ -149,10 +149,4 @@ public interface ReadOnlyIAnimatorModel {
    * @return the height value of the canvas
    */
   int getCanvasH();
-
-  /**
-   * Gets the speed of the animation.
-   * @return the speed of the animation
-   */
-  int getSpeed();
 }

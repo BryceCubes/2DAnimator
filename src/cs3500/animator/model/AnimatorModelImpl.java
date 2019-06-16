@@ -44,7 +44,6 @@ public class AnimatorModelImpl implements IAnimatorModel {
     private int y;
     private int width;
     private int height;
-    private int speed = 1;
     private ArrayList<IMotion> listOfMotions = new ArrayList<>();
     private ArrayList<IShape> listOfShapes = new ArrayList<>();
 
@@ -134,14 +133,6 @@ public class AnimatorModelImpl implements IAnimatorModel {
                 r2, g2, b2, t1, t2));
       }
 
-      return this;
-    }
-
-    public AnimationBuilder<IAnimatorModel> addSpeed(int speed) {
-      if (speed < 1) {
-        throw new IllegalArgumentException("Speed cannot be less than 1.");
-      }
-      model.setSpeed(speed);
       return this;
     }
   }
