@@ -1,40 +1,42 @@
 package cs3500.animator.view.visual;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.Timer;
 
 import cs3500.animator.model.IAnimatorModel;
 import cs3500.animator.model.ReadOnlyIAnimatorModel;
 import cs3500.animator.model.shape.ReadOnlyIShape;
-import cs3500.animator.util.AnimationBuilder;
 import cs3500.animator.view.IAnimatorView;
 
 public class AnimationView extends JFrame implements IAnimatorView {
   private AnimationPanel panel;
   private JScrollPane scrollPane;
   private ReadOnlyIAnimatorModel model;
+  private ArrayList<ReadOnlyIShape> shapesToRender;
   private Timer timer;
-  private int speed;
-  private int tick;
+  private int speed = 1;
+  private int tick = 0;
 
   private AnimationView() {
     super();
-    this.speed = 1;
-    timer = new Timer(1000 / this.speed, new ActionListener() {
+    timer = new Timer(60 / this.speed, new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        ArrayList<ReadOnlyIShape> shapesToRender = model.getShapesAtTick(tick++);
+        shapesToRender = model.getShapesAtTick(tick++);
+        render(shapesToRender);
       }
     });
 
     panel = new AnimationPanel();
     panel.setMinimumSize(new Dimension(500, 500));
-    panel.setPreferredSize(new Dimension(2000, 2000));
+    panel.setPreferredSize(new Dimension(1000, 1000));
     panel.setBackground(Color.white);
 
 
@@ -93,6 +95,9 @@ public class AnimationView extends JFrame implements IAnimatorView {
   @Override
   public void animate() {
     timer.start();
-    panel.draw(model.getShapesAtTick(tick++));
+  }
+
+  private void render(ArrayList<ReadOnlyIShape> shapes) {
+    panel.draw(shapes);
   }
 }

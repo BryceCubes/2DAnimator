@@ -4,15 +4,14 @@ import java.awt.*;
 import java.util.List;
 
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import cs3500.animator.model.shape.ReadOnlyIShape;
-import cs3500.animator.model.shape.ShapeType;
 
 public class AnimationPanel extends JPanel implements IAnimationPanel {
-  List<ReadOnlyIShape> shapes = null;
+  private List<ReadOnlyIShape> shapes = null;
 
-  public AnimationPanel(){
+  AnimationPanel(){
     super();
   }
 
@@ -22,10 +21,13 @@ public class AnimationPanel extends JPanel implements IAnimationPanel {
       for ( ReadOnlyIShape shape : shapes ){
         Color newColor = new Color(shape.getRed(), shape.getGreen(), shape.getBlue());
         g.setColor(newColor);
-        if(shape.getShapeTypeAsString().equals("rectangle")) {
-          g.fillRect((int)shape.getXPos(),(int)shape.getYPos(),(int)shape.getWidth(), (int)shape.getHeight());
-        } else { //TODO: some error checking needed here
-          g.fillOval((int)shape.getXPos(),(int)shape.getYPos(),(int)shape.getWidth(), (int)shape.getHeight());
+        String shapeType = shape.getShapeTypeAsString();
+        if(shapeType.equals("rectangle")) {
+          g.fillRect((int)Math.round(shape.getXPos()),(int)Math.round(shape.getYPos()),
+                  (int)Math.round(shape.getWidth()), (int)Math.round(shape.getHeight()));
+        } else if(shapeType.equals("ellipse")){
+          g.fillOval((int)Math.round(shape.getXPos()),(int)Math.round(shape.getYPos()),
+                  (int)Math.round(shape.getWidth()), (int)Math.round(shape.getHeight()));
         }
       }
     }

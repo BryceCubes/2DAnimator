@@ -30,8 +30,7 @@ public class Excellence {
           in = args[index];
           try {
             FileReader fileReader = new FileReader(in);
-            AnimationReader reader = new AnimationReader();
-            model = reader.parseFile(fileReader, new AnimatorModelImpl.Builder());
+            model = AnimationReader.parseFile(fileReader, new AnimatorModelImpl.Builder());
             break;
           } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Could not find given input file.");
