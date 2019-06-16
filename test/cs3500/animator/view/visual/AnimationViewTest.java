@@ -5,6 +5,9 @@ import org.junit.Test;
 import cs3500.animator.model.AnimatorModelImpl;
 import cs3500.animator.model.IAnimatorModel;
 
+/**
+ * Used to test the Visual animation view.
+ */
 public class AnimationViewTest {
   private IAnimatorModel model = new AnimatorModelImpl.Builder().declareShape("Fred", "RecTanGle")
           .declareShape("Amy", "ellipse")
@@ -50,6 +53,7 @@ public class AnimationViewTest {
           .addMotion("Fred", 0, 10, 10, 5, 5, 255,
                   150, 10, 10, 15, 10, 5, 5,
                   255, 150, 10).setBounds(1, 2, 3, 4).build();
+
   @Test(expected = IllegalArgumentException.class)
   public void modelNotSet() {
     new AnimationView.Builder().build();

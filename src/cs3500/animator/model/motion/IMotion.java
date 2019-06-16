@@ -3,7 +3,7 @@ package cs3500.animator.model.motion;
 import cs3500.animator.model.shape.IShape;
 
 /**
- * Interface represents a motion of a shape.
+ * Interface represents a motion of a shape in 2D plane for an Animation model.
  */
 public interface IMotion extends ReadOnlyIMotion {
   /**

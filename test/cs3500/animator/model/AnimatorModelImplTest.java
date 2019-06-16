@@ -2,7 +2,6 @@ package cs3500.animator.model;
 
 import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.shape.AShape;
-import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.model.shape.ShapeType;
 
