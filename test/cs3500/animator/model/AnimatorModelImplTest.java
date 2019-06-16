@@ -24,11 +24,14 @@ public class AnimatorModelImplTest {
   private IAnimatorModel model;
   private IAnimatorModel mtModel;
 
+  private static boolean equals(ReadOnlyIShape shape1, )
+
 
   private void setTest() {
 
     // Making the model and adding all shapes and motions
-    model = new AnimatorModelImpl.Builder().declareShape("Fred", "RecTanGle")
+    model = new AnimatorModelImpl.Builder().setBounds(0, 0, 100, 100)
+            .declareShape("Fred", "RecTanGle")
             .declareShape("Amy", "ellipse")
             .declareShape("Ethan", "ELLIPSE")
             .addMotion("Ethan", 30, 25, 25, 15, 15, 120,
@@ -41,7 +44,8 @@ public class AnimatorModelImplTest {
                     100, 255, 150, 50, 50, 10, 20,
                     0, 100, 255)
             .addMotion("Amy", 100, 50, 50, 30, 30, 0,
-                    100, 255, 125, 50, 50, 20, 30, 0, 100, 255)
+                    100, 255, 125, 50, 50, 20, 30,
+                    0, 100, 255)
             .addMotion("Amy", 75, 50, 50, 30, 35, 0,
                     100, 255, 100, 50, 50, 30, 30,
                     0, 100, 255)
@@ -73,7 +77,7 @@ public class AnimatorModelImplTest {
                     150, 10, 10, 15, 10, 5, 5,
                     255, 150, 10).build();
 
-    mtModel = new AnimatorModelImpl.Builder().build();
+    mtModel = new AnimatorModelImpl.Builder().setBounds(0, 0, 100, 100).build();
   }
 
   // test that Fred can be found in the list of motions once added
@@ -313,7 +317,7 @@ public class AnimatorModelImplTest {
 
   @Test
   public void returnShapesAtTickTestAt0() {
-    
+
   }
 
   @Test
