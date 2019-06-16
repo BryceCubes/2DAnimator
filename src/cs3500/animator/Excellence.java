@@ -26,7 +26,7 @@ public class Excellence {
    * -out "where-output-show-go".
    * -speed "integer-ticks-per-second".
    *
-   * This has 3 different views: SVG, Visual, and Text.
+   * <p>This has 3 different views: SVG, Visual, and Text.
    * Speed is measured in 10's of ms per frame.
    * @param args The input for the program
    */
