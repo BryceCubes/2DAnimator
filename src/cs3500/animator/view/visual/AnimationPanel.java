@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.List;
 
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.model.shape.ShapeType;
