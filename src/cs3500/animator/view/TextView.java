@@ -20,16 +20,6 @@ public class TextView implements IAnimatorView {
   private TextView() {
   }
 
-  @Override
-  public void setOut(String out) {
-    this.out = out;
-  }
-
-  @Override
-  public void setModel(IAnimatorModel model) {
-    this.model = model;
-  }
-
   /**
    * The Builder method used to set the model and the output for the TextView
    */
@@ -69,9 +59,16 @@ public class TextView implements IAnimatorView {
     }
   }
 
-  /**
-   * Adds all of the motion data to the output string.
-   */
+  @Override
+  public void setOut(String out) {
+    this.out = out;
+  }
+
+  @Override
+  public void setModel(IAnimatorModel model) {
+    this.model = model;
+  }
+
   @Override
   public void animate() {
     this.textOutput.append("canvas ").append(model.getCanvasX()).append(" ")

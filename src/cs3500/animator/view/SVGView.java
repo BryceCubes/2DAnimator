@@ -18,16 +18,6 @@ public class SVGView implements IAnimatorView {
   private SVGView() {
   }
 
-  @Override
-  public void setOut(String out) {
-    this.out = out;
-  }
-
-  @Override
-  public void setModel(IAnimatorModel model) {
-    this.model = model;
-  }
-
   /**
    * The Builder for the svg class that provides for the user to input the model, speed, and output
    * source, and, if they don't, it provides the standard values for them.
@@ -62,6 +52,16 @@ public class SVGView implements IAnimatorView {
 
       return this;
     }
+  }
+
+  @Override
+  public void setOut(String out) {
+    this.out = out;
+  }
+
+  @Override
+  public void setModel(IAnimatorModel model) {
+    this.model = model;
   }
 
   /**
