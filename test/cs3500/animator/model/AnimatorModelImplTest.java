@@ -9,6 +9,9 @@ import cs3500.animator.model.shape.ShapeType;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -16,14 +19,6 @@ import static org.junit.Assert.assertTrue;
  * Class used to test our animator model.
  */
 public class AnimatorModelImplTest {
-  // rectangle with basic movements
-  private IShape frectangle;
-
-  // ellipse with size changes
-  private IShape amyOval;
-
-  // circle with color changes combined with other types
-  private IShape ethanCircle;
 
   private IAnimatorModel model;
   private IAnimatorModel mtModel;
@@ -84,7 +79,7 @@ public class AnimatorModelImplTest {
   @Test
   public void testFindFred() {
     setTest();
-    assertEquals(frectangle.getShapeID(), model.findShape("Fred").getShapeID());
+    assertEquals("Fred", model.findShape("Fred").getShapeID());
   }
 
   // test that Fred can be found in the list of motions once added
@@ -98,7 +93,7 @@ public class AnimatorModelImplTest {
   @Test
   public void testFindEthan() {
     setTest();
-    assertEquals(ethanCircle.getShapeID(), model.findShape("Ethan").getShapeID());
+    assertEquals("Ethan", model.findShape("Ethan").getShapeID());
   }
 
   // test that an exception is thrown when there is no name match
@@ -112,10 +107,7 @@ public class AnimatorModelImplTest {
   @Test
   public void tryPrint() {
     setTest();
-    assertEquals("shape Ethan ellipse\n" +
-                    "motion Ethan 0 25 25 15 15 180 120 230    30 25 25 15 15 120 180 95\n" +
-                    "motion Ethan 30 25 25 15 15 120 180 95    60 40 15 20 30 180 120 230\n" +
-                    "shape Fred rectangle\n" +
+    assertEquals("shape Fred rectangle\n" +
                     "motion Fred 0 10 10 5 5 255 150 10    10 15 10 5 5 255 150 10\n" +
                     "motion Fred 10 15 10 5 5 255 150 10    20 5 10 5 5 255 150 10\n" +
                     "motion Fred 20 5 10 5 5 255 150 10    30 5 5 5 5 255 150 10\n" +
@@ -128,7 +120,10 @@ public class AnimatorModelImplTest {
                     "motion Amy 50 50 50 20 25 0 100 255    75 50 50 30 35 0 100 255\n" +
                     "motion Amy 75 50 50 30 35 0 100 255    100 50 50 30 30 0 100 255\n" +
                     "motion Amy 100 50 50 30 30 0 100 255    125 50 50 20 30 0 100 255\n" +
-                    "motion Amy 125 50 50 20 30 0 100 255    150 50 50 10 20 0 100 255\n",
+                    "motion Amy 125 50 50 20 30 0 100 255    150 50 50 10 20 0 100 255\n" +
+                    "shape Ethan ellipse\n" +
+                    "motion Ethan 0 25 25 15 15 180 120 230    30 25 25 15 15 120 180 95\n" +
+                    "motion Ethan 30 25 25 15 15 120 180 95    60 40 15 20 30 180 120 230\n",
             model.textViewMotions());
   }
 
@@ -226,9 +221,9 @@ public class AnimatorModelImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void addMotionDisjoint() {
     setTest();
-    model.declareMotion("Fred", 10, 20, 5, 5, 255,
-            150, 10, 10, 20, 5, 5, 255, 150, 10,
-            61, 70);
+    model.declareMotion("Fred",  20, 5, 5, 255,
+            150, 10, 10, 5, 5, 255, 150, 10,
+            61, 70, 10, 20);
   }
 
   @Test
@@ -237,7 +232,8 @@ public class AnimatorModelImplTest {
     model.declareMotion("Fred", 10, 20, 5, 5, 255,
             150, 10, 10, 20, 5, 5, 255, 150, 10,
             60, 70);
-    assertEquals(model.returnMotions().get(frectangle).get(6).getTStart(), 60);
+    assertTrue(model.textViewMotions().contains("Fred 60 10 20 5 5 255 150 10    " +
+            "70 10 20 5 5 255 150 10"));
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -261,13 +257,10 @@ public class AnimatorModelImplTest {
   @Test
   public void deleteMotionTest() {
     setTest();
-    model.deleteMotion("Fred", 50, 15, 5, 5, 5, 255,
-            150, 10, 60, 10, 20, 5, 5,
-            255, 150, 10);
-    assertEquals("shape Ethan ellipse\n" +
-                    "motion Ethan 0 25 25 15 15 180 120 230    30 25 25 15 15 120 180 95\n" +
-                    "motion Ethan 30 25 25 15 15 120 180 95    60 40 15 20 30 180 120 230\n" +
-                    "shape Fred rectangle\n" +
+    model.deleteMotion("Fred",  15, 5, 5, 5, 255,
+            150, 10, 10, 20, 5, 5,
+            255, 150, 10, 50, 60);
+    assertEquals("shape Fred rectangle\n" +
                     "motion Fred 0 10 10 5 5 255 150 10    10 15 10 5 5 255 150 10\n" +
                     "motion Fred 10 15 10 5 5 255 150 10    20 5 10 5 5 255 150 10\n" +
                     "motion Fred 20 5 10 5 5 255 150 10    30 5 5 5 5 255 150 10\n" +
@@ -279,12 +272,18 @@ public class AnimatorModelImplTest {
                     "motion Amy 50 50 50 20 25 0 100 255    75 50 50 30 35 0 100 255\n" +
                     "motion Amy 75 50 50 30 35 0 100 255    100 50 50 30 30 0 100 255\n" +
                     "motion Amy 100 50 50 30 30 0 100 255    125 50 50 20 30 0 100 255\n" +
-                    "motion Amy 125 50 50 20 30 0 100 255    150 50 50 10 20 0 100 255\n",
+                    "motion Amy 125 50 50 20 30 0 100 255    150 50 50 10 20 0 100 255\n" +
+                    "shape Ethan ellipse\n" +
+                    "motion Ethan 0 25 25 15 15 180 120 230    30 25 25 15 15 120 180 95\n" +
+                    "motion Ethan 30 25 25 15 15 120 180 95    60 40 15 20 30 180 120 230\n",
             model.textViewMotions());
   }
 
   @Test
   public void getMotionsTest() {
+    HashMap motions = model.returnMotions();
+    ArrayList shapes = model.returnShapes();
+    //TODO: figure out wtf to check
   }
 
   @Test(expected = IllegalArgumentException.class)
