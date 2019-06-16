@@ -374,18 +374,24 @@ public class AnimatorModelImpl implements IAnimatorModel {
                             int toR, int toG, int toB, int tStart, int tEnd)
           throws IllegalArgumentException {
 
+    boolean shapeFound = false;
+
     for (IShape shape : this.shapes) {
       if (shapeID.equals(shape.getShapeID())) {
+        shapeFound = true;
         sortedMoveList.get(shape).add(new ShapeMotion(shape, xStart, yStart, wStart, hStart,
                 rStart, gStart, bStart, toX, toY, toW, toH,
                 toR, toG, toB, tStart, tEnd));
         bubbleSort();
+        if (!this.isContinuous(sortedMoveList.get(shape))) {
+          throw new IllegalArgumentException("Deleting given motion causes motions to be "
+                  + "noncontinuous.");
+        }
+        break;
       }
-
-      if (!this.isContinuous(sortedMoveList.get(shape))) {
-        throw new IllegalArgumentException("Deleting given motion causes motions to be "
-                + "noncontinuous.");
-      }
+    }
+    if (!shapeFound) {
+      throw new IllegalArgumentException(shapeID + " not found in Animator");
     }
   }
 
