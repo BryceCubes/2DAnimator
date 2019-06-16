@@ -6,9 +6,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import cs3500.animator.model.IAnimatorModel;
-import cs3500.animator.util.AnimationBuilder;
 import cs3500.animator.view.IAnimatorView;
-import cs3500.animator.view.SVGView;
 
 public class AnimationView extends JFrame implements IAnimatorView {
   private AnimationPanel panel;
@@ -17,7 +15,6 @@ public class AnimationView extends JFrame implements IAnimatorView {
   private Timer timer;
   private int speed;
   private int tick;
-  private String out;
 
   private AnimationView() {
     super();
@@ -45,7 +42,6 @@ public class AnimationView extends JFrame implements IAnimatorView {
     private AnimationView animationView;
     private IAnimatorModel model = null;
     private int speed = 1;
-    private String out = "Animation view";
 
     public AnimationView build() {
       this.animationView = new AnimationView();
@@ -53,7 +49,6 @@ public class AnimationView extends JFrame implements IAnimatorView {
         throw new IllegalArgumentException("Model must be set to a value.");
       } else {
         animationView.setModel(this.model);
-        animationView.setOut(this.out);
         animationView.setSpeed(this.speed);
       }
 
@@ -77,24 +72,17 @@ public class AnimationView extends JFrame implements IAnimatorView {
     }
   }
 
-  @Override
-  public void setOut(String out) {
-    this.out = out;
-  }
-
-  @Override
-  public void setModel(IAnimatorModel model) {
+  private void setModel(IAnimatorModel model) {
     this.model = model;
   }
 
-  @Override
-  public void setSpeed(int speed) {
+  private void setSpeed(int speed) {
     this.speed = speed;
   }
 
   @Override
   public void animate() {
     timer.start();
-    panel.draw(model.returnShapesAtTick(tick++));
+    panel.draw(model.getShapesAtTick(tick++));
   }
 }

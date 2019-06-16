@@ -1,7 +1,5 @@
 package cs3500.animator.model;
 
-import cs3500.animator.model.motion.IMotion;
-import cs3500.animator.model.motion.ShapeMotion;
 import cs3500.animator.model.shape.AShape;
 import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;
@@ -193,7 +191,7 @@ public class AnimatorModelImplTest {
     setTest();
     mtModel.addShape(new AShape("George", ShapeType.RECTANGLE));
     boolean shapeFound = false;
-    for (ReadOnlyIShape shape : mtModel.returnShapes()) {
+    for (ReadOnlyIShape shape : mtModel.getShapes()) {
       if (shape.getShapeID().equals("George")) {
         shapeFound = true;
         break;
@@ -282,14 +280,14 @@ public class AnimatorModelImplTest {
   @Test
   public void getMotionsTest() {
     HashMap motions = model.returnMotions();
-    ArrayList shapes = model.returnShapes();
+    ArrayList shapes = model.getShapes();
     //TODO: figure out wtf to check
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void negativeTickGetShapes() {
     setTest();
-    model.returnShapesAtTick(-1);
+    model.getShapesAtTick(-1);
   }
 
   @Test

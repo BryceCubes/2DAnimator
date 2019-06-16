@@ -43,7 +43,6 @@ public class Excellence {
         case "-view":
           index++;
           view = args[index];
-          System.out.println(view);
           break;
         case "-speed":
           index++;
@@ -65,12 +64,13 @@ public class Excellence {
     } else {
       switch (view) {
         case "text":
-          IAnimatorView textView = new TextView.Builder().setModel(model).setOut(out).build();
+          IAnimatorView textView = new TextView.Builder().declareModel(model).declareOut(out)
+                  .build();
           textView.animate();
           break;
         case "svg":
-          IAnimatorView svgView = new SVGView.Builder().setModel(model).setOut(out).setSpeed(speed)
-                  .build();
+          IAnimatorView svgView = new SVGView.Builder().declareModel(model).declareOut(out)
+                  .declareSpeed(speed).build();
           svgView.animate();
           break;
         case "visual":

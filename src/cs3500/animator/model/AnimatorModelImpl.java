@@ -39,7 +39,6 @@ public class AnimatorModelImpl implements IAnimatorModel {
    * Constructor used to create an animator model.
    */
   public static final class Builder implements AnimationBuilder<IAnimatorModel> {
-    private AnimatorModelImpl model;
     private int x;
     private int y;
     private int width;
@@ -49,7 +48,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
     @Override
     public AnimatorModelImpl build() {
-      model = new AnimatorModelImpl();
+      AnimatorModelImpl model = new AnimatorModelImpl();
 
       model.setCanvasX(this.x);
       model.setCanvasY(this.y);
@@ -64,7 +63,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
         model.builderMotion(motion);
       }
 
-      return this.model;
+      return model;
     }
 
     @Override
@@ -168,7 +167,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   @Override
-  public ArrayList<ReadOnlyIShape> returnShapesAtTick(int tick) {
+  public ArrayList<ReadOnlyIShape> getShapesAtTick(int tick) {
     ArrayList<ReadOnlyIShape> shapesAtTick = new ArrayList<>();
     if (tick < 0) {
       throw new IllegalArgumentException("Tick must be a positive integer.");
@@ -337,7 +336,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   // Added so that we could offer additional functionality to the commands
 
   @Override
-  public ArrayList<ReadOnlyIShape> returnShapes() {
+  public ArrayList<ReadOnlyIShape> getShapes() {
     IShape currentShape;
     ArrayList<ReadOnlyIShape> newShapes = new ArrayList<>();
     for (IShape shape : this.shapes) {

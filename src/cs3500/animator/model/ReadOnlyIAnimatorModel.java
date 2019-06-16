@@ -33,7 +33,7 @@ public interface ReadOnlyIAnimatorModel {
    * @return an Arraylist of shapes that exist at time t
    * @throws IllegalArgumentException if given tick is negative
    */
-  ArrayList<ReadOnlyIShape> returnShapesAtTick(int tick) throws IllegalArgumentException;
+  ArrayList<ReadOnlyIShape> getShapesAtTick(int tick) throws IllegalArgumentException;
 
   /**
    * Provides a text representation of the motions.
@@ -92,7 +92,7 @@ public interface ReadOnlyIAnimatorModel {
    *
    * @return the list of keys of all shapes in the model
    */
-  ArrayList<ReadOnlyIShape> returnShapes();
+  ArrayList<ReadOnlyIShape> getShapes();
 
   /**
    * Gets the x value of the top left of the canvas frame.

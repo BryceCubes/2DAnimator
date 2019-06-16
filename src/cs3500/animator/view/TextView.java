@@ -13,8 +13,6 @@ public class TextView implements IAnimatorView {
   private IAnimatorModel model;
   private StringBuilder textOutput;
   private String out;
-  private int speed;
-
 
   /**
    * Constructor used to create a text view using a Builder to input the model and the output.
@@ -29,20 +27,18 @@ public class TextView implements IAnimatorView {
     private TextView textView = new TextView();
     private IAnimatorModel model = null;
     private String out = "System.out";
-    private int speed = 1;
 
     public TextView build() {
       if (this.model == null) {
         throw new IllegalArgumentException("Model must be set to a value.");
       }
       textView.setModel(this.model);
-
       this.textView.setOut(this.out);
-      this.textView.setSpeed(this.speed);
+      this.textView.setTextOutput();
       return textView;
     }
 
-    public Builder setModel(IAnimatorModel model) {
+    public Builder declareModel(IAnimatorModel model) {
       if (model == null) {
         throw new IllegalArgumentException("Model cannot be null.");
       }
@@ -50,7 +46,7 @@ public class TextView implements IAnimatorView {
       return this;
     }
 
-    public Builder setOut(String out) {
+    public Builder declareOut(String out) {
       if (out == null) {
         throw new IllegalArgumentException("Out cannot be null.");
       } else if ((!out.contains(".txt") && !out.equals("System.out")) || out.length() < 5) {
@@ -60,31 +56,18 @@ public class TextView implements IAnimatorView {
       this.out = out;
       return this;
     }
-
-    public Builder setSpeed(int speed) {
-      if (speed < 1) {
-        throw new IllegalArgumentException("Speed cannot be less than 1.");
-      } else {
-        this.speed = speed;
-      }
-
-      return this;
-    }
   }
 
-  @Override
-  public void setOut(String out) {
+  private void setTextOutput() {
+    this.textOutput = new StringBuilder();
+  }
+
+  private void setOut(String out) {
     this.out = out;
   }
 
-  @Override
-  public void setModel(IAnimatorModel model) {
+  private void setModel(IAnimatorModel model) {
     this.model = model;
-  }
-
-  @Override
-  public void setSpeed(int speed) {
-    this.speed = speed;
   }
 
   @Override
@@ -93,7 +76,7 @@ public class TextView implements IAnimatorView {
             .append(model.getCanvasY()).append(" ").append(model.getCanvasW()).append(" ")
             .append(model.getCanvasH()).append("\n");
 
-    for (ReadOnlyIShape shape : this.model.returnShapes()) {
+    for (ReadOnlyIShape shape : this.model.getShapes()) {
       this.textOutput.append("shape ").append(shape.getShapeID()).append(" ")
               .append(shape.getShapeTypeAsString()).append("\n");
       for (ReadOnlyIMotion motion : model.returnMotions().get(shape)) {
