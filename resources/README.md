@@ -93,7 +93,9 @@ to interpret and animate in Google Chrome or Opera. This also
 implements animate and contains a builder and basic setters
 for the builder to use. The animate formats the motions and
 shapes into a format that is readable to the SVG format and
-can be loaded into a webpage.
+can be loaded into a webpage. Animate also works to make the
+motions only visible when the first motion starts through
+using the set function in the svg.
 
 ANIMATIONVIEW
 AnimationView uses the java swing library to craft
