@@ -36,6 +36,7 @@ public class SVGView implements IAnimatorView {
     /**
      * Method used to build the SVGView with the correct parameters such that no errors should be
      * thrown.
+     *
      * @return A valid SVGView
      */
     public SVGView build() {
@@ -50,6 +51,7 @@ public class SVGView implements IAnimatorView {
 
     /**
      * Method used to declare a model to be input into the SVGView.
+     *
      * @param model the given model to be used for the view
      * @return the Builder such that it can continue being built
      */
@@ -60,6 +62,7 @@ public class SVGView implements IAnimatorView {
 
     /**
      * Method used to input the desired ouput for where the view should animate to.
+     *
      * @param out the given output the view will animate to
      * @return the Builder such that it can continue to be built on
      */
@@ -76,6 +79,7 @@ public class SVGView implements IAnimatorView {
 
     /**
      * Method used to declare the speed for the given view so the animation will be run at speed.
+     *
      * @param speed the given speed for the view to animate at
      * @return a builder so it can continue to be built on
      */
@@ -92,6 +96,7 @@ public class SVGView implements IAnimatorView {
 
   /**
    * Method used to set the output of the given view.
+   *
    * @param out the output for the given view
    */
   private void setOut(String out) {
@@ -100,6 +105,7 @@ public class SVGView implements IAnimatorView {
 
   /**
    * The method used to set the model for the given view.
+   *
    * @param model the model for the given view
    */
   private void setModel(IAnimatorModel model) {
@@ -108,6 +114,7 @@ public class SVGView implements IAnimatorView {
 
   /**
    * The method used to set the speed for the given view.
+   *
    * @param speed the speed for the view to run at
    */
   private void setSpeed(int speed) {
@@ -129,7 +136,6 @@ public class SVGView implements IAnimatorView {
       ArrayList<ReadOnlyIMotion> currentShapeMotions = this.model.returnMotions().get(shape);
       ReadOnlyIMotion firstMotion = currentShapeMotions.get(0);
       ReadOnlyIMotion lastMotion = currentShapeMotions.get(currentShapeMotions.size() - 1);
-      boolean isAddVectorCalled = false;
 
       if (firstMotion != null) {
         switch (shape.getShapeType()) {
@@ -148,22 +154,13 @@ public class SVGView implements IAnimatorView {
                       .append(this.addVector(motion, "w"))
                       .append(this.addVector(motion, "h"))
                       .append(this.addVector(motion, "rgb"));
-              if (this.addVector(motion, "x").length() > 1
-                      || this.addVector(motion, "y").length() > 1
-                      || this.addVector(motion, "w").length() > 1
-                      || this.addVector(motion, "h").length() > 1
-                      || this.addVector(motion, "rgb").length() > 1) {
-                isAddVectorCalled = true;
-              }
             }
-            if (isAddVectorCalled) {
-              svgOutput.append("    <set attributeType=\"xml\" begin=\"").append((firstMotion
-                      .getTStart() / this.speed) * (1000 / 24)).append("ms\" dur=\"")
-                      .append((lastMotion.getTEnd() - firstMotion.getTStart() / this.speed)
-                              * (1000 / 24))
-                      .append("ms\" attributeName=\"visibility\" from=\"hidden\" to=\"visible\" "
-                              + "/>\n");
-            }
+            svgOutput.append("    <set attributeType=\"xml\" begin=\"").append((firstMotion
+                    .getTStart() / this.speed) * (1000)).append("ms\" dur=\"")
+                    .append((lastMotion.getTEnd() - firstMotion.getTStart() / this.speed)
+                            * (1000))
+                    .append("ms\" attributeName=\"visibility\" from=\"hidden\" to=\"visible\" "
+                            + "/>\n");
             svgOutput.append("</rect>\n");
             break;
 
@@ -182,23 +179,13 @@ public class SVGView implements IAnimatorView {
                       .append(this.addVector(motion, "rx"))
                       .append(this.addVector(motion, "ry"))
                       .append(this.addVector(motion, "rgb"));
-              if (this.addVector(motion, "cx").length() > 1
-                      || this.addVector(motion, "cy").length() > 1
-                      || this.addVector(motion, "rx").length() > 1
-                      || this.addVector(motion, "ry").length() > 1
-                      || this.addVector(motion, "rgb").length() > 1) {
-                isAddVectorCalled = true;
-              }
             }
-            if (isAddVectorCalled) {
-              svgOutput.append("    <set attributeType=\"xml\" begin=\"").append((firstMotion
-                      .getTStart() / this.speed) * (1000 / 24)).append("ms\" dur=\"")
-                      .append((lastMotion.getTEnd() - firstMotion.getTStart() / this.speed)
-                              * (1000 / 24))
-                      .append("ms\" attributeName=\"visibility\" from=\"hidden\" to=\"visible\" "
-                              + "/>\n");
-            }
-            svgOutput.append("</ellipse>\n");
+            svgOutput.append("    <set attributeType=\"xml\" begin=\"").append((firstMotion
+                    .getTStart() / this.speed) * (1000)).append("ms\" dur=\"")
+                    .append((lastMotion.getTEnd() - firstMotion.getTStart() / this.speed)
+                            * (1000))
+                    .append("ms\" attributeName=\"visibility\" from=\"hidden\" to=\"visible\" "
+                            + "/>\n").append("</ellipse>\n");
             break;
 
           default:
@@ -264,62 +251,60 @@ public class SVGView implements IAnimatorView {
     }
 
     if (deltaProperty != 0) {
+      int duration = (motion.getTEnd() - motion.getTStart()) * (1000 / this.speed);
+      String dur = " ";
+      if (duration != 0) {
+        dur = " dur=\"" + duration + "ms\" ";
+      }
       switch (property) {
         case "x":
         case "cx":
           returnString.append("    <animate attributeType=\"xml\" begin=\"")
-                  .append((motion.getTStart() / this.speed) * (100)).append("ms\" dur=\"")
-                  .append(((motion.getTEnd() - motion.getTStart()) / this.speed) * (100))
-                  .append("ms\" attributeName=\"").append(property).append("\" from=\"")
+                  .append((motion.getTStart() / this.speed) * (1000)).append("ms\"").append(dur)
+                  .append("attributeName=\"").append(property).append("\" from=\"")
                   .append(motion.getXStart()).append("\" to=\"").append(motion.getXEnd())
                   .append("\" fill=\"freeze\" />\n");
           break;
         case "y":
         case "cy":
           returnString.append("    <animate attributeType=\"xml\" begin=\"")
-                  .append((motion.getTStart() / this.speed) * (100)).append("ms\" dur=\"")
-                  .append(((motion.getTEnd() - motion.getTStart()) / this.speed) * (100))
-                  .append("ms\" attributeName=\"").append(property).append("\" from=\"")
+                  .append((motion.getTStart() / this.speed) * (1000)).append("ms\"").append(dur)
+                  .append("attributeName=\"").append(property).append("\" from=\"")
                   .append(motion.getYStart()).append("\" to=\"").append(motion.getYEnd())
                   .append("\" fill=\"freeze\" />\n");
           break;
         case "w":
           returnString.append("    <animate attributeType=\"xml\" begin=\"")
-                  .append((motion.getTStart() / this.speed) * (100)).append("ms\" dur=\"")
-                  .append(((motion.getTEnd() - motion.getTStart()) / this.speed) * (100))
-                  .append("ms\" attributeName=\"").append("width").append("\" from=\"")
+                  .append((motion.getTStart() / this.speed) * (1000)).append("ms\"").append(dur)
+                  .append("attributeName=\"").append("width").append("\" from=\"")
                   .append(motion.getWStart()).append("\" to=\"").append(motion.getWEnd())
                   .append("\" fill=\"freeze\" />\n");
           break;
         case "rx":
           returnString.append("    <animate attributeType=\"xml\" begin=\"")
-                  .append((motion.getTStart() / this.speed) * (100)).append("ms\" dur=\"")
-                  .append(((motion.getTEnd() - motion.getTStart()) / this.speed) * (100))
-                  .append("ms\" attributeName=\"").append(property).append("\" from=\"")
+                  .append((motion.getTStart() / this.speed) * (1000)).append("ms\"").append(dur)
+                  .append("attributeName=\"").append(property).append("\" from=\"")
                   .append(motion.getWStart() / 2).append("\" to=\"").append(motion.getWEnd() / 2)
                   .append("\" fill=\"freeze\" />\n");
           break;
         case "h":
           returnString.append("    <animate attributeType=\"xml\" begin=\"")
-                  .append((motion.getTStart() / this.speed) * (100)).append("ms\" dur=\"")
-                  .append(((motion.getTEnd() - motion.getTStart()) / this.speed) * (100))
-                  .append("ms\" attributeName=\"").append("height").append("\" from=\"")
+                  .append((motion.getTStart() / this.speed) * (1000)).append("ms\"").append(dur)
+                  .append("attributeName=\"").append("height").append("\" from=\"")
                   .append(motion.getHStart()).append("\" to=\"").append(motion.getHEnd())
                   .append("\" fill=\"freeze\" />\n");
           break;
         case "ry":
           returnString.append("    <animate attributeType=\"xml\" begin=\"")
-                  .append((motion.getTStart() / this.speed) * (100)).append("ms\" dur=\"")
-                  .append(((motion.getTEnd() - motion.getTStart()) / this.speed) * (100))
-                  .append("ms\" attributeName=\"").append(property).append("\" from=\"")
+                  .append((motion.getTStart() / this.speed) * (1000)).append("ms\"").append(dur)
+                  .append("attributeName=\"").append(property).append("\" from=\"")
                   .append(motion.getHStart() / 2).append("\" to=\"").append(motion.getHEnd() / 2)
                   .append("\" fill=\"freeze\" />\n");
           break;
         case "rgb":
           returnString.append("    <animate attributeType=\"xml\" begin=\"")
-                  .append((motion.getTStart() / this.speed) * (100)).append("ms\" dur=\"")
-                  .append(((motion.getTEnd() - motion.getTStart()) / this.speed) * (100))
-                  .append("ms\" attributeName=\"fill\" from=\"rgb(").append(motion.getRStart())
+                  .append((motion.getTStart() / this.speed) * (1000)).append("ms\"").append(dur)
+                  .append("attributeName=\"fill\" from=\"rgb(").append(motion.getRStart())
                   .append(",").append(motion.getGStart()).append(",").append(motion.getBStart())
                   .append(")\" to=\"rgb(").append(motion.getREnd()).append(",")
                   .append(motion.getGEnd()).append(",").append(motion.getBEnd())

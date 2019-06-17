@@ -1,4 +1,4 @@
-canvas -203 -202 1205 1204
+canvas 203 202 1205 1204
 shape P1 ellipse
 shape P2 ellipse
 shape P3 ellipse
