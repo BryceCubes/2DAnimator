@@ -84,7 +84,7 @@ order the starting and then ending time, x, y, width, height,
 and rgb values as well as the canvas size at the top. This
 contains a builder and setters for the builder to use, but
 otherwise it simply implements the animate method that
-outputs all the necessary data about the motions to the
+outputs all the data about the motions to the
 output file given in main.
 
 SVGVIEW
