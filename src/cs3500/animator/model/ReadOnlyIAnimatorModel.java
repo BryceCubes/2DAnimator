@@ -151,4 +151,12 @@ public interface ReadOnlyIAnimatorModel {
   void declareMotion(String shapeID, int xStart, int yStart, int wStart, int hStart, int rStart,
                      int gStart, int bStart, int toX, int toY, int toW, int toH, int toR, int toG,
                      int toB, int tStart, int tEnd) throws IllegalArgumentException;
+
+  void addKeyFrame(String shapeID, int tick)
+          throws IllegalArgumentException;
+
+  void editKeyFrame(String shapeID, int tick, String field, int change)
+          throws IllegalArgumentException;
+
+  void deleteKeyFrame(String shapeID, int tick) throws IllegalArgumentException;
 }

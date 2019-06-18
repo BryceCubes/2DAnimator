@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import cs3500.animator.model.keyframe.IKeyFrame;
+import cs3500.animator.model.keyframe.KeyFrame;
 import cs3500.animator.model.motion.IMotion;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.motion.ShapeMotion;
@@ -21,6 +23,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   private ArrayList<IShape> shapes;
   private HashMap<IShape, ArrayList<IMotion>> sortedMoveList;
+  private HashMap<IShape, ArrayList<IKeyFrame>> keyFrames;
   private int canvasX;
   private int canvasY;
   private int canvasW;
@@ -32,6 +35,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
   private AnimatorModelImpl() {
     this.shapes = new ArrayList<>();
     this.sortedMoveList = new HashMap<>();
+    this.keyFrames = new HashMap<>();
   }
 
   /**
@@ -420,12 +424,138 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
   }
 
+  @Override
+  public void setCanvasX(int canvasX) {
+    this.canvasX = canvasX;
+  }
+
+  @Override
+  public void setCanvasY(int canvasY) {
+    this.canvasY = canvasY;
+  }
+
+  @Override
+  public void setCanvasW(int canvasW) {
+    this.canvasW = canvasW;
+  }
+
+  @Override
+  public void setCanvasH(int canvasH) {
+    this.canvasH = canvasH;
+  }
+
+  @Override
+  public void addKeyFrame(String shapeID, int tick)
+          throws IllegalArgumentException {
+    if (tick < 0) {
+      throw new IllegalArgumentException("Tick cannot be negative.");
+    }
+
+    boolean doesShapeExist = false;
+
+    for (IShape shape : this.shapes) {
+      if (shape.getShapeID().equals(shapeID)) {
+        doesShapeExist = true;
+        IKeyFrame keyFrameBefore = null;
+        IKeyFrame keyFrameAfter = null;
+        int index = 0;
+        for (IKeyFrame keyFrame : this.keyFrames.get(shape)) {
+          index++;
+          if (keyFrame.getT() == tick) {
+            throw new IllegalArgumentException("KeyFrame already exists at given tick.");
+          } else if (tick > keyFrame.getT() && tick < this.keyFrames.get(shape).get(index).getT()) {
+            keyFrameBefore = keyFrame;
+            keyFrameAfter = keyFrame;
+          }
+        }
+
+      }
+    }
+
+    if (!doesShapeExist) {
+      throw new IllegalArgumentException("Shape with given shapeID does not exist.");
+    }
+  }
+
+  @Override
+  public void editKeyFrame(String shapeID, int tick, String field, int change)
+          throws IllegalArgumentException {
+    boolean doesShapeExist = false;
+    boolean doesTickExist = false;
+    for (IShape shape : this.shapes) {
+      if (shape.getShapeID().equals(shapeID)) {
+        doesShapeExist = true;
+        for (IKeyFrame keyFrame : this.keyFrames.get(shape)) {
+          if (keyFrame.getT() == tick) {
+            doesTickExist = true;
+            switch (field.toLowerCase()) {
+              case "x":
+                keyFrame.setX(change);
+                break;
+              case "y":
+                keyFrame.setY(change);
+                break;
+              case "width":
+                keyFrame.setW(change);
+                break;
+              case "height":
+                keyFrame.setH(change);
+                break;
+              case "red":
+                keyFrame.setR(change);
+                break;
+              case "green":
+                keyFrame.setG(change);
+                break;
+              case "blue":
+                keyFrame.setB(change);
+                break;
+              default:
+                throw new IllegalArgumentException("The field referenced does not exist. Field must"
+                        + " be of type x, y, width, height, red, green or blue.");
+            }
+          }
+        }
+      }
+    }
+
+    if (!doesShapeExist) {
+      throw new IllegalArgumentException("Shape with given shape id does not exist.");
+    }
+    if (!doesTickExist) {
+      throw new IllegalArgumentException("KeyFrame with given tick does not exist.");
+    }
+  }
+
+  @Override
+  public void deleteKeyFrame(String shapeID, int tick) throws IllegalArgumentException {
+    boolean doesShapeExist = false;
+    boolean doesTickExist = false;
+    for (IShape shape : this.shapes) {
+      if (shape.getShapeID().equals(shapeID)) {
+        doesShapeExist = true;
+        for (IKeyFrame keyFrame : this.keyFrames.get(shape)) {
+          if (keyFrame.getT() == tick) {
+            doesTickExist = true;
+            this.keyFrames.get(shape).remove(keyFrame);
+          }
+        }
+      }
+    }
+
+    if (!doesShapeExist) {
+      throw new IllegalArgumentException("Shape with given shape id does not exist.");
+    } else if (!doesTickExist) {
+      throw new IllegalArgumentException("KeyFrame with given tick does not exist.");
+    }
+  }
+
   /**
    * Method bubble sort algorithm implemented normally used to sort the list based on start times.
    */
   private void sort() {
     for (IShape shape : this.shapes) {
-      sortedMoveList.get(shape).sort(Comparator.comparingInt(ReadOnlyIMotion::getTStart));
+      sortedMoveList.get(shape).sort(Comparator.comparingInt(IMotion::getTStart));
     }
   }
 
@@ -460,24 +590,28 @@ public class AnimatorModelImpl implements IAnimatorModel {
     return isConsistent;
   }
 
+  private void makeKeyFrames() {
+    for (IShape shape : this.shapes) {
+      this.keyFrames.put(shape, new ArrayList<>());
+      IMotion firstMotion = this.sortedMoveList.get(shape).get(0);
+      if (firstMotion != null) {
+        IKeyFrame firstKeyFrame = new KeyFrame.Builder().declareShape(shape)
+                .declareX(firstMotion.getXStart()).declareY(firstMotion.getYStart())
+                .declareW(firstMotion.getWStart()).declareH(firstMotion.getHStart())
+                .declareR(firstMotion.getRStart()).declareG(firstMotion.getGStart())
+                .declareB(firstMotion.getBStart()).build();
+        this.keyFrames.get(shape).add(firstKeyFrame);
+      }
 
-  @Override
-  public void setCanvasX(int canvasX) {
-    this.canvasX = canvasX;
+      for (IMotion motion : this.sortedMoveList.get(shape)) {
+        IKeyFrame keyFrame = new KeyFrame.Builder().declareShape(shape).declareX(motion.getXEnd())
+                .declareY(motion.getYEnd()).declareW(motion.getWEnd()).declareH(motion.getHEnd())
+                .declareR(motion.getREnd()).declareG(motion.getGEnd()).declareB(motion.getBEnd())
+                .build();
+        this.keyFrames.get(shape).add(keyFrame);
+      }
+    }
   }
 
-  @Override
-  public void setCanvasY(int canvasY) {
-    this.canvasY = canvasY;
-  }
-
-  @Override
-  public void setCanvasW(int canvasW) {
-    this.canvasW = canvasW;
-  }
-
-  @Override
-  public void setCanvasH(int canvasH) {
-    this.canvasH = canvasH;
-  }
+  private double interpolate(int )
 }
