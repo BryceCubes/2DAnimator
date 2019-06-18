@@ -11,11 +11,11 @@ public interface ReadOnlyIKeyFrame {
 
   double getH();
 
-  double getR();
+  int getR();
 
-  double getG();
+  int getG();
 
-  double getB();
+  int getB();
 
-  double getT();
+  int getT();
 }

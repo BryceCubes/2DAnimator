@@ -8,23 +8,26 @@ public class KeyFrame implements IKeyFrame {
   private double y;
   private double w;
   private double h;
-  private double r;
-  private double g;
-  private double b;
-  private double t;
+  private int r;
+  private int g;
+  private int b;
+  private int t;
 
   public static class Builder {
-    private IShape shape;
-    private int x;
-    private int y;
-    private int w;
-    private int h;
-    private int r;
-    private int g;
-    private int b;
-    private int t;
+    private IShape shape = null;
+    private double x = 0;
+    private double y = 0;
+    private double w = 0;
+    private double h = 0;
+    private int r = 0;
+    private int g = 0;
+    private int b = 0;
+    private int t = 0;
 
     public KeyFrame build() {
+      if (this.shape == null || this.t == 0) {
+        throw new IllegalArgumentException("Shape and tick must be set.");
+      }
       KeyFrame keyFrame = new KeyFrame();
       keyFrame.setX(this.x);
       keyFrame.setY(this.y);
@@ -43,17 +46,17 @@ public class KeyFrame implements IKeyFrame {
       return this;
     }
 
-    public Builder declareX(int x) {
+    public Builder declareX(double x) {
       this.x = x;
       return this;
     }
 
-    public Builder declareY(int y) {
+    public Builder declareY(double y) {
       this.y = y;
       return this;
     }
 
-    public Builder declareW(int w) {
+    public Builder declareW(double w) {
       if (w < 1) {
         throw new IllegalArgumentException("Width cannot be less than 1.");
       }
@@ -61,7 +64,7 @@ public class KeyFrame implements IKeyFrame {
       return this;
     }
 
-    public Builder declareH(int h) {
+    public Builder declareH(double h) {
       if (h < 1) {
         throw new IllegalArgumentException("Height cannot be less than 1.");
       }
@@ -103,17 +106,17 @@ public class KeyFrame implements IKeyFrame {
   }
 
   @Override
-  public void setX(int x) {
+  public void setX(double x) {
     this.x = x;
   }
 
   @Override
-  public void setY(int y) {
+  public void setY(double y) {
     this.y = y;
   }
 
   @Override
-  public void setW(int w) {
+  public void setW(double w) {
     if (w < 1) {
       throw new IllegalArgumentException("Width cannot be less than 1.");
     }
@@ -121,7 +124,7 @@ public class KeyFrame implements IKeyFrame {
   }
 
   @Override
-  public void setH(int h) {
+  public void setH(double h) {
     if (h < 1) {
       throw new IllegalArgumentException("Height cannot be less than 1.");
     }
@@ -188,22 +191,27 @@ public class KeyFrame implements IKeyFrame {
   }
 
   @Override
-  public double getR() {
+  public int getR() {
     return this.r;
   }
 
   @Override
-  public double getG() {
+  public int getG() {
     return this.g;
   }
 
   @Override
-  public double getB() {
+  public int getB() {
     return this.b;
   }
 
   @Override
-  public double getT() {
+  public int getT() {
     return this.t;
+  }
+
+  @Override
+  public IShape getShape() {
+    return this.shape;
   }
 }

@@ -33,13 +33,4 @@ public interface IAnimatorModel extends ReadOnlyIAnimatorModel {
    * @param canvasH the width value to place the canvas
    */
   void setCanvasH(int canvasH);
-
-  /**
-   * Adds motion to the animation for an already existing shape used for the builder.
-   *
-   * @param motion motion to be added to a shapes arraylist of motions
-   * @throws IllegalArgumentException when motion already exists for given time, if motion is
-   *                                  inconsistent, or disjoint
-   */
-  void builderMotion(IMotion motion) throws IllegalArgumentException;
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import cs3500.animator.model.keyframe.IKeyFrame;
 import cs3500.animator.model.keyframe.KeyFrame;
+import cs3500.animator.model.keyframe.ReadOnlyIKeyFrame;
 import cs3500.animator.model.motion.IMotion;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.motion.ShapeMotion;
@@ -48,6 +49,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     private Integer height = null;
     private ArrayList<IMotion> listOfMotions = new ArrayList<>();
     private ArrayList<IShape> listOfShapes = new ArrayList<>();
+    private ArrayList<IKeyFrame> listOfKeyFrames = new ArrayList<>();
 
     @Override
     public AnimatorModelImpl build() {
@@ -67,6 +69,12 @@ public class AnimatorModelImpl implements IAnimatorModel {
       for (IMotion motion : this.listOfMotions) {
         model.builderMotion(motion);
       }
+
+      for (IKeyFrame keyFrame : this.listOfKeyFrames) {
+        model.builderKeyFrame(keyFrame);
+      }
+
+      model.makeKeyFrames();
 
       return model;
     }
@@ -119,6 +127,25 @@ public class AnimatorModelImpl implements IAnimatorModel {
                                                       int h1, int r1, int g1, int b1, int t2,
                                                       int x2, int y2, int w2, int h2, int r2,
                                                       int g2, int b2) {
+      IShape currentShape = this.getShape(name);
+
+      listOfMotions.add(new ShapeMotion(currentShape, x1, y1, w1, h1, r1, g1, b1, x2, y2, w2, h2,
+              r2, g2, b2, t1, t2));
+
+      return this;
+    }
+
+    @Override
+    public AnimationBuilder<IAnimatorModel> addKeyframe(String name, int t, int x, int y, int w,
+                                                        int h, int r, int g, int b) {
+      IShape currentShape = this.getShape(name);
+
+      listOfKeyFrames.add(new KeyFrame.Builder().declareShape(currentShape).declareT(t).declareX(x)
+              .declareY(y).declareW(w).declareH(h).declareR(r).declareG(g).declareB(b).build());
+      return this;
+    }
+
+    private IShape getShape(String name) {
       IShape currentShape = null;
       for (IShape shape : this.listOfShapes) {
         if (shape == null) {
@@ -133,11 +160,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
       if (currentShape == null) {
         throw new IllegalArgumentException("Given shape does not exist.");
       } else {
-        listOfMotions.add(new ShapeMotion(currentShape, x1, y1, w1, h1, r1, g1, b1, x2, y2, w2, h2,
-                r2, g2, b2, t1, t2));
+        return currentShape;
       }
-
-      return this;
     }
   }
 
@@ -163,12 +187,25 @@ public class AnimatorModelImpl implements IAnimatorModel {
     HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> motions = new HashMap<>();
     for (IShape shape : this.shapes) {
       motions.put(shape, new ArrayList<>());
-      for (ReadOnlyIMotion motion : sortedMoveList.get(shape)) {
+      for (IMotion motion : this.sortedMoveList.get(shape)) {
         motions.get(shape).add(motion);
       }
     }
 
     return motions;
+  }
+
+  @Override
+  public HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIKeyFrame>> returnKeyFrames() {
+    HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIKeyFrame>> keyFrames = new HashMap<>();
+    for (IShape shape : this.shapes) {
+      keyFrames.put(shape, new ArrayList<>());
+      for (IKeyFrame keyFrame : this.keyFrames.get(shape)) {
+        keyFrames.get(shape).add(keyFrame);
+      }
+    }
+
+    return keyFrames;
   }
 
   @Override
@@ -288,36 +325,6 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Shape given does not exist.");
     }
   }
-
-
-  // Added so that a shape can be removed with ease.
-
-  @Override
-  public void builderMotion(IMotion motion) {
-    boolean doesShapeExist = false;
-    IShape currentShape = motion.getShape();
-    String shapeName = currentShape.getShapeID();
-
-    for (IShape shape : this.shapes) {
-      if (shapeName.equals(shape.getShapeID())) {
-        sortedMoveList.get(shape).add(motion);
-        this.sort();
-        doesShapeExist = true;
-        break;
-      }
-    }
-
-    if (!doesShapeExist) {
-      throw new IllegalArgumentException("Shape given does not exist.");
-    }
-
-    this.sort();
-
-    if (!this.isContinuous(sortedMoveList.get(currentShape))) {
-      throw new IllegalArgumentException("Adding given motion causes motions to be noncontinuous.");
-    }
-  }
-
 
   /**
    * Checks if the given motion matches all the given fields.
@@ -456,19 +463,34 @@ public class AnimatorModelImpl implements IAnimatorModel {
     for (IShape shape : this.shapes) {
       if (shape.getShapeID().equals(shapeID)) {
         doesShapeExist = true;
-        IKeyFrame keyFrameBefore = null;
-        IKeyFrame keyFrameAfter = null;
+        IKeyFrame keyFrameBefore;
+        IKeyFrame keyFrameAfter;
         int index = 0;
-        for (IKeyFrame keyFrame : this.keyFrames.get(shape)) {
-          index++;
-          if (keyFrame.getT() == tick) {
-            throw new IllegalArgumentException("KeyFrame already exists at given tick.");
-          } else if (tick > keyFrame.getT() && tick < this.keyFrames.get(shape).get(index).getT()) {
-            keyFrameBefore = keyFrame;
-            keyFrameAfter = keyFrame;
+        if (this.keyFrames.get(shape).isEmpty()) {
+          this.keyFrames.get(shape).add(new KeyFrame.Builder().declareShape(shape).declareT(tick)
+                  .build());
+        } else if (tick > this.keyFrames.get(shape)
+                .get(this.keyFrames.get(shape).size()).getT()) {
+          this.keyFrames.get(shape).add(new KeyFrame.Builder().declareShape(shape).declareT(tick)
+                  .build());
+        } else if (tick < this.keyFrames.get(shape).get(0).getT()) {
+          this.keyFrames.get(shape).add(new KeyFrame.Builder().declareShape(shape).declareT(tick)
+                  .build());
+        } else {
+          for (IKeyFrame keyFrame : this.keyFrames.get(shape)) {
+            index++;
+            if (keyFrame.getT() == tick) {
+              throw new IllegalArgumentException("KeyFrame already exists at given tick.");
+            } else if (tick > keyFrame.getT() && tick < this.keyFrames.get(shape).get(index)
+                    .getT()) {
+              keyFrameBefore = keyFrame;
+              keyFrameAfter = keyFrame;
+              this.keyFrames.get(shape).add(this.interpolateNewKeyFrame(shape, tick, keyFrameBefore,
+                      keyFrameAfter));
+            }
           }
         }
-
+        this.sortKeyFrames();
       }
     }
 
@@ -555,7 +577,16 @@ public class AnimatorModelImpl implements IAnimatorModel {
    */
   private void sort() {
     for (IShape shape : this.shapes) {
-      sortedMoveList.get(shape).sort(Comparator.comparingInt(IMotion::getTStart));
+      this.sortedMoveList.get(shape).sort(Comparator.comparingInt(IMotion::getTStart));
+    }
+  }
+
+  /**
+   * Method bubble sort algorithm implemented normally used to sort the list based on start times.
+   */
+  private void sortKeyFrames() {
+    for (IShape shape : this.shapes) {
+      this.keyFrames.get(shape).sort(Comparator.comparingInt(IKeyFrame::getT));
     }
   }
 
@@ -599,7 +630,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
                 .declareX(firstMotion.getXStart()).declareY(firstMotion.getYStart())
                 .declareW(firstMotion.getWStart()).declareH(firstMotion.getHStart())
                 .declareR(firstMotion.getRStart()).declareG(firstMotion.getGStart())
-                .declareB(firstMotion.getBStart()).build();
+                .declareB(firstMotion.getBStart()).declareT(firstMotion.getTStart()).build();
         this.keyFrames.get(shape).add(firstKeyFrame);
       }
 
@@ -607,11 +638,95 @@ public class AnimatorModelImpl implements IAnimatorModel {
         IKeyFrame keyFrame = new KeyFrame.Builder().declareShape(shape).declareX(motion.getXEnd())
                 .declareY(motion.getYEnd()).declareW(motion.getWEnd()).declareH(motion.getHEnd())
                 .declareR(motion.getREnd()).declareG(motion.getGEnd()).declareB(motion.getBEnd())
-                .build();
+                .declareT(motion.getTEnd()).build();
         this.keyFrames.get(shape).add(keyFrame);
       }
     }
   }
 
-  private double interpolate(int )
+  private IKeyFrame interpolateNewKeyFrame(IShape shape, int tick, IKeyFrame firstKeyFrame,
+                                           IKeyFrame secondKeyFrame) {
+    double deltaX = secondKeyFrame.getX() - firstKeyFrame.getX();
+    double deltaY = secondKeyFrame.getY() - firstKeyFrame.getY();
+    double deltaW = secondKeyFrame.getW() - firstKeyFrame.getW();
+    double deltaH = secondKeyFrame.getH() - firstKeyFrame.getW();
+    int deltaR = secondKeyFrame.getR() - firstKeyFrame.getR();
+    int deltaG = secondKeyFrame.getG() - firstKeyFrame.getG();
+    int deltaB = secondKeyFrame.getB() - firstKeyFrame.getB();
+    double deltaT = secondKeyFrame.getT() - firstKeyFrame.getT();
+    double currTick = tick - firstKeyFrame.getT();
+    double newX = (currTick / deltaT) * deltaX + firstKeyFrame.getX();
+    double newY = (currTick / deltaT) * deltaY + firstKeyFrame.getY();
+    double newW = (currTick / deltaT) * deltaW + firstKeyFrame.getW();
+    double newH = (currTick / deltaT) * deltaH + firstKeyFrame.getH();
+    int newR = (int) ((currTick / deltaT) * deltaR) + firstKeyFrame.getR();
+    int newG = (int) ((currTick / deltaT) * deltaG) + firstKeyFrame.getG();
+    int newB = (int) ((currTick / deltaT) * deltaB) + firstKeyFrame.getB();
+
+    return new KeyFrame.Builder().declareShape(shape).declareT(tick).declareX(newX).declareY(newY)
+            .declareW(newW).declareH(newH).declareR(newR).declareG(newG).declareB(newB).build();
+  }
+
+  /**
+   * Adds motion to the animation for an already existing shape used for the builder.
+   *
+   * @param motion motion to be added to a shapes arraylist of motions
+   * @throws IllegalArgumentException when motion already exists for given time, if motion is
+   *                                  inconsistent, or disjoint
+   */
+  private void builderMotion(IMotion motion) {
+    boolean doesShapeExist = false;
+    IShape currentShape = motion.getShape();
+    String shapeName = currentShape.getShapeID();
+
+    for (IShape shape : this.shapes) {
+      if (shapeName.equals(shape.getShapeID())) {
+        this.sortedMoveList.get(shape).add(motion);
+        this.sort();
+        doesShapeExist = true;
+        break;
+      }
+    }
+
+    if (!doesShapeExist) {
+      throw new IllegalArgumentException("Shape given does not exist.");
+    }
+
+    this.sort();
+
+    if (!this.isContinuous(sortedMoveList.get(currentShape))) {
+      throw new IllegalArgumentException("Adding given motion causes motions to be noncontinuous.");
+    }
+  }
+
+  /**
+   * Method used to assist the builder in just adding a keyFrame without already having a model
+   * built.
+   *
+   * @param keyFrame given KeyFrame to add to the model
+   */
+  private void builderKeyFrame(IKeyFrame keyFrame) {
+    boolean doesShapeExist = false;
+    IShape currentShape = keyFrame.getShape();
+    String shapeName = currentShape.getShapeID();
+
+    for (IShape shape : this.shapes) {
+      if (shapeName.equals(shape.getShapeID())) {
+        doesShapeExist = true;
+        for (IKeyFrame frame : this.keyFrames.get(shape)) {
+          if (keyFrame.getT() == frame.getT()) {
+            throw new IllegalArgumentException("Cannot add a keyframe with same tick as another.");
+          } else {
+            this.keyFrames.get(shape).add(keyFrame);
+            this.sortKeyFrames();
+          }
+        }
+        break;
+      }
+    }
+
+    if (!doesShapeExist) {
+      throw new IllegalArgumentException("Shape given does not exist.");
+    }
+  }
 }

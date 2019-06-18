@@ -61,4 +61,20 @@ public interface AnimationBuilder<IAnimatorModel> {
                                              int t1, int x1, int y1, int w1, int h1, int r1, int g1,
                                              int b1, int t2, int x2, int y2, int w2, int h2, int r2,
                                              int g2, int b2);
+
+  /**
+   * Adds an individual keyframe to the growing document.
+   * @param name The name of the shape (added with {@link AnimationBuilder#declareShape})
+   * @param t    The time for this keyframe
+   * @param x    The x-position of the shape
+   * @param y    The y-position of the shape
+   * @param w    The width of the shape
+   * @param h    The height of the shape
+   * @param r    The red color-value of the shape
+   * @param g    The green color-value of the shape
+   * @param b    The blue color-value of the shape
+   * @return This {@link AnimationBuilder}
+   */
+  AnimationBuilder<IAnimatorModel> addKeyframe(String name,
+                                    int t, int x, int y, int w, int h, int r, int g, int b);
 }

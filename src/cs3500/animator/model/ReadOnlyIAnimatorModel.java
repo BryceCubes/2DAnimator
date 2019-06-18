@@ -3,6 +3,7 @@ package cs3500.animator.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import cs3500.animator.model.keyframe.ReadOnlyIKeyFrame;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;
@@ -28,6 +29,13 @@ public interface ReadOnlyIAnimatorModel {
    */
 
   HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> returnMotions();
+
+  /**
+   * Gives the hashmap of keyframes.
+   *
+   * @return a hashmap of keyframes
+   */
+  HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIKeyFrame>> returnKeyFrames();
 
   /**
    * Method to return all the shapes the view will need to display.
