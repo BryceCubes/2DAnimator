@@ -70,11 +70,17 @@ public class AnimatorModelImpl implements IAnimatorModel {
         model.builderMotion(motion);
       }
 
+      // Added this into the builder so that if a user chooses to input the keyframes instead, our
+      // builder will add them into the model.
       for (IKeyFrame keyFrame : this.listOfKeyFrames) {
         model.builderKeyFrame(keyFrame);
       }
 
-      model.makeKeyFrames();
+      // If the keyframes were never added by the user, then the model will instead make the
+      // key frames from the motions.
+      if (this.listOfKeyFrames == null) {
+        model.makeKeyFrames();
+      }
 
       return model;
     }
@@ -207,6 +213,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
     return keyFrames;
   }
+  // Added this functionality so it would be easty to retrieve all the keyframes if needed.
 
   @Override
   public ArrayList<ReadOnlyIShape> getShapesAtTick(int tick) {
@@ -216,9 +223,15 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
 
     for (IShape shape : this.shapes) {
-      for (IMotion motion : this.sortedMoveList.get(shape)) {
-        if (motion.getTStart() <= tick && motion.getTEnd() >= tick) {
-          shapesAtTick.add(motion.interpolate(tick));
+      int index = 0;
+      for (IKeyFrame keyFrame : this.keyFrames.get(shape)) {
+        index++;
+        IKeyFrame nextKeyFrame = this.keyFrames.get(shape).get(index);
+        if (nextKeyFrame == null) {
+          break;
+        } else if (keyFrame.getT() <= tick && nextKeyFrame.getT() >= tick) {
+          shapesAtTick.add(this.interpolateKeyFrame(shape, tick, keyFrame, nextKeyFrame)
+                  .getShape());
           break;
         }
       }
@@ -272,6 +285,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
     for (int i = 0; i < length; i++) {
       if (shapes.get(i).getShapeID().equals(shapeID)) {
         this.sortedMoveList.remove(shapes.get(i));
+        this.keyFrames.remove(shapes.get(i));
+        // Added in the removal of the shape from the keyframes too.
         doesShapeExist = true;
         break;
       }
@@ -485,7 +500,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
                     .getT()) {
               keyFrameBefore = keyFrame;
               keyFrameAfter = keyFrame;
-              this.keyFrames.get(shape).add(this.interpolateNewKeyFrame(shape, tick, keyFrameBefore,
+              this.keyFrames.get(shape).add(this.interpolateKeyFrame(shape, tick, keyFrameBefore,
                       keyFrameAfter));
             }
           }
@@ -498,6 +513,9 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Shape with given shapeID does not exist.");
     }
   }
+  // Added this functionality so that a user could add a keyframe anywhere for a shape and have it
+  // either appear blank if added at the beginning or end, or appear interpolated in the middle of
+  // two other key frames.
 
   @Override
   public void editKeyFrame(String shapeID, int tick, String field, int change)
@@ -548,6 +566,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("KeyFrame with given tick does not exist.");
     }
   }
+  // Added this functionality so that a user could easily edit a key frame using the editor.
 
   @Override
   public void deleteKeyFrame(String shapeID, int tick) throws IllegalArgumentException {
@@ -571,6 +590,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("KeyFrame with given tick does not exist.");
     }
   }
+  // Added this functionality so that could easily allow a user to delete a keyframe from the
+  // editor.
 
   /**
    * Method bubble sort algorithm implemented normally used to sort the list based on start times.
@@ -589,6 +610,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
       this.keyFrames.get(shape).sort(Comparator.comparingInt(IKeyFrame::getT));
     }
   }
+  // Added this functionality so that we could easily sort the keyframes based on time when they
+  // are added.
 
   /**
    * Used to return whether or not a list is in sequence given the start and stop times, and the
@@ -643,9 +666,11 @@ public class AnimatorModelImpl implements IAnimatorModel {
       }
     }
   }
+  // Added this functionality so that if only motions were added in the builder for the model, then
+  // the key frames could be generated in this way.
 
-  private IKeyFrame interpolateNewKeyFrame(IShape shape, int tick, IKeyFrame firstKeyFrame,
-                                           IKeyFrame secondKeyFrame) {
+  private IKeyFrame interpolateKeyFrame(IShape shape, int tick, IKeyFrame firstKeyFrame,
+                                        IKeyFrame secondKeyFrame) {
     double deltaX = secondKeyFrame.getX() - firstKeyFrame.getX();
     double deltaY = secondKeyFrame.getY() - firstKeyFrame.getY();
     double deltaW = secondKeyFrame.getW() - firstKeyFrame.getW();
@@ -662,10 +687,18 @@ public class AnimatorModelImpl implements IAnimatorModel {
     int newR = (int) ((currTick / deltaT) * deltaR) + firstKeyFrame.getR();
     int newG = (int) ((currTick / deltaT) * deltaG) + firstKeyFrame.getG();
     int newB = (int) ((currTick / deltaT) * deltaB) + firstKeyFrame.getB();
-
+    shape.setX(newX);
+    shape.setY(newY);
+    shape.setW(newW);
+    shape.setH(newH);
+    shape.setR(newR);
+    shape.setG(newG);
+    shape.setB(newB);
     return new KeyFrame.Builder().declareShape(shape).declareT(tick).declareX(newX).declareY(newY)
             .declareW(newW).declareH(newH).declareR(newR).declareG(newG).declareB(newB).build();
   }
+  // Added the interpolation functionality to the model so that when adding a new key frame, the
+  // new key frame will be initialized as an interpolation between two other key frames.
 
   /**
    * Adds motion to the animation for an already existing shape used for the builder.
@@ -698,6 +731,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Adding given motion causes motions to be noncontinuous.");
     }
   }
+  // Made this method private as it was only needed in this class for the builder specifically.
 
   /**
    * Method used to assist the builder in just adding a keyFrame without already having a model
@@ -729,4 +763,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Shape given does not exist.");
     }
   }
+  // Added this method so that the model could easily add keyframes without interpolating between
+  // two first because this is used in the builder where someone is just inputting a bunch of
+  // keyframes. We would not want to just set the keyframes to basic values at that point as the
+  // builder requires them to put in multiple values.
 }

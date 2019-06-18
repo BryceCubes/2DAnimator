@@ -1,7 +1,5 @@
 package cs3500.animator.model;
 
-import cs3500.animator.model.motion.IMotion;
-
 /**
  * General Model to represent the shapes and motions for an animator application.
  */
@@ -33,4 +31,7 @@ public interface IAnimatorModel extends ReadOnlyIAnimatorModel {
    * @param canvasH the width value to place the canvas
    */
   void setCanvasH(int canvasH);
+
+  // Deleted builderIMotion from here because it could be private within the class as it was only
+  // going to be used for the builder.
 }

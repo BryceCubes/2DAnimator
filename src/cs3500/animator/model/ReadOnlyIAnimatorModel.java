@@ -167,4 +167,7 @@ public interface ReadOnlyIAnimatorModel {
           throws IllegalArgumentException;
 
   void deleteKeyFrame(String shapeID, int tick) throws IllegalArgumentException;
+
+  // Added these 3 functions right above this comment in order to allow new functionality of editing
+  // the model made easier for the user.
 }
