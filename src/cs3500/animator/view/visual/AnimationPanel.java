@@ -24,6 +24,7 @@ public class AnimationPanel extends JPanel implements IAnimationPanel {
 
   /**
    * Paints the individual components based on its attributes of shape type, position, and color.
+   *
    * @param g Graphic to draw to
    */
   public void paintComponent(Graphics g) {

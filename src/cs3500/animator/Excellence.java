@@ -28,6 +28,7 @@ public class Excellence {
    *
    * <p>This has 3 different views: SVG, Visual, and Text.
    * Speed is measured in 10's of ms per frame.
+   *
    * @param args The input for the program
    */
   public static void main(String[] args) {
@@ -104,6 +105,8 @@ public class Excellence {
           IAnimatorView animationView = new AnimationView.Builder().declareModel(model)
                   .declareSpeed(speed).build();
           animationView.animate();
+          break;
+        case "edit":
           break;
         default:
           JOptionPane.showMessageDialog(new JFrame(),

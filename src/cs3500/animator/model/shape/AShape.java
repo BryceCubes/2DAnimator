@@ -28,13 +28,13 @@ public class AShape implements IShape {
     } else {
       this.shapeID = shapeID;
       this.shapeType = shapeType;
-      this.xPos = 1;
-      this.yPos = 1;
-      this.width = 1;
-      this.height = 1;
-      this.red = 1;
-      this.green = 1;
-      this.blue = 1;
+      this.xPos = 0;
+      this.yPos = 0;
+      this.width = 0;
+      this.height = 0;
+      this.red = 0;
+      this.green = 0;
+      this.blue = 0;
     }
   }
 
@@ -107,27 +107,42 @@ public class AShape implements IShape {
   }
 
   @Override
-  public void setW(double w) {
+  public void setW(double w) throws IllegalArgumentException {
+    if (w < 0) {
+      throw new IllegalArgumentException("Width cannot be negative.");
+    }
     this.width = w;
   }
 
   @Override
-  public void setH(double h) {
+  public void setH(double h) throws IllegalArgumentException {
+    if (h < 0) {
+      throw new IllegalArgumentException("height cannot be negative.");
+    }
     this.height = h;
   }
 
   @Override
-  public void setR(int r) {
+  public void setR(int r) throws IllegalArgumentException {
+    if (r < 0 || r > 255) {
+      throw new IllegalArgumentException("Red cannot be negative or greater than 255.");
+    }
     this.red = r;
   }
 
   @Override
-  public void setG(int g) {
+  public void setG(int g) throws IllegalArgumentException {
+    if (g < 0 || g > 255) {
+      throw new IllegalArgumentException("Green cannot be negative or greater than 255.");
+    }
     this.green = g;
   }
 
   @Override
-  public void setB(int b) {
+  public void setB(int b) throws IllegalArgumentException {
+    if (b < 0 || b > 255) {
+      throw new IllegalArgumentException("Blue cannot be negative or greater than 255.");
+    }
     this.blue = b;
   }
 }

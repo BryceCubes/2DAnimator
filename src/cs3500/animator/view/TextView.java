@@ -30,6 +30,7 @@ public class TextView implements IAnimatorView {
 
     /**
      * The method used to construct a valid text view that can output properly.
+     *
      * @return a text view that can be animated
      */
     public TextView build() {
@@ -44,6 +45,7 @@ public class TextView implements IAnimatorView {
 
     /**
      * Method used to declare the model for the given view to animate.
+     *
      * @param model the model that will be animated for the given view
      * @return a Builder to continue to be built on
      */
@@ -57,6 +59,7 @@ public class TextView implements IAnimatorView {
 
     /**
      * Method used to declare the output for where the view will produce its animation.
+     *
      * @param out the output where the view will produce the animation
      * @return the Builder to continue to be built on
      */
@@ -81,17 +84,27 @@ public class TextView implements IAnimatorView {
 
   /**
    * Method used to set the output to where the view should animate to.
+   *
    * @param out the output to where the view will animate to
+   * @throws IllegalArgumentException when out is null
    */
-  private void setOut(String out) {
+  private void setOut(String out) throws IllegalArgumentException {
+    if (out == null) {
+      throw new IllegalArgumentException("Out cannot be null.");
+    }
     this.out = out;
   }
 
   /**
    * Method used to set the model to be animated on for the given view.
+   *
    * @param model the model to be animated for the given view
+   * @throws IllegalArgumentException when model is null
    */
-  private void setModel(IAnimatorModel model) {
+  private void setModel(IAnimatorModel model) throws IllegalArgumentException {
+    if (model == null) {
+      throw new IllegalArgumentException("Model cannot be null.");
+    }
     this.model = model;
   }
 

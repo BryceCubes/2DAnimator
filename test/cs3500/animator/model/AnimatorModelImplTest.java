@@ -77,34 +77,6 @@ public class AnimatorModelImplTest {
 
   }
 
-  // test that Fred can be found in the list of motions once added
-  @Test
-  public void testFindFred() {
-    setTest();
-    assertEquals("Fred", model.findShape("Fred").getShapeID());
-  }
-
-  // test that Fred can be found in the list of motions once added
-  @Test
-  public void testFindAmy() {
-    setTest();
-    assertEquals("Amy", model.findShape("Amy").getShapeID());
-  }
-
-  // test that Fred can be found in the list of motions once added
-  @Test
-  public void testFindEthan() {
-    setTest();
-    assertEquals("Ethan", model.findShape("Ethan").getShapeID());
-  }
-
-  // test that an exception is thrown when there is no name match
-  @Test(expected = IllegalArgumentException.class)
-  public void testNoBob() {
-    setTest();
-    model.findShape("Bob");
-  }
-
   // test that it prints correctly with correct moves out of order
   @Test
   public void tryPrint() {
@@ -182,26 +154,6 @@ public class AnimatorModelImplTest {
             .addMotion("Ethan", 31, 25, 25, 15, 15, 120,
                     180, 95, 60, 40, 15, 20, 30,
                     180, 120, 230).build();
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void addAlreadyExistingShape() {
-    setTest();
-    model.addShape(new AShape("Fred", ShapeType.ELLIPSE));
-  }
-
-  @Test
-  public void addShapeTest() {
-    setTest();
-    mtModel.addShape(new AShape("George", ShapeType.RECTANGLE));
-    boolean shapeFound = false;
-    for (ReadOnlyIShape shape : mtModel.getShapes()) {
-      if (shape.getShapeID().equals("George")) {
-        shapeFound = true;
-        break;
-      }
-    }
-    assertTrue(shapeFound);
   }
 
   @Test

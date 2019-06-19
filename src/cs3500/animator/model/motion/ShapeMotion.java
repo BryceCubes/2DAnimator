@@ -185,33 +185,6 @@ public class ShapeMotion implements IMotion {
     return textView.toString();
   }
 
-  @Override
-  public IShape interpolate(int tick) {
-    IShape newShape = new AShape(this.shape.getShapeID(), this.shape.getShapeType());
-    double deltaX = this.toX - this.xStart;
-    double deltaY = this.toY - this.yStart;
-    double deltaW = this.toW - this.wStart;
-    double deltaH = this.toH - this.hStart;
-    int deltaR = this.toR - this.rStart;
-    int deltaG = this.toG - this.gStart;
-    int deltaB = this.toB - this.bStart;
-    double deltaT = this.tEnd - this.tStart;
-    double currTick = tick - this.tStart;
-    double newX = (currTick / deltaT) * deltaX + this.xStart;
-    double newY = (currTick / deltaT) * deltaY + this.yStart;
-    double newW = (currTick / deltaT) * deltaW + this.wStart;
-    double newH = (currTick / deltaT) * deltaH + this.hStart;
-    int newR = (int) ((currTick / deltaT) * deltaR) + this.rStart;
-    int newG = (int) ((currTick / deltaT) * deltaG) + this.gStart;
-    int newB = (int) ((currTick / deltaT) * deltaB) + this.bStart;
-
-    newShape.setX(newX);
-    newShape.setY(newY);
-    newShape.setW(newW);
-    newShape.setH(newH);
-    newShape.setR(newR);
-    newShape.setG(newG);
-    newShape.setB(newB);
-    return newShape;
-  }
+  // Deleted the interpolate method from here as it was no longer used from the motions because of
+  // the addition of the keyframes. The interpolate function was basically moved to the model.
 }

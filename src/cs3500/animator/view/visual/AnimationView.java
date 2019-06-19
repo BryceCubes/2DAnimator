@@ -36,6 +36,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
     /**
      * Builds the completed AnimationView based on the previously added fields.
+     *
      * @return finished AnimationView
      */
     public AnimationView build() {
@@ -53,6 +54,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
     /**
      * Declares a new model to be added to the AnimationView.
+     *
      * @param model the model to be added
      * @return the builder is returned back so it can continue building
      */
@@ -66,6 +68,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
     /**
      * Declares a new speed to be added for the AnimationView to make a timer.
+     *
      * @param speed the speed to be added
      * @return the builder is returned back so it can continue building
      */
@@ -80,6 +83,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
   /**
    * Sets the final model for the AnimationView.
+   *
    * @param model the model to be set
    */
   private void setModel(IAnimatorModel model) {
@@ -94,6 +98,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
   /**
    * Renders the actual shapes based on the list of shapes passed.
+   *
    * @param shapes the list of shapes to render
    */
   private void render(ArrayList<ReadOnlyIShape> shapes) {
@@ -102,6 +107,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
 
   /**
    * Sets the timer to determine the animation rate.
+   *
    * @param speed the speed of the timer in 10ms
    */
   private void setTimer(int speed) {

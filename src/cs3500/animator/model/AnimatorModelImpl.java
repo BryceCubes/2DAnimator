@@ -63,7 +63,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
       model.setCanvasH(this.height);
 
       for (IShape shape : this.listOfShapes) {
-        model.addShape(shape);
+        model.builderShape(shape);
       }
 
       for (IMotion motion : this.listOfMotions) {
@@ -78,6 +78,9 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
       // If the keyframes were never added by the user, then the model will instead make the
       // key frames from the motions.
+      if (this.listOfKeyFrames == null) {
+        model.makeKeyFrames();
+      }
       model.makeKeyFrames();
 
       return model;
@@ -114,6 +117,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
       if (doesShapeExist) {
         throw new IllegalArgumentException("Shape with name already exists.");
+      } else if (type == null) {
+        throw new IllegalArgumentException("The shape type cannot be null");
       } else if (type.equalsIgnoreCase("rectangle")) {
         newShape = new AShape(name, ShapeType.RECTANGLE);
       } else if (type.equalsIgnoreCase("ellipse")) {
@@ -170,304 +175,10 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   @Override
-  public ReadOnlyIShape findShape(String shapeID) {
-    ReadOnlyIShape returnShape = null;
-
-    for (IShape shape : this.shapes) {
-      if (shapeID.equals(shape.getShapeID())) {
-        returnShape = shape;
-      }
-    }
-
-    if (returnShape == null) {
-      throw new IllegalArgumentException("A shape with input shapeID does not exist.");
-    }
-
-    return returnShape;
-  }
-
-  @Override
-  public HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> returnMotions() {
-    HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> motions = new HashMap<>();
-    for (IShape shape : this.shapes) {
-      motions.put(shape, new ArrayList<>());
-      for (IMotion motion : this.sortedMoveList.get(shape)) {
-        motions.get(shape).add(motion);
-      }
-    }
-
-    return motions;
-  }
-
-  @Override
-  public HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIKeyFrame>> returnKeyFrames() {
-    HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIKeyFrame>> keyFrames = new HashMap<>();
-    for (IShape shape : this.shapes) {
-      keyFrames.put(shape, new ArrayList<>());
-      for (IKeyFrame keyFrame : this.keyFrames.get(shape)) {
-        keyFrames.get(shape).add(keyFrame);
-      }
-    }
-
-    return keyFrames;
-  }
-  // Added this functionality so it would be easy to retrieve all the keyframes if needed.
-
-  @Override
-  public ArrayList<ReadOnlyIShape> getShapesAtTick(int tick) {
-    ArrayList<ReadOnlyIShape> shapesAtTick = new ArrayList<>();
-    if (tick < 0) {
-      throw new IllegalArgumentException("Tick must be a positive integer.");
-    }
-
-    for (IShape shape : this.shapes) {
-      int index = this.keyFrames.get(shape).size();
-      for (int i = 0; i < index - 1; i++) {
-        IKeyFrame currentKeyFrame = this.keyFrames.get(shape).get(i);
-        IKeyFrame nextKeyFrame = this.keyFrames.get(shape).get(i + 1);
-        if (currentKeyFrame.getT() <= tick && nextKeyFrame.getT() >= tick) {
-          shapesAtTick.add(this.interpolateKeyFrame(shape, tick, currentKeyFrame, nextKeyFrame)
-                  .getShape());
-          break;
-        }
-      }
-    }
-
-    return shapesAtTick;
-  }
-
-  @Override
-  public String textViewMotions() {
-    StringBuilder textView = new StringBuilder();
-
-    for (IShape shape : this.shapes) {
-      textView.append("shape ").append(shape.getShapeID()).append(" ").append(shape
-              .getShapeTypeAsString()).append("\n");
-      for (IMotion motion : this.sortedMoveList.get(shape)) {
-        textView.append(motion.getTextOutput());
-      }
-    }
-
-    return textView.toString();
-  }
-
-  @Override
-  public void addShape(IShape shape) {
-    boolean doesShapeExist = false;
-    String shapeName = null;
-
-    for (IShape key : this.shapes) {
-      if (shape.getShapeID().equals(key.getShapeID())) {
-        doesShapeExist = true;
-        shapeName = key.getShapeID();
-        break;
-      }
-    }
-
-    if (doesShapeExist) {
-      throw new IllegalArgumentException(shapeName + " shape already exists.");
-    }
-
-    this.sortedMoveList.put(shape, new ArrayList<>());
-    this.keyFrames.put(shape, new ArrayList<>());
-    this.shapes.add(shape);
-  }
-  // Fixed from last time so it is easier to add shapes to our hashmap
-
-  @Override
-  public void deleteShape(String shapeID) {
-    boolean doesShapeExist = false;
-    int length = this.getShapes().size();
-    int index = 0;
-    for (int i = 0; i < length; i++) {
-      if (shapes.get(i).getShapeID().equals(shapeID)) {
-        this.sortedMoveList.remove(shapes.get(i));
-        this.keyFrames.remove(shapes.get(i));
-        // Added in the removal of the shape from the keyframes too.
-        doesShapeExist = true;
-        break;
-      }
-    }
-
-    if (!doesShapeExist) {
-      throw new IllegalArgumentException(shapeID + " shape does not exist.");
-    } else {
-      shapes.remove(index);
-    }
-  }
-
-  // deletes the motion with the given values
-  @Override
-  public void deleteMotion(String shapeID, int xStart, int yStart, int wStart, int hStart,
-                           int rStart, int gStart, int bStart, int toX, int toY, int toW, int toH,
-                           int toR, int toG, int toB, int tStart, int tEnd)
-          throws IllegalArgumentException {
-    boolean doesShapeExist = false;
-    boolean doesMotionExist = false;
-
-    for (IShape shape : this.shapes) {
-      if (shapeID.equals(shape.getShapeID())) {
-        doesShapeExist = true;
-
-        int index = 0;
-
-        for (IMotion mot : this.sortedMoveList.get(shape)) {
-          if (equalMotions(mot, shapeID, xStart, yStart, wStart, hStart,
-                  rStart, gStart, bStart, toX, toY, toW, toH,
-                  toR, toG, toB, tStart, tEnd)) {
-            doesMotionExist = true;
-            break;
-          }
-          index++;
-        }
-        if (!doesMotionExist) {
-          throw new IllegalArgumentException("Given motion for given shape does not exist.");
-        } else {
-          sortedMoveList.get(shape).remove(index);
-        }
-
-        if (!this.isContinuous(sortedMoveList.get(shape))) {
-          throw new IllegalArgumentException("Deleting given motion causes motions to be "
-                  + "noncontinuous.");
-        }
-      }
-    }
-
-    if (!doesShapeExist) {
-      throw new IllegalArgumentException("Shape given does not exist.");
-    }
-  }
-
-  /**
-   * Checks if the given motion matches all the given fields.
-   *
-   * @param mot     the given motion from the model
-   * @param shapeID the shapeID as a string to compare to mot
-   * @param xStart  the starting x location to compare to mot
-   * @param yStart  the starting y location to compare to mot
-   * @param wStart  the starting width to compare to mot
-   * @param hStart  the starting height to compare to mot
-   * @param rStart  the starting red value to compare to mot
-   * @param gStart  the starting green value to compare to mot
-   * @param bStart  the starting blue value to compare to mot
-   * @param toX     the destination x value to compare to mot
-   * @param toY     the destination y value to compare to mot
-   * @param toW     the destination width to compare to mot
-   * @param toH     the destination height to compare to mot
-   * @param toR     the destination red value to compare to mot
-   * @param toG     the destination green value to compare to mot
-   * @param toB     the destination blue value to compare to mot
-   * @param tStart  the starting tick value to compare to mot
-   * @param tEnd    the destination tick value to compare to mot
-   * @return whether all the given values match the value in the given IMotion
-   */
-  private boolean equalMotions(IMotion mot, String shapeID, int xStart, int yStart, int wStart,
-                               int hStart, int rStart, int gStart, int bStart, int toX, int toY,
-                               int toW, int toH, int toR, int toG, int toB, int tStart, int tEnd) {
-    return mot.getShape().getShapeID().equals(shapeID)
-            && mot.getTStart() == tStart
-            && mot.getTEnd() == tEnd
-            && mot.getXStart() == xStart
-            && mot.getYStart() == yStart
-            && mot.getWStart() == wStart
-            && mot.getHStart() == hStart
-            && mot.getRStart() == rStart
-            && mot.getGStart() == gStart
-            && mot.getBStart() == bStart
-            && mot.getXEnd() == toX
-            && mot.getYEnd() == toY
-            && mot.getWEnd() == toW
-            && mot.getHEnd() == toH
-            && mot.getREnd() == toR
-            && mot.getGEnd() == toG
-            && mot.getBEnd() == toB;
-  }
-
-
-  @Override
-  public ArrayList<ReadOnlyIShape> getShapes() {
-    IShape currentShape;
-    ArrayList<ReadOnlyIShape> newShapes = new ArrayList<>();
-    for (IShape shape : this.shapes) {
-      currentShape = shape;
-      newShapes.add(currentShape);
-    }
-
-    return newShapes;
-  }
-
-  @Override
-  public int getCanvasX() {
-    return this.canvasX;
-  }
-
-  @Override
-  public int getCanvasY() {
-    return this.canvasY;
-  }
-
-  @Override
-  public int getCanvasW() {
-    return this.canvasW;
-  }
-
-  @Override
-  public int getCanvasH() {
-    return this.canvasH;
-  }
-
-  @Override
-  public void declareMotion(String shapeID, int xStart, int yStart, int wStart, int hStart,
-                            int rStart, int gStart, int bStart, int toX, int toY, int toW, int toH,
-                            int toR, int toG, int toB, int tStart, int tEnd)
-          throws IllegalArgumentException {
-
-    boolean shapeFound = false;
-
-    for (IShape shape : this.shapes) {
-      if (shapeID.equals(shape.getShapeID())) {
-        shapeFound = true;
-        sortedMoveList.get(shape).add(new ShapeMotion(shape, xStart, yStart, wStart, hStart,
-                rStart, gStart, bStart, toX, toY, toW, toH,
-                toR, toG, toB, tStart, tEnd));
-        sort();
-        if (!this.isContinuous(sortedMoveList.get(shape))) {
-          throw new IllegalArgumentException("Deleting given motion causes motions to be "
-                  + "noncontinuous.");
-        }
-        break;
-      }
-    }
-    if (!shapeFound) {
-      throw new IllegalArgumentException(shapeID + " not found in Animator");
-    }
-  }
-
-  @Override
-  public void setCanvasX(int canvasX) {
-    this.canvasX = canvasX;
-  }
-
-  @Override
-  public void setCanvasY(int canvasY) {
-    this.canvasY = canvasY;
-  }
-
-  @Override
-  public void setCanvasW(int canvasW) {
-    this.canvasW = canvasW;
-  }
-
-  @Override
-  public void setCanvasH(int canvasH) {
-    this.canvasH = canvasH;
-  }
-
-  @Override
   public void addKeyFrame(String shapeID, int tick)
           throws IllegalArgumentException {
-    if (tick < 0) {
-      throw new IllegalArgumentException("Tick cannot be negative.");
+    if (shapeID == null) {
+      throw new IllegalArgumentException("ShapeID cannot be null.");
     }
 
     boolean doesShapeExist = false;
@@ -475,19 +186,27 @@ public class AnimatorModelImpl implements IAnimatorModel {
     for (IShape shape : this.shapes) {
       if (shape.getShapeID().equals(shapeID)) {
         doesShapeExist = true;
+        int size = this.keyFrames.get(shape).size();
         IKeyFrame keyFrameBefore;
         IKeyFrame keyFrameAfter;
+        IKeyFrame lastKeyFrame = this.keyFrames.get(shape).get(size - 1);
+        IKeyFrame firstKeyFrame = this.keyFrames.get(shape).get(0);
         int index = 0;
         if (this.keyFrames.get(shape).isEmpty()) {
           this.keyFrames.get(shape).add(new KeyFrame.Builder().declareShape(shape).declareT(tick)
                   .build());
-        } else if (tick > this.keyFrames.get(shape)
-                .get(this.keyFrames.get(shape).size()).getT()) {
+        } else if (tick > lastKeyFrame.getT()) {
           this.keyFrames.get(shape).add(new KeyFrame.Builder().declareShape(shape).declareT(tick)
-                  .build());
-        } else if (tick < this.keyFrames.get(shape).get(0).getT()) {
+                  .declareX(lastKeyFrame.getX()).declareY(lastKeyFrame.getY())
+                  .declareW(lastKeyFrame.getW()).declareH(lastKeyFrame.getH())
+                  .declareR(lastKeyFrame.getR()).declareG(lastKeyFrame.getB())
+                  .declareB(lastKeyFrame.getB()).build());
+        } else if (tick < firstKeyFrame.getT()) {
           this.keyFrames.get(shape).add(new KeyFrame.Builder().declareShape(shape).declareT(tick)
-                  .build());
+                  .declareX(firstKeyFrame.getX()).declareY(firstKeyFrame.getY())
+                  .declareW(firstKeyFrame.getW()).declareH(firstKeyFrame.getH())
+                  .declareR(firstKeyFrame.getR()).declareG(firstKeyFrame.getG())
+                  .declareB(firstKeyFrame.getB()).build());
         } else {
           for (IKeyFrame keyFrame : this.keyFrames.get(shape)) {
             index++;
@@ -519,6 +238,12 @@ public class AnimatorModelImpl implements IAnimatorModel {
           throws IllegalArgumentException {
     boolean doesShapeExist = false;
     boolean doesTickExist = false;
+    if (shapeID == null) {
+      throw new IllegalArgumentException("Shape id cannot be null.");
+    } else if (field == null) {
+      throw new IllegalArgumentException("field cannot be null.");
+    }
+
     for (IShape shape : this.shapes) {
       if (shape.getShapeID().equals(shapeID)) {
         doesShapeExist = true;
@@ -567,6 +292,9 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   @Override
   public void deleteKeyFrame(String shapeID, int tick) throws IllegalArgumentException {
+    if (shapeID == null) {
+      throw new IllegalArgumentException("ShapeID cannot be null.");
+    }
     boolean doesShapeExist = false;
     boolean doesTickExist = false;
     for (IShape shape : this.shapes) {
@@ -590,24 +318,283 @@ public class AnimatorModelImpl implements IAnimatorModel {
   // Added this functionality so that could easily allow a user to delete a keyframe from the
   // editor.
 
+  @Override
+  public void deleteShape(String shapeID) throws IllegalArgumentException {
+    if (shapeID == null) {
+      throw new IllegalArgumentException("ShapeID cannot be null.");
+    }
+    boolean doesShapeExist = false;
+    int length = this.getShapes().size();
+    int index = 0;
+    for (int i = 0; i < length; i++) {
+      if (shapes.get(i).getShapeID().equals(shapeID)) {
+        this.sortedMoveList.remove(shapes.get(i));
+        this.keyFrames.remove(shapes.get(i));
+        // Added in the removal of the shape from the keyframes too.
+        doesShapeExist = true;
+        break;
+      }
+    }
+
+    if (!doesShapeExist) {
+      throw new IllegalArgumentException(shapeID + " shape does not exist.");
+    } else {
+      shapes.remove(index);
+    }
+  }
+
+  @Override
+  public void addShape(String shapeID, String type) {
+    if (shapeID == null || type == null) {
+      throw new IllegalArgumentException("ShapeID and shape type cannot be null.");
+    }
+
+    boolean doesShapeExist = false;
+
+    for (IShape shape : this.shapes) {
+      if (shapeID.equals(shape.getShapeID())) {
+        doesShapeExist = true;
+        switch (type.toLowerCase()) {
+          case "ellipse":
+            IShape newEllipse = new AShape(shapeID, ShapeType.ELLIPSE);
+            this.builderShape(newEllipse);
+            break;
+          case "rectangle":
+            IShape newRectangle = new AShape(shapeID, ShapeType.RECTANGLE);
+            this.builderShape(newRectangle);
+            break;
+          default:
+            throw new IllegalArgumentException("Shape type must be either ellipse or rectangle.");
+        }
+      }
+    }
+
+    if (!doesShapeExist) {
+      throw new IllegalArgumentException("Shape with given shapeID already exists.");
+    }
+  }
+  // Added so that a user could easily add a shape using our editor view.
+
+  @Override
+  public ArrayList<ReadOnlyIShape> getShapesAtTick(int tick) {
+    ArrayList<ReadOnlyIShape> shapesAtTick = new ArrayList<>();
+    if (tick < 0) {
+      throw new IllegalArgumentException("Tick must be a positive integer.");
+    }
+
+    for (IShape shape : this.shapes) {
+      int index = this.keyFrames.get(shape).size();
+      for (int i = 0; i < index - 1; i++) {
+        IKeyFrame currentKeyFrame = this.keyFrames.get(shape).get(i);
+        IKeyFrame nextKeyFrame = this.keyFrames.get(shape).get(i + 1);
+        if (currentKeyFrame.getT() <= tick && nextKeyFrame.getT() >= tick) {
+          shapesAtTick.add(this.interpolateKeyFrame(shape, tick, currentKeyFrame, nextKeyFrame)
+                  .getShape());
+          break;
+        }
+      }
+    }
+
+    return shapesAtTick;
+  }
+  // We assume here that to make an animation, a keyframe must have at least two keyframes in order
+  // for it to be animated.
+
+  @Override
+  public HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> returnMotions() {
+    HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIMotion>> motions = new HashMap<>();
+    for (IShape shape : this.shapes) {
+      motions.put(shape, new ArrayList<>());
+      for (IMotion motion : this.sortedMoveList.get(shape)) {
+        motions.get(shape).add(motion);
+      }
+    }
+
+    return motions;
+  }
+
+  @Override
+  public HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIKeyFrame>> returnKeyFrames() {
+    HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIKeyFrame>> keyFrames = new HashMap<>();
+    for (IShape shape : this.shapes) {
+      keyFrames.put(shape, new ArrayList<>());
+      for (IKeyFrame keyFrame : this.keyFrames.get(shape)) {
+        keyFrames.get(shape).add(keyFrame);
+      }
+    }
+
+    return keyFrames;
+  }
+  // Added this functionality so it would be easy to retrieve all the keyframes if needed.
+
+  @Override
+  public ArrayList<ReadOnlyIShape> getShapes() {
+    IShape currentShape;
+    ArrayList<ReadOnlyIShape> newShapes = new ArrayList<>();
+    for (IShape shape : this.shapes) {
+      currentShape = shape;
+      newShapes.add(currentShape);
+    }
+
+    return newShapes;
+  }
+
+  @Override
+  public void deleteMotion(String shapeID, int xStart, int yStart, int wStart, int hStart,
+                           int rStart, int gStart, int bStart, int toX, int toY, int toW, int toH,
+                           int toR, int toG, int toB, int tStart, int tEnd)
+          throws IllegalArgumentException {
+    if (shapeID == null) {
+      throw new IllegalArgumentException("ShapeID cannot be null.");
+    }
+    boolean doesShapeExist = false;
+    boolean doesMotionExist = false;
+
+    for (IShape shape : this.shapes) {
+      if (shapeID.equals(shape.getShapeID())) {
+        doesShapeExist = true;
+
+        int index = 0;
+
+        for (IMotion mot : this.sortedMoveList.get(shape)) {
+          if (equalMotions(mot, shapeID, xStart, yStart, wStart, hStart,
+                  rStart, gStart, bStart, toX, toY, toW, toH,
+                  toR, toG, toB, tStart, tEnd)) {
+            doesMotionExist = true;
+            break;
+          }
+          index++;
+        }
+        if (!doesMotionExist) {
+          throw new IllegalArgumentException("Given motion for given shape does not exist.");
+        } else {
+          sortedMoveList.get(shape).remove(index);
+        }
+
+        if (!this.isContinuous(sortedMoveList.get(shape))) {
+          throw new IllegalArgumentException("Deleting given motion causes motions to be "
+                  + "noncontinuous.");
+        }
+      }
+    }
+
+    if (!doesShapeExist) {
+      throw new IllegalArgumentException("Shape given does not exist.");
+    }
+  }
+
+  @Override
+  public void declareMotion(String shapeID, int xStart, int yStart, int wStart, int hStart,
+                            int rStart, int gStart, int bStart, int toX, int toY, int toW, int toH,
+                            int toR, int toG, int toB, int tStart, int tEnd)
+          throws IllegalArgumentException {
+
+    boolean shapeFound = false;
+
+    for (IShape shape : this.shapes) {
+      if (shapeID.equals(shape.getShapeID())) {
+        shapeFound = true;
+        sortedMoveList.get(shape).add(new ShapeMotion(shape, xStart, yStart, wStart, hStart,
+                rStart, gStart, bStart, toX, toY, toW, toH,
+                toR, toG, toB, tStart, tEnd));
+        sortMoveList();
+        if (!this.isContinuous(sortedMoveList.get(shape))) {
+          throw new IllegalArgumentException("Deleting given motion causes motions to be "
+                  + "noncontinuous.");
+        }
+        break;
+      }
+    }
+    if (!shapeFound) {
+      throw new IllegalArgumentException(shapeID + " not found in Animator");
+    }
+  }
+
+  @Override
+  public void setCanvasX(int canvasX) throws IllegalArgumentException {
+    if (canvasX < 0) {
+      throw new IllegalArgumentException("Canvas x cannot b negative.");
+    }
+    this.canvasX = canvasX;
+  }
+
+  @Override
+  public void setCanvasY(int canvasY) throws IllegalArgumentException {
+    if (canvasY < 0) {
+      throw new IllegalArgumentException("Canvas y cannot be negative.");
+    }
+    this.canvasY = canvasY;
+  }
+
+  @Override
+  public void setCanvasW(int canvasW) throws IllegalArgumentException {
+    if (canvasW < 1) {
+      throw new IllegalArgumentException("Canvas width cannot be less than 1.");
+    }
+    this.canvasW = canvasW;
+  }
+
+  @Override
+  public void setCanvasH(int canvasH) throws IllegalArgumentException {
+    if (canvasH < 1) {
+      throw new IllegalArgumentException("Canvas height cannot be less than 1.");
+    }
+    this.canvasH = canvasH;
+  }
+
+  @Override
+  public int getCanvasX() {
+    return this.canvasX;
+  }
+
+  @Override
+  public int getCanvasY() {
+    return this.canvasY;
+  }
+
+  @Override
+  public int getCanvasW() {
+    return this.canvasW;
+  }
+
+  @Override
+  public int getCanvasH() {
+    return this.canvasH;
+  }
+
+  @Override
+  public String textViewMotions() {
+    StringBuilder textView = new StringBuilder();
+
+    for (IShape shape : this.shapes) {
+      textView.append("shape ").append(shape.getShapeID()).append(" ").append(shape
+              .getShapeTypeAsString()).append("\n");
+      for (IMotion motion : this.sortedMoveList.get(shape)) {
+        textView.append(motion.getTextOutput());
+      }
+    }
+
+    return textView.toString();
+  }
+
   /**
-   * Method bubble sort algorithm implemented normally used to sort the list based on start times.
+   * Method bubble sortMoveList algorithm implemented normally used to sortMoveList the list based on start times.
    */
-  private void sort() {
+  private void sortMoveList() {
     for (IShape shape : this.shapes) {
       this.sortedMoveList.get(shape).sort(Comparator.comparingInt(IMotion::getTStart));
     }
   }
 
   /**
-   * Method bubble sort algorithm implemented normally used to sort the list based on start times.
+   * Method bubble sortMoveList algorithm implemented normally used to sortMoveList the list based on start times.
    */
   private void sortKeyFrames() {
     for (IShape shape : this.shapes) {
       this.keyFrames.get(shape).sort(Comparator.comparingInt(IKeyFrame::getT));
     }
   }
-  // Added this functionality so that we could easily sort the keyframes based on time when they
+  // Added this functionality so that we could easily sortMoveList the keyframes based on time when they
   // are added.
 
   /**
@@ -711,7 +698,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     for (IShape shape : this.shapes) {
       if (shapeName.equals(shape.getShapeID())) {
         this.sortedMoveList.get(shape).add(motion);
-        this.sort();
+        this.sortMoveList();
         doesShapeExist = true;
         break;
       }
@@ -721,7 +708,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException("Shape given does not exist.");
     }
 
-    this.sort();
+    this.sortMoveList();
 
     if (!this.isContinuous(sortedMoveList.get(currentShape))) {
       throw new IllegalArgumentException("Adding given motion causes motions to be noncontinuous.");
@@ -763,4 +750,78 @@ public class AnimatorModelImpl implements IAnimatorModel {
   // two first because this is used in the builder where someone is just inputting a bunch of
   // keyframes. We would not want to just set the keyframes to basic values at that point as the
   // builder requires them to put in multiple values.
+
+  /**
+   * Adds a new shape to the hashmap without any motions attached.
+   *
+   * @param shape the given shape to be added to the hashmap
+   * @throws IllegalArgumentException if shape already exists
+   */
+  private void builderShape(IShape shape) {
+    boolean doesShapeExist = false;
+    String shapeName = null;
+
+    for (IShape key : this.shapes) {
+      if (shape.getShapeID().equals(key.getShapeID())) {
+        doesShapeExist = true;
+        shapeName = key.getShapeID();
+        break;
+      }
+    }
+
+    if (doesShapeExist) {
+      throw new IllegalArgumentException(shapeName + " shape already exists.");
+    }
+
+    this.sortedMoveList.put(shape, new ArrayList<>());
+    this.keyFrames.put(shape, new ArrayList<>());
+    this.shapes.add(shape);
+  }
+  // Fixed from last time so it is easier to add shapes to our hashmap.
+  // Was made private as only needed it for the builder specifically.
+
+  /**
+   * Checks if the given motion matches all the given fields.
+   *
+   * @param mot     the given motion from the model
+   * @param shapeID the shapeID as a string to compare to mot
+   * @param xStart  the starting x location to compare to mot
+   * @param yStart  the starting y location to compare to mot
+   * @param wStart  the starting width to compare to mot
+   * @param hStart  the starting height to compare to mot
+   * @param rStart  the starting red value to compare to mot
+   * @param gStart  the starting green value to compare to mot
+   * @param bStart  the starting blue value to compare to mot
+   * @param toX     the destination x value to compare to mot
+   * @param toY     the destination y value to compare to mot
+   * @param toW     the destination width to compare to mot
+   * @param toH     the destination height to compare to mot
+   * @param toR     the destination red value to compare to mot
+   * @param toG     the destination green value to compare to mot
+   * @param toB     the destination blue value to compare to mot
+   * @param tStart  the starting tick value to compare to mot
+   * @param tEnd    the destination tick value to compare to mot
+   * @return whether all the given values match the value in the given IMotion
+   */
+  private boolean equalMotions(IMotion mot, String shapeID, int xStart, int yStart, int wStart,
+                               int hStart, int rStart, int gStart, int bStart, int toX, int toY,
+                               int toW, int toH, int toR, int toG, int toB, int tStart, int tEnd) {
+    return mot.getShape().getShapeID().equals(shapeID)
+            && mot.getTStart() == tStart
+            && mot.getTEnd() == tEnd
+            && mot.getXStart() == xStart
+            && mot.getYStart() == yStart
+            && mot.getWStart() == wStart
+            && mot.getHStart() == hStart
+            && mot.getRStart() == rStart
+            && mot.getGStart() == gStart
+            && mot.getBStart() == bStart
+            && mot.getXEnd() == toX
+            && mot.getYEnd() == toY
+            && mot.getWEnd() == toW
+            && mot.getHEnd() == toH
+            && mot.getREnd() == toR
+            && mot.getGEnd() == toG
+            && mot.getBEnd() == toB;
+  }
 }
