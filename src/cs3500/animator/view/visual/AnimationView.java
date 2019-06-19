@@ -105,7 +105,7 @@ public class AnimationView extends JFrame implements IAnimatorView {
    * @param speed the speed of the timer in 10ms
    */
   private void setTimer(int speed) {
-    this.timer = new Timer(100 / speed, e -> {
+    this.timer = new Timer(1000 / speed, e -> {
       shapesToRender = model.getShapesAtTick(tick++);
       render(shapesToRender);
     });
