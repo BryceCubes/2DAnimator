@@ -670,7 +670,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
     double deltaX = secondKeyFrame.getX() - firstKeyFrame.getX();
     double deltaY = secondKeyFrame.getY() - firstKeyFrame.getY();
     double deltaW = secondKeyFrame.getW() - firstKeyFrame.getW();
-    double deltaH = secondKeyFrame.getH() - firstKeyFrame.getW();
+    double deltaH = secondKeyFrame.getH() - firstKeyFrame.getH();
     int deltaR = secondKeyFrame.getR() - firstKeyFrame.getR();
     int deltaG = secondKeyFrame.getG() - firstKeyFrame.getG();
     int deltaB = secondKeyFrame.getB() - firstKeyFrame.getB();
