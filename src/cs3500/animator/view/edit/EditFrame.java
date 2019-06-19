@@ -50,6 +50,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     aPanel.setBorder(BorderFactory.createTitledBorder("Animation Preview"));
     mainPanel.add(aPanel);
 
+
     // Playback button panel
     JPanel playbackButtonPanel = new JPanel();
     playbackButtonPanel.setBorder(BorderFactory.createTitledBorder("Playback Buttons"));
@@ -81,11 +82,11 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     restartButton.addActionListener(this);
     restartPanel.add(restartButton);
 
+
     // Edit Motion Panel
     JPanel editMotionPanel = new JPanel();
     editMotionPanel.setBorder(BorderFactory.createTitledBorder("Edit Keyframe Animations"));
     editMotionPanel.setLayout(new FlowLayout());
-
 
     // add keyframe
     JPanel addFramePanel = new JPanel();
@@ -112,6 +113,10 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     deleteFramePanel.add(addFrameButton);
 
 
+    // dialogue box for changing keyframes
+    JPanel addFrameOptionsPanel = new JPanel();
+    addFrameOptionsPanel.setLayout(new BoxLayout(addFrameOptionsPanel, BoxLayout.PAGE_AXIS));
+    //TODO: idk man
   }
 
   @Override
@@ -121,7 +126,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
 
   @Override
   public void actionPerformed(ActionEvent e) {
-
+    //TODO: e.getActionCommand() and then switch
   }
 
   @Override
