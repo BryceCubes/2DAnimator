@@ -26,7 +26,6 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
   private JLabel editControls;
 
 
-
   private EditFrame(ReadOnlyIAnimatorModel model) {
     super();
 
@@ -92,7 +91,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     JPanel addFramePanel = new JPanel();
     editMotionPanel.add(addFramePanel);
     JButton addFrameButton = new JButton("Add");
-    addFrameButton.setActionCommand("add frame");
+    addFrameButton.setActionCommand("add");
     addFrameButton.addActionListener(this);
     addFramePanel.add(addFrameButton);
 
@@ -100,7 +99,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     JPanel editFramePanel = new JPanel();
     editMotionPanel.add(editFramePanel);
     JButton editFrameButton = new JButton("Edit");
-    editFrameButton.setActionCommand("edit frame");
+    editFrameButton.setActionCommand("edit");
     editFrameButton.addActionListener(this);
     editFramePanel.add(editFrameButton);
 
@@ -108,15 +107,9 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     JPanel deleteFramePanel = new JPanel();
     editMotionPanel.add(deleteFramePanel);
     JButton deleteFrameButton = new JButton("Delete");
-    deleteFrameButton.setActionCommand("delete frame");
+    deleteFrameButton.setActionCommand("delete");
     deleteFrameButton.addActionListener(this);
     deleteFramePanel.add(addFrameButton);
-
-
-    // dialogue box for changing keyframes
-    JPanel addFrameOptionsPanel = new JPanel();
-    addFrameOptionsPanel.setLayout(new BoxLayout(addFrameOptionsPanel, BoxLayout.PAGE_AXIS));
-    //TODO: idk man
   }
 
   @Override
@@ -126,7 +119,48 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    //TODO: e.getActionCommand() and then switch
+    switch (e.getActionCommand()) {
+      case "edit":
+        // dialogue box for changing keyframes
+        JPanel editFrameOptionsPanel = new JPanel();
+        editFrameOptionsPanel.setLayout(new BoxLayout(editFrameOptionsPanel, BoxLayout.PAGE_AXIS));
+
+        JTextField shapeName = new JTextField();
+        JTextField tick = new JTextField();
+        JTextField xVal = new JTextField();
+        JTextField yVal = new JTextField();
+        JTextField wVal = new JTextField();
+        JTextField hVal = new JTextField();
+        JTextField rVal = new JTextField();
+        JTextField gVal = new JTextField();
+        JTextField bVal = new JTextField();
+        Object[] message = {
+                "Shape Name:", shapeName,
+                "Keyframe Tick:", tick,
+                "Shape X Value", xVal,
+                "Shape Y Value", yVal,
+                "Shape Width", wVal,
+                "Shape Height", hVal,
+                "Red Value", rVal,
+                "Green Value", gVal,
+                "Blue Value", bVal
+        };
+        int option = JOptionPane.showConfirmDialog(editFrameOptionsPanel, message,
+                "Edit KeyFrame Specifications", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+          String name = shapeName.getText();
+          String refTick = tick.getText();
+          String x = xVal.getText();
+          String y = yVal.getText();
+          String w = wVal.getText();
+          String h = hVal.getText();
+          String r = rVal.getText();
+          String g = gVal.getText();
+          String b = bVal.getText();
+          //TODO: do something with these values^^^
+        }
+
+    }
   }
 
   @Override
