@@ -78,9 +78,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
       // If the keyframes were never added by the user, then the model will instead make the
       // key frames from the motions.
-      if (this.listOfKeyFrames == null) {
-        model.makeKeyFrames();
-      }
+      model.makeKeyFrames();
 
       return model;
     }
@@ -498,7 +496,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
             } else if (tick > keyFrame.getT() && tick < this.keyFrames.get(shape).get(index)
                     .getT()) {
               keyFrameBefore = keyFrame;
-              keyFrameAfter = keyFrame;
+              keyFrameAfter = this.keyFrames.get(shape).get(index);
               this.keyFrames.get(shape).add(this.interpolateKeyFrame(shape, tick, keyFrameBefore,
                       keyFrameAfter));
             }
@@ -645,7 +643,6 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   private void makeKeyFrames() {
     for (IShape shape : this.shapes) {
-      this.keyFrames.put(shape, new ArrayList<>());
       IMotion firstMotion = this.sortedMoveList.get(shape).get(0);
       if (firstMotion != null) {
         IKeyFrame firstKeyFrame = new KeyFrame.Builder().declareShape(shape)
@@ -693,20 +690,6 @@ public class AnimatorModelImpl implements IAnimatorModel {
     shape.setR(newR);
     shape.setG(newG);
     shape.setB(newB);
-    System.out.println(newX);
-    System.out.println(newY);
-    System.out.println(newW);
-    System.out.println(newH);
-    System.out.println(newR);
-    System.out.println(newG);
-    System.out.println(newB);
-    System.out.println(shape.getXPos());
-    System.out.println(shape.getYPos());
-    System.out.println(shape.getWidth());
-    System.out.println(shape.getHeight());
-    System.out.println(shape.getRed());
-    System.out.println(shape.getGreen());
-    System.out.println(shape.getBlue());
     return new KeyFrame.Builder().declareShape(shape).declareT(tick).declareX(newX).declareY(newY)
             .declareW(newW).declareH(newH).declareR(newR).declareG(newG).declareB(newB).build();
   }

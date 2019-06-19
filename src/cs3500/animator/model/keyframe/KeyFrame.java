@@ -22,12 +22,9 @@ public class KeyFrame implements IKeyFrame {
     private int r = 0;
     private int g = 0;
     private int b = 0;
-    private int t = 0;
+    private Integer t = null;
 
     public KeyFrame build() {
-      if (this.shape == null || this.t == 0) {
-        throw new IllegalArgumentException("Shape and tick must be set.");
-      }
       KeyFrame keyFrame = new KeyFrame();
       keyFrame.setX(this.x);
       keyFrame.setY(this.y);
@@ -38,6 +35,9 @@ public class KeyFrame implements IKeyFrame {
       keyFrame.setB(this.b);
       keyFrame.setT(this.t);
       keyFrame.setShape(this.shape);
+      if (this.shape == null || this.t == null) {
+        throw new IllegalArgumentException("Shape and tick must be set.");
+      }
       return keyFrame;
     }
 
@@ -163,11 +163,6 @@ public class KeyFrame implements IKeyFrame {
   @Override
   public void setShape(IShape shape) {
     this.shape = shape;
-  }
-
-  @Override
-  public void editKeyFrame() {
-
   }
 
   @Override
