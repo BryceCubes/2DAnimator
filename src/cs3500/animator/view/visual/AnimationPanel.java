@@ -18,7 +18,7 @@ public class AnimationPanel extends JPanel implements IAnimationPanel {
   /**
    * Default constructor simply calls the JPanel super constructor.
    */
-  AnimationPanel() {
+  public AnimationPanel() {
     super();
   }
 
