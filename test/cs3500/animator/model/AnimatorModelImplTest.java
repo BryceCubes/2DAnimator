@@ -187,13 +187,13 @@ public class AnimatorModelImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void addAlreadyExistingShape() {
     setTest();
-    model.addShape(new AShape("Fred", ShapeType.ELLIPSE));
+    model.builderShape(new AShape("Fred", ShapeType.ELLIPSE));
   }
 
   @Test
   public void addShapeTest() {
     setTest();
-    mtModel.addShape(new AShape("George", ShapeType.RECTANGLE));
+    mtModel.builderShape(new AShape("George", ShapeType.RECTANGLE));
     boolean shapeFound = false;
     for (ReadOnlyIShape shape : mtModel.getShapes()) {
       if (shape.getShapeID().equals("George")) {

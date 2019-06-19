@@ -2,6 +2,7 @@ package cs3500.animator.util;
 
 /**
  * Class to build IAnimatorModels.
+ *
  * @param <IAnimatorModel> The model type to be created
  */
 public interface AnimationBuilder<IAnimatorModel> {
@@ -64,6 +65,7 @@ public interface AnimationBuilder<IAnimatorModel> {
 
   /**
    * Adds an individual keyframe to the growing document.
+   *
    * @param name The name of the shape (added with {@link AnimationBuilder#declareShape})
    * @param t    The time for this keyframe
    * @param x    The x-position of the shape
@@ -76,5 +78,5 @@ public interface AnimationBuilder<IAnimatorModel> {
    * @return This {@link AnimationBuilder}
    */
   AnimationBuilder<IAnimatorModel> addKeyframe(String name,
-                                    int t, int x, int y, int w, int h, int r, int g, int b);
+                                               int t, int x, int y, int w, int h, int r, int g, int b);
 }
