@@ -110,6 +110,12 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     deleteFrameButton.setActionCommand("delete");
     deleteFrameButton.addActionListener(this);
     deleteFramePanel.add(addFrameButton);
+
+    //dialog boxes
+    JPanel dialogBoxesPanel = new JPanel();
+    dialogBoxesPanel.setBorder(BorderFactory.createTitledBorder("Dialog boxes"));
+    dialogBoxesPanel.setLayout(new BoxLayout(dialogBoxesPanel, BoxLayout.PAGE_AXIS));
+    mainPanel.add(dialogBoxesPanel);
   }
 
   @Override
