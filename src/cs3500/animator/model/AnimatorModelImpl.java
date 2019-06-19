@@ -213,7 +213,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
     return keyFrames;
   }
-  // Added this functionality so it would be easty to retrieve all the keyframes if needed.
+  // Added this functionality so it would be easy to retrieve all the keyframes if needed.
 
   @Override
   public ArrayList<ReadOnlyIShape> getShapesAtTick(int tick) {
@@ -223,14 +223,12 @@ public class AnimatorModelImpl implements IAnimatorModel {
     }
 
     for (IShape shape : this.shapes) {
-      int index = 0;
-      for (IKeyFrame keyFrame : this.keyFrames.get(shape)) {
-        index++;
-        IKeyFrame nextKeyFrame = this.keyFrames.get(shape).get(index);
-        if (nextKeyFrame == null) {
-          break;
-        } else if (keyFrame.getT() <= tick && nextKeyFrame.getT() >= tick) {
-          shapesAtTick.add(this.interpolateKeyFrame(shape, tick, keyFrame, nextKeyFrame)
+      int index = this.keyFrames.get(shape).size();
+      for (int i = 0; i < index - 1; i++) {
+        IKeyFrame currentKeyFrame = this.keyFrames.get(shape).get(i);
+        IKeyFrame nextKeyFrame = this.keyFrames.get(shape).get(i + 1);
+        if (currentKeyFrame.getT() <= tick && nextKeyFrame.getT() >= tick) {
+          shapesAtTick.add(this.interpolateKeyFrame(shape, tick, currentKeyFrame, nextKeyFrame)
                   .getShape());
           break;
         }
@@ -272,7 +270,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
       throw new IllegalArgumentException(shapeName + " shape already exists.");
     }
 
-    sortedMoveList.put(shape, new ArrayList<>());
+    this.sortedMoveList.put(shape, new ArrayList<>());
+    this.keyFrames.put(shape, new ArrayList<>());
     this.shapes.add(shape);
   }
   // Fixed from last time so it is easier to add shapes to our hashmap
@@ -694,6 +693,20 @@ public class AnimatorModelImpl implements IAnimatorModel {
     shape.setR(newR);
     shape.setG(newG);
     shape.setB(newB);
+    System.out.println(newX);
+    System.out.println(newY);
+    System.out.println(newW);
+    System.out.println(newH);
+    System.out.println(newR);
+    System.out.println(newG);
+    System.out.println(newB);
+    System.out.println(shape.getXPos());
+    System.out.println(shape.getYPos());
+    System.out.println(shape.getWidth());
+    System.out.println(shape.getHeight());
+    System.out.println(shape.getRed());
+    System.out.println(shape.getGreen());
+    System.out.println(shape.getBlue());
     return new KeyFrame.Builder().declareShape(shape).declareT(tick).declareX(newX).declareY(newY)
             .declareW(newW).declareH(newH).declareR(newR).declareG(newG).declareB(newB).build();
   }
