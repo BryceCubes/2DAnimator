@@ -3,7 +3,7 @@ package cs3500.animator.model.keyframe;
 import cs3500.animator.model.shape.IShape;
 
 public class KeyFrame implements IKeyFrame {
-  IShape shape;
+  private IShape shape;
   private double x;
   private double y;
   private double w;
