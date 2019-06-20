@@ -108,7 +108,7 @@ public class Excellence {
           animationView.animate();
           break;
         case "edit":
-          IAnimatorView editView = new EditFrame(model);
+          IAnimatorView editView = new EditFrame(model, speed);
           editView.animate();
           break;
         default:

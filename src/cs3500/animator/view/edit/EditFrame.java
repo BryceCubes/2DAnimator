@@ -16,6 +16,7 @@ import cs3500.animator.view.visual.AnimationPanel;
 
 public class EditFrame extends JFrame implements IAnimatorView, ActionListener, ItemListener {
   private ReadOnlyIAnimatorModel model;
+  private int speed;
   private Timer timer;
   private int tick;
   private ArrayList<ReadOnlyIShape> shapesToRender;
@@ -24,38 +25,35 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
   private JScrollPane mainScroll;
   private AnimationPanel aPanel;
 
-  public EditFrame(ReadOnlyIAnimatorModel model) {
+  public EditFrame(ReadOnlyIAnimatorModel model, int speed) {
     super();
     this.model = model;
+    this.speed = speed;
     setTitle("Animation Editor");
     setSize(model.getCanvasW(), model.getCanvasH()+200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     mainPanel = new JPanel();
-    mainPanel.setLayout(new BorderLayout());
+    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
     mainScroll = new JScrollPane(mainPanel);
     add(mainScroll);
 
-    // The panel containing the actual animation
-    int width = model.getCanvasX() + model.getCanvasW();
-    int height = model.getCanvasY() + model.getCanvasH();
-
+    // animation panel
     aPanel = new AnimationPanel();
     aPanel.setBorder(BorderFactory.createTitledBorder("Animation Preview"));
-    aPanel.setPreferredSize(new Dimension(model.getCanvasW(), model.getCanvasH()));
-//    aPanel.setSize(model.getCanvasW(), model.getCanvasH());
-//    aPanel.setLocation(model.getCanvasX(), model.getCanvasY());
-//    aPanel.setMinimumSize(new Dimension(width, height));
+    aPanel.setMaximumSize(new Dimension(model.getCanvasW(), model.getCanvasH()));
     aPanel.setBackground(Color.white);
+    aPanel.setMaximumSize(new Dimension(model.getCanvasW(), model.getCanvasH()));
     JScrollPane aScroll = new JScrollPane(aPanel);
-    mainPanel.add(aScroll, BorderLayout.CENTER);
-
+    aScroll.setMaximumSize(new Dimension(model.getCanvasW(), model.getCanvasH()));
+    mainPanel.add(aScroll);
 
     // Playback button panel
     JPanel playbackButtonPanel = new JPanel();
     playbackButtonPanel.setBorder(BorderFactory.createTitledBorder("Playback Buttons"));
     playbackButtonPanel.setLayout(new FlowLayout());
-    mainPanel.add(playbackButtonPanel, BorderLayout.PAGE_START);
+    playbackButtonPanel.setMaximumSize(new Dimension(model.getCanvasW(), 100));
+    mainPanel.add(playbackButtonPanel);
 
     // pause button
     JPanel pausePanel = new JPanel();
@@ -86,7 +84,8 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     JPanel editMotionPanel = new JPanel();
     editMotionPanel.setBorder(BorderFactory.createTitledBorder("Edit Keyframe Animations"));
     editMotionPanel.setLayout(new FlowLayout());
-    mainPanel.add(editMotionPanel, BorderLayout.PAGE_END);
+    editMotionPanel.setMaximumSize(new Dimension(model.getCanvasW(), 100));
+    mainPanel.add(editMotionPanel);
 
     // add keyframe
     JPanel addFramePanel = new JPanel();
@@ -122,10 +121,11 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
 
   @Override
   public void animate() {
-    this.timer = new Timer(1000, e -> {
+    this.timer = new Timer(1000 / this.speed, e -> {
       shapesToRender = model.getShapesAtTick(tick++);
       aPanel.draw(shapesToRender);
     });
+
   }
 
   @Override
@@ -183,7 +183,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
                 "Keyframe Tick:", addTick,
         };
         int add = JOptionPane.showConfirmDialog(addOptionsPanel, adds,
-                "Edit KeyFrame Specifications", JOptionPane.OK_CANCEL_OPTION);
+                "Add KeyFrame Specifications", JOptionPane.OK_CANCEL_OPTION);
         if (add == JOptionPane.OK_OPTION) {
           String addName = addShapeName.getText();
           String newTick = addTick.getText();
@@ -203,7 +203,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
                 "Keyframe Tick:", delTick,
         };
         int del = JOptionPane.showConfirmDialog(deleteOptionsPanel, dels,
-                "Edit KeyFrame Specifications", JOptionPane.OK_CANCEL_OPTION);
+                "Delete KeyFrame Specifications", JOptionPane.OK_CANCEL_OPTION);
         if (del == JOptionPane.OK_OPTION) {
           String addName = delShapeName.getText();
           String newTick = delTick.getText();
@@ -211,6 +211,14 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
         }
         break;
 
+      case "pause":
+        timer.stop();
+        break;
+      case "play":
+        timer.start();
+      case "restart":
+        this.tick = 0;
+        timer.restart();
     }
   }
 
