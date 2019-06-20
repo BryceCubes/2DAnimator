@@ -20,8 +20,6 @@ import javax.swing.Timer;
 import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
 
-
-
 import cs3500.animator.model.ReadOnlyIAnimatorModel;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.view.IAnimatorView;
