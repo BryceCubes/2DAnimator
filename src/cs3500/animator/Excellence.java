@@ -12,6 +12,7 @@ import cs3500.animator.util.AnimationReader;
 import cs3500.animator.view.IAnimatorView;
 import cs3500.animator.view.SVGView;
 import cs3500.animator.view.TextView;
+import cs3500.animator.view.edit.EditFrame;
 import cs3500.animator.view.visual.AnimationView;
 
 /**
@@ -107,6 +108,8 @@ public class Excellence {
           animationView.animate();
           break;
         case "edit":
+          IAnimatorView editView = new EditFrame(model);
+          editView.animate();
           break;
         default:
           JOptionPane.showMessageDialog(new JFrame(),
