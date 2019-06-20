@@ -6,8 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
@@ -25,7 +23,7 @@ import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.view.IAnimatorView;
 import cs3500.animator.view.visual.AnimationPanel;
 
-public class EditFrame extends JFrame implements IAnimatorView, ActionListener, ItemListener {
+public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
   private ReadOnlyIAnimatorModel model;
   private int speed;
   private Timer timer;
@@ -40,7 +38,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     this.speed = speed;
     setTitle("Animation Editor");
     // these values are somewhat arbitrary based on the layout. Scales well with animation window
-    setSize(model.getCanvasW()+22, model.getCanvasH()+184);
+    setSize(model.getCanvasW() + 22, model.getCanvasH() + 184);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // main panel and scroll
@@ -67,7 +65,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     playbackButtonPanel.setLayout(new FlowLayout());
     playbackButtonPanel.setMaximumSize(new Dimension(model.getCanvasW(), 100));
     mainPanel.add(playbackButtonPanel);
-    
+
     // play button
     JPanel playPanel = new JPanel();
     playbackButtonPanel.add(playPanel);
@@ -236,10 +234,5 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
         timer.restart();
         break;
     }
-  }
-
-  @Override
-  public void itemStateChanged(ItemEvent e) {
-    //TODO: decide if I need this, don't think I do
   }
 }
