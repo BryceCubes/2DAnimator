@@ -33,6 +33,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     setSize(model.getCanvasW(), model.getCanvasH()+200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+    // main panel and scroll
     mainPanel = new JPanel();
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
     mainScroll = new JScrollPane(mainPanel);
@@ -40,12 +41,14 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
 
     // animation panel
     aPanel = new AnimationPanel();
-    aPanel.setBorder(BorderFactory.createTitledBorder("Animation Preview"));
+    //aPanel.setBorder(BorderFactory.createTitledBorder("Animation Preview"));
     aPanel.setMaximumSize(new Dimension(model.getCanvasW(), model.getCanvasH()));
     aPanel.setBackground(Color.white);
-    aPanel.setMaximumSize(new Dimension(model.getCanvasW(), model.getCanvasH()));
+    aPanel.setPreferredSize(new Dimension(model.getCanvasW(), model.getCanvasH()));
+
+    // Animation scroll panel
     JScrollPane aScroll = new JScrollPane(aPanel);
-    aScroll.setMaximumSize(new Dimension(model.getCanvasW(), model.getCanvasH()));
+    aScroll.setPreferredSize(new Dimension(model.getCanvasW(), model.getCanvasH()));
     mainPanel.add(aScroll);
 
     // Playback button panel
@@ -125,7 +128,6 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
       shapesToRender = model.getShapesAtTick(tick++);
       aPanel.draw(shapesToRender);
     });
-
   }
 
   @Override
