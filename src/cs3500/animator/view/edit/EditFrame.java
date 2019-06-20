@@ -30,7 +30,8 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     this.model = model;
     this.speed = speed;
     setTitle("Animation Editor");
-    setSize(model.getCanvasW(), model.getCanvasH()+200);
+    // these values are somewhat arbitrary based on the layout. Scales well with animation window
+    setSize(model.getCanvasW()+22, model.getCanvasH()+184);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // main panel and scroll
@@ -57,6 +58,14 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     playbackButtonPanel.setLayout(new FlowLayout());
     playbackButtonPanel.setMaximumSize(new Dimension(model.getCanvasW(), 100));
     mainPanel.add(playbackButtonPanel);
+    
+    // play button
+    JPanel playPanel = new JPanel();
+    playbackButtonPanel.add(playPanel);
+    JButton playButton = new JButton("Play");
+    playButton.setActionCommand("play");
+    playButton.addActionListener(this);
+    playPanel.add(playButton);
 
     // pause button
     JPanel pausePanel = new JPanel();
@@ -66,13 +75,6 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     pauseButton.addActionListener(this);
     pausePanel.add(pauseButton);
 
-    // play button
-    JPanel playPanel = new JPanel();
-    playbackButtonPanel.add(playPanel);
-    JButton playButton = new JButton("Play");
-    playButton.setActionCommand("play");
-    playButton.addActionListener(this);
-    playPanel.add(playButton);
 
     // restart button
     JPanel restartPanel = new JPanel();
@@ -218,9 +220,11 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
         break;
       case "play":
         timer.start();
+        break;
       case "restart":
         this.tick = 0;
         timer.restart();
+        break;
     }
   }
 
