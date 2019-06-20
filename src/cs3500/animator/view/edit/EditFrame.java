@@ -1,13 +1,26 @@
 package cs3500.animator.view.edit;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.FlowLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
+import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
+
+
 
 import cs3500.animator.model.ReadOnlyIAnimatorModel;
 import cs3500.animator.model.shape.ReadOnlyIShape;
@@ -21,8 +34,6 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
   private int tick;
   private ArrayList<ReadOnlyIShape> shapesToRender;
 
-  private JPanel mainPanel;
-  private JScrollPane mainScroll;
   private AnimationPanel aPanel;
 
   public EditFrame(ReadOnlyIAnimatorModel model, int speed) {
@@ -35,9 +46,9 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // main panel and scroll
-    mainPanel = new JPanel();
+    JPanel mainPanel = new JPanel();
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-    mainScroll = new JScrollPane(mainPanel);
+    JScrollPane mainScroll = new JScrollPane(mainPanel);
     add(mainScroll);
 
     // animation panel
@@ -193,6 +204,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
           String newTick = addTick.getText();
           //TODO: do something with these values^^^
         }
+
         break;
 
       case "delete":
