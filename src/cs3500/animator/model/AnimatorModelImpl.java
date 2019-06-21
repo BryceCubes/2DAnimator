@@ -323,16 +323,16 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
   @Override
   public void deleteShape(String shapeID) throws IllegalArgumentException {
-    if (shapeID == null) {
-      throw new IllegalArgumentException("ShapeID cannot be null.");
+    if (shapeID == null || shapeID.equals("")) {
+      throw new IllegalArgumentException("ShapeID cannot be null or an empty string.");
     }
     boolean doesShapeExist = false;
     int length = this.getShapes().size();
-    int index = 0;
     for (int i = 0; i < length; i++) {
       if (shapes.get(i).getShapeID().equals(shapeID)) {
         this.sortedMoveList.remove(shapes.get(i));
         this.keyFrames.remove(shapes.get(i));
+        this.shapes.remove(i);
         // Added in the removal of the shape from the keyframes too.
         doesShapeExist = true;
         break;
@@ -341,8 +341,6 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
     if (!doesShapeExist) {
       throw new IllegalArgumentException(shapeID + " shape does not exist.");
-    } else {
-      shapes.remove(index);
     }
   }
 

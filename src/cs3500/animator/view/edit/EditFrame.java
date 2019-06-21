@@ -474,10 +474,11 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         if (delShape == JOptionPane.OK_OPTION) {
           // new name and shape type
           String addName = delShapeName.getText();
-          if (addName.equals("")) {
-            throw new IllegalArgumentException("New shape must have name and type declared");
+          try {
+            model.deleteShape(addName);
+          } catch (IllegalArgumentException exception) {
+            throw new IllegalArgumentException(exception);
           }
-          model.deleteShape(addName);
           //TODO: make sure this works^^^
         }
         break;
