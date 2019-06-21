@@ -322,6 +322,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
             }
           }
         }
+        getLastTick();
         break;
       case "add":
 
@@ -349,6 +350,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
           } catch (NumberFormatException exception) {
             throw new IllegalArgumentException("Tick must be a positive integer.");
           }
+          getLastTick();
         }
 
         break;
@@ -379,6 +381,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
             throw new IllegalArgumentException("Tick must be a positive integer.");
           }
         }
+        getLastTick();
         break;
 
       case "speed":
