@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 public class AnimatorModelImplTest {
 
   private IAnimatorModel model;
-  
+
   private void setTest() {
 
     // Making the model and adding all shapes and motions
