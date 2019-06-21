@@ -8,16 +8,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.JOptionPane;
-import javax.swing.JCheckBox;
-import javax.swing.Timer;
-import javax.swing.BoxLayout;
-import javax.swing.BorderFactory;
+import javax.swing.*;
 
 import cs3500.animator.model.ReadOnlyIAnimatorModel;
 import cs3500.animator.model.shape.ReadOnlyIShape;
@@ -139,10 +130,19 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     deleteFrameButton.addActionListener(this);
     deleteFramePanel.add(deleteFrameButton);
 
+    // add shape
+    JPanel addShapePanel = new JPanel();
+    editMotionPanel.add(addShapePanel);
+    JButton addShapeButton = new JButton("Add Shape");
+    addShapeButton.setActionCommand("shape");
+    addShapeButton.addActionListener(this);
+    addShapePanel.add(addShapeButton);
+
+
     //dialog boxes
-    JPanel dialogBoxesPanel = new JPanel();
-    dialogBoxesPanel.setLayout(new BoxLayout(dialogBoxesPanel, BoxLayout.PAGE_AXIS));
-    mainPanel.add(dialogBoxesPanel);
+//    JPanel dialogBoxesPanel = new JPanel();
+//    dialogBoxesPanel.setLayout(new BoxLayout(dialogBoxesPanel, BoxLayout.PAGE_AXIS));
+//    mainPanel.add(dialogBoxesPanel);
 
     setVisible(true);
   }
@@ -360,6 +360,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         break;
 
       case "speed":
+        timer.stop();
         JPanel changeSpeedPanel = new JPanel();
         changeSpeedPanel.setLayout(new BoxLayout(changeSpeedPanel, BoxLayout.PAGE_AXIS));
 
@@ -385,7 +386,34 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
           if (speedNum > 0) {
             this.speed = speedNum;
             animate();
+            timer.start();
           }
+        }
+        break;
+      case "shape":
+        //TODO: decide if this can be abstracted somehow
+        JPanel addShapePanel = new JPanel();
+        addShapePanel.setLayout(new BoxLayout(addShapePanel, BoxLayout.PAGE_AXIS));
+
+        JTextField newShapeName = new JTextField();
+        JComboBox<String> newShapeType = new JComboBox<>();
+        newShapeType.addItem("Rectangle");
+        newShapeType.addItem("Ellipse");
+        Object[] shapes = {
+                "Shape Name:", newShapeName,
+                "Shape Type", newShapeType,
+        };
+        int shape = JOptionPane.showConfirmDialog(addShapePanel, shapes,
+                "Add new shape", JOptionPane.OK_CANCEL_OPTION);
+        if (shape == JOptionPane.OK_OPTION) {
+          String addName = newShapeName.getText();
+          String addShapeType = (String) newShapeType.getSelectedItem();
+          assert addShapeType != null;
+          if (addName.equals("") || addShapeType.equals("")) {
+            throw new IllegalArgumentException("New shape must have name and type declared");
+          }
+          model.addShape(addName, addShapeType);
+          //TODO: make sure this works^^^
         }
         break;
       case "loop":
