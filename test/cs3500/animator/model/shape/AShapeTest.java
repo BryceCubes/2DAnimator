@@ -16,11 +16,6 @@ public class AShapeTest {
   }
 
   @Test
-  public void getShapeTypeTest() {
-    assertEquals(ShapeType.RECTANGLE, frectangle.getShapeType());
-  }
-
-  @Test
   public void getShapeTypeAsStringTest() {
     assertEquals("rectangle", frectangle.getShapeTypeAsString());
   }
@@ -69,36 +64,36 @@ public class AShapeTest {
 
   @Test
   public void getXPosTest() {
-    assertEquals(1.0, frectangle.getXPos(), .0);
+    assertEquals(0.0, frectangle.getXPos(), .0);
   }
 
   @Test
   public void getYPosTest() {
-    assertEquals(1.0, frectangle.getYPos(), .0);
+    assertEquals(0.0, frectangle.getYPos(), .0);
   }
 
   @Test
   public void getWidthTest() {
-    assertEquals(1.0, frectangle.getWidth(), .0);
+    assertEquals(0.0, frectangle.getWidth(), .0);
   }
 
   @Test
   public void getHeightTest() {
-    assertEquals(1.0, frectangle.getHeight(), .0);
+    assertEquals(0.0, frectangle.getHeight(), .0);
   }
 
   @Test
   public void getRedTest() {
-    assertEquals(1, frectangle.getRed());
+    assertEquals(0, frectangle.getRed());
   }
 
   @Test
   public void getGreenTest() {
-    assertEquals(1, frectangle.getGreen());
+    assertEquals(0, frectangle.getGreen());
   }
 
   @Test
   public void getBlueTest() {
-    assertEquals(1, frectangle.getBlue());
+    assertEquals(0, frectangle.getBlue());
   }
 }

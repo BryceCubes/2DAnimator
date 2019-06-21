@@ -9,7 +9,8 @@ import cs3500.animator.model.shape.ShapeType;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for the shapemotion class.
+ * Tests for the shapemotion class that ensure the builder works correctly, and throws the correct
+ * errors, and that ensures the getters work properly.
  */
 public class ShapeMotionTest {
   private IShape frectangle = new AShape("Fred", ShapeType.RECTANGLE);
