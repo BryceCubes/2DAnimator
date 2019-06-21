@@ -204,16 +204,16 @@ public class KeyFrame implements IKeyFrame {
 
   @Override
   public void setW(double w) throws IllegalArgumentException {
-    if (w < 1) {
-      throw new IllegalArgumentException("Width cannot be less than 1.");
+    if (w < 0) {
+      throw new IllegalArgumentException("Width cannot be less than 0.");
     }
     this.w = w;
   }
 
   @Override
   public void setH(double h) throws IllegalArgumentException {
-    if (h < 1) {
-      throw new IllegalArgumentException("Height cannot be less than 1.");
+    if (h < 0) {
+      throw new IllegalArgumentException("Height cannot be less than 0.");
     }
     this.h = h;
   }
