@@ -9,10 +9,19 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.HashMap;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JOptionPane;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.Timer;
+import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
 
 import cs3500.animator.model.ReadOnlyIAnimatorModel;
-import cs3500.animator.model.keyframe.IKeyFrame;
 import cs3500.animator.model.keyframe.ReadOnlyIKeyFrame;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.view.IAnimatorView;
@@ -24,7 +33,9 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
   private Timer timer;
   private int tick;
   private ArrayList<ReadOnlyIShape> shapesToRender;
+  JCheckBox loopBox;
   private int lastTick;
+  private boolean loop;
 
   private AnimationPanel aPanel;
 
@@ -32,6 +43,8 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     super();
     this.model = model;
     this.speed = speed;
+    this.loop = false;
+    getLastTick();
     setTitle("Animation Editor");
     // these values are somewhat arbitrary based on the layout. Scales best with animation window
     setSize(model.getCanvasW() + 22, model.getCanvasH() + 184);
@@ -96,7 +109,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     // loop checkbox
     JPanel checkBoxPanel = new JPanel();
     playbackButtonPanel.add(checkBoxPanel);
-    JCheckBox loopBox = new JCheckBox("Loop");
+    loopBox = new JCheckBox("Loop");
     checkBoxPanel.add(loopBox);
     loopBox.setSelected(false);
     loopBox.setActionCommand("loop");
@@ -154,10 +167,15 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
 
   @Override
   public void animate() {
-    this.timer = new Timer(1000 / this.speed, e -> {
-      shapesToRender = model.getShapesAtTick(tick++);
-      aPanel.draw(shapesToRender);
-    });
+    while (tick <= lastTick) {
+      this.timer = new Timer(1000 / this.speed, e -> {
+        shapesToRender = model.getShapesAtTick(tick++);
+        aPanel.draw(shapesToRender);
+        if (loop && tick >= lastTick) {
+          tick = 0;
+        }
+      });
+    }
   }
 
   @Override
@@ -463,6 +481,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         }
         break;
       case "loop":
+        loop = loopBox.isSelected();
         //TODO: how to determine the end of an animation???
         break;
       case "pause":
