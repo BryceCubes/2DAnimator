@@ -189,7 +189,12 @@ public class AnimatorModelImpl implements IAnimatorModel {
         int size = this.keyFrames.get(shape).size();
         IKeyFrame keyFrameBefore;
         IKeyFrame keyFrameAfter;
-        IKeyFrame lastKeyFrame = this.keyFrames.get(shape).get(size - 1);
+        IKeyFrame lastKeyFrame;
+        if (size == 0) {
+          lastKeyFrame = null;
+        } else {
+          lastKeyFrame = this.keyFrames.get(shape).get(size - 1);
+        }
         IKeyFrame firstKeyFrame = this.keyFrames.get(shape).get(0);
         int index = 0;
         if (this.keyFrames.get(shape).isEmpty()) {
@@ -357,23 +362,25 @@ public class AnimatorModelImpl implements IAnimatorModel {
     for (IShape shape : this.shapes) {
       if (shapeID.equals(shape.getShapeID())) {
         doesShapeExist = true;
-        switch (type.toLowerCase()) {
-          case "ellipse":
-            IShape newEllipse = new AShape(shapeID, ShapeType.ELLIPSE);
-            this.builderShape(newEllipse);
-            break;
-          case "rectangle":
-            IShape newRectangle = new AShape(shapeID, ShapeType.RECTANGLE);
-            this.builderShape(newRectangle);
-            break;
-          default:
-            throw new IllegalArgumentException("Shape type must be either ellipse or rectangle.");
-        }
+        break;
       }
     }
 
-    if (!doesShapeExist) {
+    if (doesShapeExist) {
       throw new IllegalArgumentException("Shape with given shapeID already exists.");
+    }
+
+    switch (type.toLowerCase()) {
+      case "ellipse":
+        IShape newEllipse = new AShape(shapeID, ShapeType.ELLIPSE);
+        this.builderShape(newEllipse);
+        break;
+      case "rectangle":
+        IShape newRectangle = new AShape(shapeID, ShapeType.RECTANGLE);
+        this.builderShape(newRectangle);
+        break;
+      default:
+        throw new IllegalArgumentException("Shape type must be either ellipse or rectangle.");
     }
   }
   // Added so that a user could easily add a shape using our editor view.

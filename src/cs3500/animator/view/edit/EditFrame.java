@@ -7,10 +7,13 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.HashMap;
 
 import javax.swing.*;
 
 import cs3500.animator.model.ReadOnlyIAnimatorModel;
+import cs3500.animator.model.keyframe.IKeyFrame;
+import cs3500.animator.model.keyframe.ReadOnlyIKeyFrame;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.view.IAnimatorView;
 import cs3500.animator.view.visual.AnimationPanel;
@@ -21,6 +24,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
   private Timer timer;
   private int tick;
   private ArrayList<ReadOnlyIShape> shapesToRender;
+  private int lastTick;
 
   private AnimationPanel aPanel;
 
@@ -438,5 +442,22 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         timer.restart();
         break;
     }
+  }
+
+  /**
+   * Used to find the last tick of an animation.
+   */
+  private void getLastTick() {
+    HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIKeyFrame>> keyFrames = this.model.returnKeyFrames();
+    ArrayList<ReadOnlyIShape> shapes = this.model.getShapes();
+    int last = 0;
+    for (ReadOnlyIShape shape : shapes) {
+      for (ReadOnlyIKeyFrame keyFrame : keyFrames.get(shape)) {
+        if (keyFrame.getT() > last) {
+          last = keyFrame.getT();
+        }
+      }
+    }
+    this.lastTick = last;
   }
 }
