@@ -20,9 +20,7 @@ import static org.junit.Assert.assertTrue;
 public class AnimatorModelImplTest {
 
   private IAnimatorModel model;
-  private IAnimatorModel mtModel;
-
-
+  
   private void setTest() {
 
     // Making the model and adding all shapes and motions
@@ -73,7 +71,7 @@ public class AnimatorModelImplTest {
                     150, 10, 10, 15, 10, 5, 5,
                     255, 150, 10).build();
 
-    mtModel = new AnimatorModelImpl.Builder().setBounds(0, 0, 100, 100).build();
+    IAnimatorModel mtModel = new AnimatorModelImpl.Builder().setBounds(0, 0, 100, 100).build();
 
   }
 

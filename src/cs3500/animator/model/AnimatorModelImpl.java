@@ -581,7 +581,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   /**
-   * Method bubble sortMoveList algorithm implemented normally used to sortMoveList the list based on start times.
+   * Method bubble sortMoveList algorithm implemented normally used to sortMoveList the list based
+   * on start times.
    */
   private void sortMoveList() {
     for (IShape shape : this.shapes) {
@@ -590,15 +591,16 @@ public class AnimatorModelImpl implements IAnimatorModel {
   }
 
   /**
-   * Method bubble sortMoveList algorithm implemented normally used to sortMoveList the list based on start times.
+   * Method bubble sortMoveList algorithm implemented normally used to sortMoveList the list based
+   * on start times.
    */
   private void sortKeyFrames() {
     for (IShape shape : this.shapes) {
       this.keyFrames.get(shape).sort(Comparator.comparingInt(IKeyFrame::getT));
     }
   }
-  // Added this functionality so that we could easily sortMoveList the keyframes based on time when they
-  // are added.
+  // Added this functionality so that we could easily sortMoveList the keyframes based on time when
+  // they are added.
 
   /**
    * Used to return whether or not a list is in sequence given the start and stop times, and the
