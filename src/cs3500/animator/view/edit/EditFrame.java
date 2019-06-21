@@ -47,7 +47,8 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     getLastTick();
     setTitle("Animation Editor");
     // these values are somewhat arbitrary based on the layout. Scales best with animation window
-    setSize(model.getCanvasW() + 22, model.getCanvasH() + 184);
+    setMinimumSize(new Dimension(model.getCanvasW(), model.getCanvasH()+ 200));
+    setSize(model.getCanvasW(),  model.getCanvasH()+200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // main panel and scroll
@@ -60,7 +61,6 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     aPanel = new AnimationPanel();
     aPanel.setMaximumSize(new Dimension(model.getCanvasW(), model.getCanvasH()));
     aPanel.setBackground(Color.white);
-    aPanel.setPreferredSize(new Dimension(model.getCanvasW(), model.getCanvasH()));
 
     // Animation scroll panel
     JScrollPane aScroll = new JScrollPane(aPanel);
@@ -71,7 +71,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     JPanel playbackButtonPanel = new JPanel();
     playbackButtonPanel.setBorder(BorderFactory.createTitledBorder("Playback Buttons"));
     playbackButtonPanel.setLayout(new FlowLayout());
-    playbackButtonPanel.setMaximumSize(new Dimension(model.getCanvasW(), 100));
+    playbackButtonPanel.setMaximumSize(new Dimension(700, 100));
     mainPanel.add(playbackButtonPanel);
 
     // play button
@@ -119,7 +119,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     JPanel editMotionPanel = new JPanel();
     editMotionPanel.setBorder(BorderFactory.createTitledBorder("Edit Keyframe Animations"));
     editMotionPanel.setLayout(new FlowLayout());
-    editMotionPanel.setMaximumSize(new Dimension(model.getCanvasW(), 100));
+    editMotionPanel.setMaximumSize(new Dimension(700, 100));
     mainPanel.add(editMotionPanel);
 
     // add keyframe button
