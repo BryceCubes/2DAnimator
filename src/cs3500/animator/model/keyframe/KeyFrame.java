@@ -48,6 +48,9 @@ public class KeyFrame implements IKeyFrame {
      * @return a new KeyFrame
      */
     public KeyFrame build() {
+      if (this.shape == null || this.t == null) {
+        throw new IllegalArgumentException("Shape and tick must be set.");
+      }
       KeyFrame keyFrame = new KeyFrame();
       keyFrame.setX(this.x);
       keyFrame.setY(this.y);
@@ -58,9 +61,6 @@ public class KeyFrame implements IKeyFrame {
       keyFrame.setB(this.b);
       keyFrame.setT(this.t);
       keyFrame.setShape(this.shape);
-      if (this.shape == null || this.t == null) {
-        throw new IllegalArgumentException("Shape and tick must be set.");
-      }
       return keyFrame;
     }
 
