@@ -137,9 +137,17 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     JPanel addShapePanel = new JPanel();
     editMotionPanel.add(addShapePanel);
     JButton addShapeButton = new JButton("Add Shape");
-    addShapeButton.setActionCommand("shape");
+    addShapeButton.setActionCommand("add shape");
     addShapeButton.addActionListener(this);
     addShapePanel.add(addShapeButton);
+
+    // delete shape button
+    JPanel deleteShapePanel = new JPanel();
+    editMotionPanel.add(deleteShapePanel);
+    JButton deleteShapeButton = new JButton("Delete Shape");
+    deleteShapeButton.setActionCommand("delete shape");
+    deleteShapeButton.addActionListener(this);
+    deleteShapePanel.add(deleteShapeButton);
 
     setVisible(true);
   }
@@ -334,16 +342,16 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         JPanel deleteOptionsPanel = new JPanel();
         deleteOptionsPanel.setLayout(new BoxLayout(deleteOptionsPanel, BoxLayout.PAGE_AXIS));
 
-        JTextField delShapeName = new JTextField();
+        JTextField delFrameName = new JTextField();
         JTextField delTick = new JTextField();
         Object[] dels = {
-                "Shape Name:", delShapeName,
+                "Shape Name:", delFrameName,
                 "Keyframe Tick:", delTick,
         };
         int del = JOptionPane.showConfirmDialog(deleteOptionsPanel, dels,
                 "Delete KeyFrame Specifications", JOptionPane.OK_CANCEL_OPTION);
         if (del == JOptionPane.OK_OPTION) {
-          String addName = delShapeName.getText();
+          String addName = delFrameName.getText();
           String newTick = delTick.getText();
           if (newTick.equals("") || addName.equals("")) {
             throw new IllegalArgumentException("Tick and shape name must be input.");
@@ -397,7 +405,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
           }
         }
         break;
-      case "shape":
+      case "add shape":
         //TODO: decide if this can be abstracted somehow
         // the panel for the new shape specifications
         JPanel addShapePanel = new JPanel();
@@ -425,6 +433,32 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
             throw new IllegalArgumentException("New shape must have name and type declared");
           }
           model.addShape(addName, addShapeType);
+          //TODO: make sure this works^^^
+        }
+        break;
+      case "delete shape":
+        //TODO: decide if this can be abstracted somehow
+        // the panel for the new shape specifications
+        JPanel deleteShapePanel = new JPanel();
+        deleteShapePanel.setLayout(new BoxLayout(deleteShapePanel, BoxLayout.PAGE_AXIS));
+
+        // inputs for the new shape
+        JTextField delShapeName = new JTextField();
+
+        Object[] delShapes = {
+                "Shape Name:", delShapeName,
+        };
+
+        // shows options and takes input when user confirms
+        int delShape = JOptionPane.showConfirmDialog(deleteShapePanel, delShapes,
+                "Delete shape", JOptionPane.OK_CANCEL_OPTION);
+        if (delShape == JOptionPane.OK_OPTION) {
+          // new name and shape type
+          String addName = delShapeName.getText();
+          if (addName.equals("")) {
+            throw new IllegalArgumentException("New shape must have name and type declared");
+          }
+          model.deleteShape(addName);
           //TODO: make sure this works^^^
         }
         break;
