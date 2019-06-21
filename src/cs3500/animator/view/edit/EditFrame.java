@@ -82,7 +82,6 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     pauseButton.addActionListener(this);
     pausePanel.add(pauseButton);
 
-
     // restart button
     JPanel restartPanel = new JPanel();
     playbackButtonPanel.add(restartPanel);
@@ -91,8 +90,15 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     restartButton.addActionListener(this);
     restartPanel.add(restartButton);
 
+    // change speed button
+    JPanel speedPanel = new JPanel();
+    playbackButtonPanel.add(speedPanel);
+    JButton speedButton = new JButton("Change Speed");
+    speedButton.setActionCommand("speed");
+    speedButton.addActionListener(this);
+    speedPanel.add(speedButton);
 
-    // Edit Motion Panel
+    // edit motion panel
     JPanel editMotionPanel = new JPanel();
     editMotionPanel.setBorder(BorderFactory.createTitledBorder("Edit Keyframe Animations"));
     editMotionPanel.setLayout(new FlowLayout());
@@ -121,7 +127,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     JButton deleteFrameButton = new JButton("Delete");
     deleteFrameButton.setActionCommand("delete");
     deleteFrameButton.addActionListener(this);
-    editFramePanel.add(deleteFrameButton);
+    deleteFramePanel.add(deleteFrameButton);
 
     //dialog boxes
     JPanel dialogBoxesPanel = new JPanel();
@@ -343,6 +349,34 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         }
         break;
 
+      case "speed":
+        JPanel changeSpeedPanel = new JPanel();
+        changeSpeedPanel.setLayout(new BoxLayout(changeSpeedPanel, BoxLayout.PAGE_AXIS));
+
+        JTextField newSpeed = new JTextField();
+        Object[] speedIn = {
+                "New Speed:", newSpeed
+        };
+        int speed = JOptionPane.showConfirmDialog(changeSpeedPanel, speedIn,
+                "Choose New Speed", JOptionPane.OK_CANCEL_OPTION);
+        if (speed == JOptionPane.OK_OPTION) {
+          String changedSpeed = newSpeed.getText();
+          int speedNum;
+          // check that it's an integer
+          try {
+            speedNum = Integer.parseInt(changedSpeed);
+          } catch (NumberFormatException num) {
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "Please enter a valid number", "Invalid speed warning",
+                    JOptionPane.WARNING_MESSAGE);
+            throw new IllegalArgumentException("Our program could not parse your file, please provide a "
+                    + "file in the correct format.");
+          }
+          if (speedNum > 0) {
+            this.speed = speedNum;
+            animate();
+          }
+        }
       case "pause":
         timer.stop();
         break;
