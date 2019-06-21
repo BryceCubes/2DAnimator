@@ -1,5 +1,7 @@
 package cs3500.animator.view.edit;
 
+import com.sun.org.apache.bcel.internal.generic.ILOAD;
+
 import java.util.ArrayList;
 
 import java.awt.event.ActionEvent;
@@ -22,6 +24,7 @@ import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
 
 import cs3500.animator.model.ReadOnlyIAnimatorModel;
+import cs3500.animator.model.keyframe.IKeyFrame;
 import cs3500.animator.model.keyframe.ReadOnlyIKeyFrame;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.view.IAnimatorView;
@@ -252,8 +255,20 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
                       break;
                     }
                     int keyX = Integer.parseInt(x);
-                    this.model.editKeyFrame(name, keyT, "x", keyX);
+                    try {
+                      this.model.editKeyFrame(name, keyT, "x", keyX);
+                    } catch (IllegalArgumentException exception) {
+                      JOptionPane.showMessageDialog(new JFrame(),
+                              exception, "Invalid input",
+                              JOptionPane.WARNING_MESSAGE);
+                      throw new IllegalArgumentException(exception);
+                    }
                   } catch (NumberFormatException exception) {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Your red input could not be parsed to "
+                                    + "an integer, please input a number without any decimal "
+                                    + "places.", "Invalid input",
+                            JOptionPane.WARNING_MESSAGE);
                     throw new IllegalArgumentException("Your x input could not be parsed to "
                             + "an integer, please input a number without any decimal places.");
                   }
@@ -264,8 +279,20 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
                   }
                   try {
                     int keyY = Integer.parseInt(y);
-                    this.model.editKeyFrame(name, keyT, "y", keyY);
+                    try {
+                      this.model.editKeyFrame(name, keyT, "y", keyY);
+                    } catch (IllegalArgumentException exception) {
+                      JOptionPane.showMessageDialog(new JFrame(),
+                              exception, "Invalid input",
+                              JOptionPane.WARNING_MESSAGE);
+                      throw new IllegalArgumentException(exception);
+                    }
                   } catch (NumberFormatException exception) {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Your y input could not be parsed to "
+                                    + "an integer, please input a number without any decimal "
+                                    + "places.", "Invalid input",
+                            JOptionPane.WARNING_MESSAGE);
                     throw new IllegalArgumentException("Your y input could not be parsed to "
                             + "an integer, please input a number without any decimal places.");
                   }
@@ -276,8 +303,20 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
                   }
                   try {
                     int keyW = Integer.parseInt(w);
-                    this.model.editKeyFrame(name, keyT, "width", keyW);
+                    try {
+                      this.model.editKeyFrame(name, keyT, "width", keyW);
+                    } catch (IllegalArgumentException exception) {
+                      JOptionPane.showMessageDialog(new JFrame(),
+                              exception, "Invalid input",
+                              JOptionPane.WARNING_MESSAGE);
+                      throw new IllegalArgumentException(exception);
+                    }
                   } catch (NumberFormatException exception) {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Your width input could not be parsed to "
+                                    + "an integer, please input a number without any decimal "
+                                    + "places.", "Invalid input",
+                            JOptionPane.WARNING_MESSAGE);
                     throw new IllegalArgumentException("Your width input could not be parsed to "
                             + "an integer, please input a number without any decimal places.");
                   }
@@ -288,8 +327,20 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
                   }
                   try {
                     int keyH = Integer.parseInt(h);
-                    this.model.editKeyFrame(name, keyT, "height", keyH);
+                    try {
+                      this.model.editKeyFrame(name, keyT, "height", keyH);
+                    } catch (IllegalArgumentException exception) {
+                      JOptionPane.showMessageDialog(new JFrame(),
+                              exception, "Invalid input",
+                              JOptionPane.WARNING_MESSAGE);
+                      throw new IllegalArgumentException(exception);
+                    }
                   } catch (NumberFormatException exception) {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Your height input could not be parsed to "
+                                    + "an integer, please input a number without any decimal "
+                                    + "places.", "Invalid input",
+                            JOptionPane.WARNING_MESSAGE);
                     throw new IllegalArgumentException("Your height input could not be parsed to "
                             + "an integer, please input a number without any decimal places.");
                   }
@@ -300,8 +351,20 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
                   }
                   try {
                     int keyR = Integer.parseInt(r);
-                    this.model.editKeyFrame(name, keyT, "red", keyR);
+                    try {
+                      this.model.editKeyFrame(name, keyT, "red", keyR);
+                    } catch (IllegalArgumentException exception) {
+                      JOptionPane.showMessageDialog(new JFrame(),
+                              exception, "Invalid input",
+                              JOptionPane.WARNING_MESSAGE);
+                      throw new IllegalArgumentException(exception);
+                    }
                   } catch (NumberFormatException exception) {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Your red input could not be parsed to "
+                                    + "an integer, please input a number without any decimal "
+                                    + "places.", "Invalid input",
+                            JOptionPane.WARNING_MESSAGE);
                     throw new IllegalArgumentException("Your red input could not be parsed to "
                             + "an integer, please input a number without any decimal places.");
                   }
@@ -312,8 +375,20 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
                   }
                   try {
                     int keyG = Integer.parseInt(g);
-                    this.model.editKeyFrame(name, keyT, "green", keyG);
+                    try {
+                      this.model.editKeyFrame(name, keyT, "green", keyG);
+                    } catch (IllegalArgumentException exception) {
+                      JOptionPane.showMessageDialog(new JFrame(),
+                              exception, "Invalid input",
+                              JOptionPane.WARNING_MESSAGE);
+                      throw new IllegalArgumentException(exception);
+                    }
                   } catch (NumberFormatException exception) {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Your green input could not be parsed to "
+                                    + "an integer, please input a number without any decimal "
+                                    + "places.", "Invalid input",
+                            JOptionPane.WARNING_MESSAGE);
                     throw new IllegalArgumentException("Your green input could not be parsed to "
                             + "an integer, please input a number without any decimal places.");
                   }
@@ -324,17 +399,38 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
                   }
                   try {
                     int keyB = Integer.parseInt(b);
-                    this.model.editKeyFrame(name, keyT, "blue", keyB);
+                    try {
+                      this.model.editKeyFrame(name, keyT, "blue", keyB);
+                    } catch (IllegalArgumentException exception) {
+                      JOptionPane.showMessageDialog(new JFrame(),
+                              exception, "Invalid input",
+                              JOptionPane.WARNING_MESSAGE);
+                      throw new IllegalArgumentException(exception);
+                    }
                   } catch (NumberFormatException exception) {
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Your blue input could not be parsed to "
+                                    + "an integer, please input a number without any decimal "
+                                    + "places.", "Invalid input",
+                            JOptionPane.WARNING_MESSAGE);
                     throw new IllegalArgumentException("Your blue input could not be parsed to "
                             + "an integer, please input a number without any decimal places.");
                   }
                   break;
                 default:
+                  JOptionPane.showMessageDialog(new JFrame(),
+                          "You shouldn't be seeing this, we did" +
+                                  " something wrong.", "Critical error",
+                          JOptionPane.WARNING_MESSAGE);
                   throw new IllegalArgumentException("You shouldn't be seeing this, we did" +
                           " something wrong.");
               }
-            } catch (NumberFormatException tException) {
+            } catch (NumberFormatException exception) {
+              JOptionPane.showMessageDialog(new JFrame(),
+                      "Your tick input could not be parsed to "
+                              + "an integer, please input a number without any decimal "
+                              + "places.", "Invalid input",
+                      JOptionPane.WARNING_MESSAGE);
               throw new IllegalArgumentException("Your tick input could not be parsed to an integer"
                       + ", please input a number without any decimal places.");
             }
@@ -359,14 +455,24 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         if (add == JOptionPane.OK_OPTION) {
           String addName = addShapeName.getText();
           String newTick = addTick.getText();
-          if (newTick.equals("") || addName.equals("")) {
-            throw new IllegalArgumentException("Tick and shape name must be input.");
-          }
           try {
             int keyTick = Integer.parseInt(newTick);
-            this.model.addKeyFrame(addName, keyTick);
+            try {
+              this.model.addKeyFrame(addName, keyTick);
+            } catch (IllegalArgumentException exception) {
+              JOptionPane.showMessageDialog(new JFrame(),
+                      exception, "Invalid input",
+                      JOptionPane.WARNING_MESSAGE);
+              throw new IllegalArgumentException(exception);
+            }
           } catch (NumberFormatException exception) {
-            throw new IllegalArgumentException("Tick must be a positive integer.");
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "Your tick input could not be parsed to "
+                            + "an integer, please input a number without any decimal "
+                            + "places.", "Invalid input",
+                    JOptionPane.WARNING_MESSAGE);
+            throw new IllegalArgumentException("Your tick input could not be parsed to an integer"
+                    + ", please input a number without any decimal places.");
           }
           getLastTick();
         }
@@ -388,14 +494,24 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         if (del == JOptionPane.OK_OPTION) {
           String addName = delFrameName.getText();
           String newTick = delTick.getText();
-          if (newTick.equals("") || addName.equals("")) {
-            throw new IllegalArgumentException("Tick and shape name must be input.");
-          }
           try {
             int keyTick = Integer.parseInt(newTick);
-            this.model.deleteKeyFrame(addName, keyTick);
+            try {
+              this.model.deleteKeyFrame(addName, keyTick);
+            } catch (IllegalArgumentException exception) {
+              JOptionPane.showMessageDialog(new JFrame(),
+                      exception, "Invalid input",
+                      JOptionPane.WARNING_MESSAGE);
+              throw new IllegalArgumentException(exception);
+            }
           } catch (NumberFormatException exception) {
-            throw new IllegalArgumentException("Tick must be a positive integer.");
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "Your tick input could not be parsed to "
+                            + "an integer, please input a number without any decimal "
+                            + "places.", "Invalid input",
+                    JOptionPane.WARNING_MESSAGE);
+            throw new IllegalArgumentException("Your tick input could not be parsed to an integer"
+                    + ", please input a number without any decimal places.");
           }
         }
         getLastTick();
@@ -463,11 +579,14 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
           String addName = newShapeName.getText();
           String addShapeType = (String) newShapeType.getSelectedItem();
           assert addShapeType != null;
-          if (addName.equals("") || addShapeType.equals("")) {
-            throw new IllegalArgumentException("New shape must have name and type declared");
+          try {
+            model.addShape(addName, addShapeType);
+          } catch (IllegalArgumentException exception) {
+            JOptionPane.showMessageDialog(new JFrame(),
+                    exception, "Invalid input",
+                    JOptionPane.WARNING_MESSAGE);
+            throw new IllegalArgumentException(exception);
           }
-          model.addShape(addName, addShapeType);
-          //TODO: make sure this works^^^
         }
         break;
       case "delete shape":
@@ -492,6 +611,9 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
           try {
             model.deleteShape(addName);
           } catch (IllegalArgumentException exception) {
+            JOptionPane.showMessageDialog(new JFrame(),
+                    exception, "Invalid input",
+                    JOptionPane.WARNING_MESSAGE);
             throw new IllegalArgumentException(exception);
           }
           //TODO: make sure this works^^^
