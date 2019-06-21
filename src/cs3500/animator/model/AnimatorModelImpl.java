@@ -189,24 +189,19 @@ public class AnimatorModelImpl implements IAnimatorModel {
         int size = this.keyFrames.get(shape).size();
         IKeyFrame keyFrameBefore;
         IKeyFrame keyFrameAfter;
-        IKeyFrame lastKeyFrame;
-        if (size == 0) {
-          lastKeyFrame = null;
-        } else {
-          lastKeyFrame = this.keyFrames.get(shape).get(size - 1);
-        }
-        IKeyFrame firstKeyFrame = this.keyFrames.get(shape).get(0);
         int index = 0;
         if (this.keyFrames.get(shape).isEmpty()) {
           this.keyFrames.get(shape).add(new KeyFrame.Builder().declareShape(shape).declareT(tick)
                   .build());
-        } else if (tick > lastKeyFrame.getT()) {
+        } else if (tick > this.keyFrames.get(shape).get(size - 1).getT()) {
+          IKeyFrame lastKeyFrame = this.keyFrames.get(shape).get(size - 1);
           this.keyFrames.get(shape).add(new KeyFrame.Builder().declareShape(shape).declareT(tick)
                   .declareX(lastKeyFrame.getX()).declareY(lastKeyFrame.getY())
                   .declareW(lastKeyFrame.getW()).declareH(lastKeyFrame.getH())
                   .declareR(lastKeyFrame.getR()).declareG(lastKeyFrame.getB())
                   .declareB(lastKeyFrame.getB()).build());
-        } else if (tick < firstKeyFrame.getT()) {
+        } else if (tick < this.keyFrames.get(shape).get(0).getT()) {
+          IKeyFrame firstKeyFrame = this.keyFrames.get(shape).get(0);
           this.keyFrames.get(shape).add(new KeyFrame.Builder().declareShape(shape).declareT(tick)
                   .declareX(firstKeyFrame.getX()).declareY(firstKeyFrame.getY())
                   .declareW(firstKeyFrame.getW()).declareH(firstKeyFrame.getH())
