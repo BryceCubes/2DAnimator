@@ -218,6 +218,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
               keyFrameAfter = this.keyFrames.get(shape).get(index);
               this.keyFrames.get(shape).add(this.interpolateKeyFrame(shape, tick, keyFrameBefore,
                       keyFrameAfter));
+              break;
             }
           }
         }
@@ -276,6 +277,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
                 throw new IllegalArgumentException("The field referenced does not exist. Field must"
                         + " be of type x, y, width, height, red, green or blue.");
             }
+            break;
           }
         }
       }
@@ -304,6 +306,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
           if (keyFrame.getT() == tick) {
             doesTickExist = true;
             this.keyFrames.get(shape).remove(keyFrame);
+            break;
           }
         }
       }
