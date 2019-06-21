@@ -45,11 +45,6 @@ public class AShape implements IShape {
   }
 
   @Override
-  public ShapeType getShapeType() {
-    return this.shapeType;
-  }
-
-  @Override
   public double getXPos() {
     return this.xPos;
   }
