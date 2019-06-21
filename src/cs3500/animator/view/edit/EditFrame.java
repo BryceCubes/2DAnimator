@@ -27,18 +27,27 @@ import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.view.IAnimatorView;
 import cs3500.animator.view.visual.AnimationPanel;
 
+/**
+ * EditFrame class plays an animation from the file provided in main. It also offers the ability to
+ * edit the animation by adding, editing, and removing shapes and keyframes. It also has the options
+ * to pause, restart, and loop the animation.
+ */
 public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
   private ReadOnlyIAnimatorModel model;
   private int speed;
   private Timer timer;
   private int tick;
   private ArrayList<ReadOnlyIShape> shapesToRender;
-  JCheckBox loopBox;
+  private JCheckBox loopBox;
   private int lastTick;
   private boolean loop;
-
   private AnimationPanel aPanel;
 
+  /**
+   * Constructs the animation player and all of its buttons and panels.
+   * @param model the Animator model that represents the shape motions and keyframes
+   * @param speed the speed of the animation in frames per second
+   */
   public EditFrame(ReadOnlyIAnimatorModel model, int speed) {
     super();
     this.model = model;
@@ -47,8 +56,8 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     getLastTick();
     setTitle("Animation Editor");
     // these values are somewhat arbitrary based on the layout. Scales best with animation window
-    setMinimumSize(new Dimension(model.getCanvasW(), model.getCanvasH()+ 200));
-    setSize(model.getCanvasW(),  model.getCanvasH()+200);
+    setMinimumSize(new Dimension(model.getCanvasW(), model.getCanvasH() + 200));
+    setSize(model.getCanvasW(), model.getCanvasH() + 150);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // main panel and scroll
@@ -71,7 +80,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     JPanel playbackButtonPanel = new JPanel();
     playbackButtonPanel.setBorder(BorderFactory.createTitledBorder("Playback Buttons"));
     playbackButtonPanel.setLayout(new FlowLayout());
-    playbackButtonPanel.setMaximumSize(new Dimension(700, 100));
+    playbackButtonPanel.setMaximumSize(new Dimension(800, 75));
     mainPanel.add(playbackButtonPanel);
 
     // play button
@@ -119,7 +128,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     JPanel editMotionPanel = new JPanel();
     editMotionPanel.setBorder(BorderFactory.createTitledBorder("Edit Keyframe Animations"));
     editMotionPanel.setLayout(new FlowLayout());
-    editMotionPanel.setMaximumSize(new Dimension(700, 100));
+    editMotionPanel.setMaximumSize(new Dimension(800, 75));
     mainPanel.add(editMotionPanel);
 
     // add keyframe button
@@ -165,17 +174,26 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     setVisible(true);
   }
 
+  /**
+   * The main method that starts the animation timer and resets to the beginning of the animation
+   * when looping.
+   */
   @Override
   public void animate() {
-      this.timer = new Timer(1000 / this.speed, e -> {
-        shapesToRender = model.getShapesAtTick(tick++);
-        aPanel.draw(shapesToRender);
-        if (loop && tick >= lastTick) {
-          tick = 0;
-        }
-      });
+    this.timer = new Timer(1000 / this.speed, e -> {
+      shapesToRender = model.getShapesAtTick(tick++);
+      aPanel.draw(shapesToRender);
+      if (loop && tick >= lastTick) {
+        tick = 0;
+      }
+    });
   }
 
+  /**
+   * Handles the actions performed based on which button was pressed.
+   *
+   * @param e the event triggered by the button.
+   */
   @Override
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
@@ -356,7 +374,6 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         break;
 
       case "delete":
-        //TODO: decide if this can be abstracted somehow
         JPanel deleteOptionsPanel = new JPanel();
         deleteOptionsPanel.setLayout(new BoxLayout(deleteOptionsPanel, BoxLayout.PAGE_AXIS));
 
@@ -425,8 +442,6 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         }
         break;
       case "add shape":
-        //TODO: decide if this can be abstracted somehow
-        // the panel for the new shape specifications
         JPanel addShapePanel = new JPanel();
         addShapePanel.setLayout(new BoxLayout(addShapePanel, BoxLayout.PAGE_AXIS));
 
