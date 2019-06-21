@@ -21,7 +21,8 @@ public interface ReadOnlyIAnimatorModel {
    * @param shapeID the given shapid for the associated shape for the keyframe to be added to
    * @param tick    the given tick for the placement of the keyframe in sequence
    * @throws IllegalArgumentException when a keyframe already exists for the given shape at the
-   *                                  given tick, or a shape doesn't exist for the given name
+   *                                  given tick, a shape doesn't exist for the given name, or
+   *                                  the shape name is null or an empty string
    */
   void addKeyFrame(String shapeID, int tick)
           throws IllegalArgumentException;

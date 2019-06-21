@@ -177,8 +177,8 @@ public class AnimatorModelImpl implements IAnimatorModel {
   @Override
   public void addKeyFrame(String shapeID, int tick)
           throws IllegalArgumentException {
-    if (shapeID == null) {
-      throw new IllegalArgumentException("ShapeID cannot be null.");
+    if (shapeID == null || shapeID.equals("")) {
+      throw new IllegalArgumentException("ShapeID cannot be null or an empty string.");
     }
 
     boolean doesShapeExist = false;

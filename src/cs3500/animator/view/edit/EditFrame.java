@@ -172,7 +172,111 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
           String r = rVal.getText();
           String g = gVal.getText();
           String b = bVal.getText();
-          //TODO: do something with these values^^^
+          ArrayList<String> values = new ArrayList<>();
+          values.add("x");
+          values.add("y");
+          values.add("w");
+          values.add("h");
+          values.add("r");
+          values.add("g");
+          values.add("b");
+          for (String value : values) {
+            try {
+              int keyT = Integer.parseInt(refTick);
+              switch (value) {
+                case "x":
+                  try {
+                    if (x.equals("")) {
+                      break;
+                    }
+                    int keyX = Integer.parseInt(x);
+                    this.model.editKeyFrame(name, keyT, "x", keyX);
+                  } catch (NumberFormatException exception) {
+                    throw new IllegalArgumentException("Your x input could not be parsed to "
+                            + "an integer, please input a number without any decimal places.");
+                  }
+                  break;
+                case "y":
+                  if (y.equals("")) {
+                    break;
+                  }
+                  try {
+                    int keyY = Integer.parseInt(y);
+                    this.model.editKeyFrame(name, keyT, "y", keyY);
+                  } catch (NumberFormatException exception) {
+                    throw new IllegalArgumentException("Your y input could not be parsed to "
+                            + "an integer, please input a number without any decimal places.");
+                  }
+                  break;
+                case "w":
+                  if (w.equals("")) {
+                    break;
+                  }
+                  try {
+                    int keyW = Integer.parseInt(w);
+                    this.model.editKeyFrame(name, keyT, "width", keyW);
+                  } catch (NumberFormatException exception) {
+                    throw new IllegalArgumentException("Your width input could not be parsed to "
+                            + "an integer, please input a number without any decimal places.");
+                  }
+                  break;
+                case "h":
+                  if (h.equals("")) {
+                    break;
+                  }
+                  try {
+                    int keyH = Integer.parseInt(h);
+                    this.model.editKeyFrame(name, keyT, "height", keyH);
+                  } catch (NumberFormatException exception) {
+                    throw new IllegalArgumentException("Your height input could not be parsed to "
+                            + "an integer, please input a number without any decimal places.");
+                  }
+                  break;
+                case "r":
+                  if (r.equals("")) {
+                    break;
+                  }
+                  try {
+                    int keyR = Integer.parseInt(r);
+                    this.model.editKeyFrame(name, keyT, "red", keyR);
+                  } catch (NumberFormatException exception) {
+                    throw new IllegalArgumentException("Your red input could not be parsed to "
+                            + "an integer, please input a number without any decimal places.");
+                  }
+                  break;
+                case "g":
+                  if (g.equals("")) {
+                    break;
+                  }
+                  try {
+                    int keyG = Integer.parseInt(g);
+                    this.model.editKeyFrame(name, keyT, "green", keyG);
+                  } catch (NumberFormatException exception) {
+                    throw new IllegalArgumentException("Your green input could not be parsed to "
+                            + "an integer, please input a number without any decimal places.");
+                  }
+                  break;
+                case "b":
+                  if (b.equals("")) {
+                    break;
+                  }
+                  try {
+                    int keyB = Integer.parseInt(b);
+                    this.model.editKeyFrame(name, keyT, "blue", keyB);
+                  } catch (NumberFormatException exception) {
+                    throw new IllegalArgumentException("Your blue input could not be parsed to "
+                            + "an integer, please input a number without any decimal places.");
+                  }
+                  break;
+                default:
+                  throw new IllegalArgumentException("You shouldn't be seeing this, we did" +
+                          " something wrong.");
+              }
+            } catch (NumberFormatException tException) {
+              throw new IllegalArgumentException("Your tick input could not be parsed to an integer"
+                      + ", please input a number without any decimal places.");
+            }
+          }
         }
         break;
       case "add":
@@ -191,7 +295,15 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
         if (add == JOptionPane.OK_OPTION) {
           String addName = addShapeName.getText();
           String newTick = addTick.getText();
-          //TODO: do something with these values^^^
+          if (newTick.equals("") || addName.equals("")) {
+            throw new IllegalArgumentException("Tick and shape name must be input.");
+          }
+          try {
+            int keyTick = Integer.parseInt(newTick);
+            this.model.addKeyFrame(addName, keyTick);
+          } catch (NumberFormatException exception) {
+            throw new IllegalArgumentException("Tick must be a positive integer.");
+          }
         }
         break;
 
@@ -211,7 +323,15 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
         if (del == JOptionPane.OK_OPTION) {
           String addName = delShapeName.getText();
           String newTick = delTick.getText();
-          //TODO: do something with these values^^^
+          if (newTick.equals("") || addName.equals("")) {
+            throw new IllegalArgumentException("Tick and shape name must be input.");
+          }
+          try {
+            int keyTick = Integer.parseInt(newTick);
+            this.model.deleteKeyFrame(addName, keyTick);
+          } catch (NumberFormatException exception) {
+            throw new IllegalArgumentException("Tick must be a positive integer.");
+          }
         }
         break;
 
