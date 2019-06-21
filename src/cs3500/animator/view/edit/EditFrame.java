@@ -167,7 +167,6 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
 
   @Override
   public void animate() {
-    while (tick <= lastTick) {
       this.timer = new Timer(1000 / this.speed, e -> {
         shapesToRender = model.getShapesAtTick(tick++);
         aPanel.draw(shapesToRender);
@@ -175,7 +174,6 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
           tick = 0;
         }
       });
-    }
   }
 
   @Override
