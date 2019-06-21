@@ -29,7 +29,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     this.model = model;
     this.speed = speed;
     setTitle("Animation Editor");
-    // these values are somewhat arbitrary based on the layout. Scales well with animation window
+    // these values are somewhat arbitrary based on the layout. Scales best with animation window
     setSize(model.getCanvasW() + 22, model.getCanvasH() + 184);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -41,7 +41,6 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
 
     // animation panel
     aPanel = new AnimationPanel();
-    //aPanel.setBorder(BorderFactory.createTitledBorder("Animation Preview"));
     aPanel.setMaximumSize(new Dimension(model.getCanvasW(), model.getCanvasH()));
     aPanel.setBackground(Color.white);
     aPanel.setPreferredSize(new Dimension(model.getCanvasW(), model.getCanvasH()));
@@ -93,7 +92,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     // loop checkbox
     JPanel checkBoxPanel = new JPanel();
     playbackButtonPanel.add(checkBoxPanel);
-    JCheckBox loopBox = new JCheckBox("Loop?");
+    JCheckBox loopBox = new JCheckBox("Loop");
     checkBoxPanel.add(loopBox);
     loopBox.setSelected(false);
     loopBox.setActionCommand("loop");
@@ -106,7 +105,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     editMotionPanel.setMaximumSize(new Dimension(model.getCanvasW(), 100));
     mainPanel.add(editMotionPanel);
 
-    // add keyframe
+    // add keyframe button
     JPanel addFramePanel = new JPanel();
     editMotionPanel.add(addFramePanel);
     JButton addFrameButton = new JButton("Add");
@@ -114,7 +113,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     addFrameButton.addActionListener(this);
     addFramePanel.add(addFrameButton);
 
-    // edit keyframe
+    // edit keyframe button
     JPanel editFramePanel = new JPanel();
     editMotionPanel.add(editFramePanel);
     JButton editFrameButton = new JButton("Edit");
@@ -122,7 +121,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     editFrameButton.addActionListener(this);
     editFramePanel.add(editFrameButton);
 
-    // delete keyframe
+    // delete keyframe button
     JPanel deleteFramePanel = new JPanel();
     editMotionPanel.add(deleteFramePanel);
     JButton deleteFrameButton = new JButton("Delete");
@@ -130,19 +129,13 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     deleteFrameButton.addActionListener(this);
     deleteFramePanel.add(deleteFrameButton);
 
-    // add shape
+    // add shape button
     JPanel addShapePanel = new JPanel();
     editMotionPanel.add(addShapePanel);
     JButton addShapeButton = new JButton("Add Shape");
     addShapeButton.setActionCommand("shape");
     addShapeButton.addActionListener(this);
     addShapePanel.add(addShapeButton);
-
-
-    //dialog boxes
-//    JPanel dialogBoxesPanel = new JPanel();
-//    dialogBoxesPanel.setLayout(new BoxLayout(dialogBoxesPanel, BoxLayout.PAGE_AXIS));
-//    mainPanel.add(dialogBoxesPanel);
 
     setVisible(true);
   }
@@ -159,7 +152,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
   public void actionPerformed(ActionEvent e) {
     switch (e.getActionCommand()) {
       case "edit":
-        // dialogue box for changing keyframes
+        // panel for changing keyframes
         JPanel editFrameOptionsPanel = new JPanel();
         editFrameOptionsPanel.setLayout(new BoxLayout(editFrameOptionsPanel, BoxLayout.PAGE_AXIS));
 
@@ -304,6 +297,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         break;
       case "add":
 
+        // panel for adding keyframes
         JPanel addOptionsPanel = new JPanel();
         addOptionsPanel.setLayout(new BoxLayout(addOptionsPanel, BoxLayout.PAGE_AXIS));
 
@@ -360,10 +354,14 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         break;
 
       case "speed":
+        // stop the animation while in the menu
         timer.stop();
+
+        // the panel that contains the options
         JPanel changeSpeedPanel = new JPanel();
         changeSpeedPanel.setLayout(new BoxLayout(changeSpeedPanel, BoxLayout.PAGE_AXIS));
 
+        // field for new speed
         JTextField newSpeed = new JTextField();
         Object[] speedIn = {
                 "New Speed:", newSpeed
@@ -371,6 +369,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         int speed = JOptionPane.showConfirmDialog(changeSpeedPanel, speedIn,
                 "Choose New Speed", JOptionPane.OK_CANCEL_OPTION);
         if (speed == JOptionPane.OK_OPTION) {
+          // get the entered value
           String changedSpeed = newSpeed.getText();
           int speedNum;
           // check that it's an integer
@@ -380,21 +379,27 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
             JOptionPane.showMessageDialog(new JFrame(),
                     "Please enter a valid number", "Invalid speed warning",
                     JOptionPane.WARNING_MESSAGE);
-            throw new IllegalArgumentException("Our program could not parse your file, please provide a "
-                    + "file in the correct format.");
+            throw new IllegalArgumentException("Invalid input");
           }
           if (speedNum > 0) {
             this.speed = speedNum;
             animate();
             timer.start();
+          } else {
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "Please enter a valid number", "Invalid speed warning",
+                    JOptionPane.WARNING_MESSAGE);
+            throw new IllegalArgumentException("Invalid number");
           }
         }
         break;
       case "shape":
         //TODO: decide if this can be abstracted somehow
+        // the panel for the new shape specifications
         JPanel addShapePanel = new JPanel();
         addShapePanel.setLayout(new BoxLayout(addShapePanel, BoxLayout.PAGE_AXIS));
 
+        // inputs for the new shape
         JTextField newShapeName = new JTextField();
         JComboBox<String> newShapeType = new JComboBox<>();
         newShapeType.addItem("Rectangle");
@@ -403,9 +408,12 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
                 "Shape Name:", newShapeName,
                 "Shape Type", newShapeType,
         };
+
+        // shows options and takes input when user confirms
         int shape = JOptionPane.showConfirmDialog(addShapePanel, shapes,
                 "Add new shape", JOptionPane.OK_CANCEL_OPTION);
         if (shape == JOptionPane.OK_OPTION) {
+          // new name and shape type
           String addName = newShapeName.getText();
           String addShapeType = (String) newShapeType.getSelectedItem();
           assert addShapeType != null;
@@ -418,6 +426,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         break;
       case "loop":
         //TODO: how to determine the end of an animation???
+        break;
       case "pause":
         timer.stop();
         break;
