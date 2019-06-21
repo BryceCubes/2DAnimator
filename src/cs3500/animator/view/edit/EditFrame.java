@@ -125,7 +125,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     // add keyframe button
     JPanel addFramePanel = new JPanel();
     editMotionPanel.add(addFramePanel);
-    JButton addFrameButton = new JButton("Add");
+    JButton addFrameButton = new JButton("Add KeyFrame");
     addFrameButton.setActionCommand("add");
     addFrameButton.addActionListener(this);
     addFramePanel.add(addFrameButton);
@@ -133,7 +133,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     // edit keyframe button
     JPanel editFramePanel = new JPanel();
     editMotionPanel.add(editFramePanel);
-    JButton editFrameButton = new JButton("Edit");
+    JButton editFrameButton = new JButton("Edit Keyframe");
     editFrameButton.setActionCommand("edit");
     editFrameButton.addActionListener(this);
     editFramePanel.add(editFrameButton);
@@ -141,7 +141,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     // delete keyframe button
     JPanel deleteFramePanel = new JPanel();
     editMotionPanel.add(deleteFramePanel);
-    JButton deleteFrameButton = new JButton("Delete");
+    JButton deleteFrameButton = new JButton("Delete Keyframe");
     deleteFrameButton.setActionCommand("delete");
     deleteFrameButton.addActionListener(this);
     deleteFramePanel.add(deleteFrameButton);
@@ -167,7 +167,6 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
 
   @Override
   public void animate() {
-    while (tick <= lastTick) {
       this.timer = new Timer(1000 / this.speed, e -> {
         shapesToRender = model.getShapesAtTick(tick++);
         aPanel.draw(shapesToRender);
@@ -175,7 +174,6 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
           tick = 0;
         }
       });
-    }
   }
 
   @Override
