@@ -1,28 +1,35 @@
 package cs3500.animator.view.edit;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
+import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
 
 import cs3500.animator.model.ReadOnlyIAnimatorModel;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.view.IAnimatorView;
 import cs3500.animator.view.visual.AnimationPanel;
 
-public class EditFrame extends JFrame implements IAnimatorView, ActionListener, ItemListener {
+public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
   private ReadOnlyIAnimatorModel model;
   private int speed;
   private Timer timer;
   private int tick;
   private ArrayList<ReadOnlyIShape> shapesToRender;
 
-  private JPanel mainPanel;
-  private JScrollPane mainScroll;
   private AnimationPanel aPanel;
 
   public EditFrame(ReadOnlyIAnimatorModel model, int speed) {
@@ -31,13 +38,13 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     this.speed = speed;
     setTitle("Animation Editor");
     // these values are somewhat arbitrary based on the layout. Scales well with animation window
-    setSize(model.getCanvasW()+22, model.getCanvasH()+184);
+    setSize(model.getCanvasW() + 22, model.getCanvasH() + 184);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // main panel and scroll
-    mainPanel = new JPanel();
+    JPanel mainPanel = new JPanel();
     mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-    mainScroll = new JScrollPane(mainPanel);
+    JScrollPane mainScroll = new JScrollPane(mainPanel);
     add(mainScroll);
 
     // animation panel
@@ -58,7 +65,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
     playbackButtonPanel.setLayout(new FlowLayout());
     playbackButtonPanel.setMaximumSize(new Dimension(model.getCanvasW(), 100));
     mainPanel.add(playbackButtonPanel);
-    
+
     // play button
     JPanel playPanel = new JPanel();
     playbackButtonPanel.add(playPanel);
@@ -305,6 +312,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
             throw new IllegalArgumentException("Tick must be a positive integer.");
           }
         }
+
         break;
 
       case "delete":
@@ -346,10 +354,5 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener, 
         timer.restart();
         break;
     }
-  }
-
-  @Override
-  public void itemStateChanged(ItemEvent e) {
-    //TODO: decide if I need this, don't think I do
   }
 }
