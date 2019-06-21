@@ -9,10 +9,19 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.HashMap;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JOptionPane;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.Timer;
+import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
 
 import cs3500.animator.model.ReadOnlyIAnimatorModel;
-import cs3500.animator.model.keyframe.IKeyFrame;
 import cs3500.animator.model.keyframe.ReadOnlyIKeyFrame;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.view.IAnimatorView;
@@ -24,7 +33,9 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
   private Timer timer;
   private int tick;
   private ArrayList<ReadOnlyIShape> shapesToRender;
+  JCheckBox loopBox;
   private int lastTick;
+  private boolean loop;
 
   private AnimationPanel aPanel;
 
@@ -32,6 +43,8 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     super();
     this.model = model;
     this.speed = speed;
+    this.loop = false;
+    getLastTick();
     setTitle("Animation Editor");
     // these values are somewhat arbitrary based on the layout. Scales best with animation window
     setSize(model.getCanvasW() + 22, model.getCanvasH() + 184);
@@ -96,7 +109,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     // loop checkbox
     JPanel checkBoxPanel = new JPanel();
     playbackButtonPanel.add(checkBoxPanel);
-    JCheckBox loopBox = new JCheckBox("Loop");
+    loopBox = new JCheckBox("Loop");
     checkBoxPanel.add(loopBox);
     loopBox.setSelected(false);
     loopBox.setActionCommand("loop");
@@ -137,19 +150,32 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     JPanel addShapePanel = new JPanel();
     editMotionPanel.add(addShapePanel);
     JButton addShapeButton = new JButton("Add Shape");
-    addShapeButton.setActionCommand("shape");
+    addShapeButton.setActionCommand("add shape");
     addShapeButton.addActionListener(this);
     addShapePanel.add(addShapeButton);
+
+    // delete shape button
+    JPanel deleteShapePanel = new JPanel();
+    editMotionPanel.add(deleteShapePanel);
+    JButton deleteShapeButton = new JButton("Delete Shape");
+    deleteShapeButton.setActionCommand("delete shape");
+    deleteShapeButton.addActionListener(this);
+    deleteShapePanel.add(deleteShapeButton);
 
     setVisible(true);
   }
 
   @Override
   public void animate() {
-    this.timer = new Timer(1000 / this.speed, e -> {
-      shapesToRender = model.getShapesAtTick(tick++);
-      aPanel.draw(shapesToRender);
-    });
+    while (tick <= lastTick) {
+      this.timer = new Timer(1000 / this.speed, e -> {
+        shapesToRender = model.getShapesAtTick(tick++);
+        aPanel.draw(shapesToRender);
+        if (loop && tick >= lastTick) {
+          tick = 0;
+        }
+      });
+    }
   }
 
   @Override
@@ -334,16 +360,16 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         JPanel deleteOptionsPanel = new JPanel();
         deleteOptionsPanel.setLayout(new BoxLayout(deleteOptionsPanel, BoxLayout.PAGE_AXIS));
 
-        JTextField delShapeName = new JTextField();
+        JTextField delFrameName = new JTextField();
         JTextField delTick = new JTextField();
         Object[] dels = {
-                "Shape Name:", delShapeName,
+                "Shape Name:", delFrameName,
                 "Keyframe Tick:", delTick,
         };
         int del = JOptionPane.showConfirmDialog(deleteOptionsPanel, dels,
                 "Delete KeyFrame Specifications", JOptionPane.OK_CANCEL_OPTION);
         if (del == JOptionPane.OK_OPTION) {
-          String addName = delShapeName.getText();
+          String addName = delFrameName.getText();
           String newTick = delTick.getText();
           if (newTick.equals("") || addName.equals("")) {
             throw new IllegalArgumentException("Tick and shape name must be input.");
@@ -397,7 +423,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
           }
         }
         break;
-      case "shape":
+      case "add shape":
         //TODO: decide if this can be abstracted somehow
         // the panel for the new shape specifications
         JPanel addShapePanel = new JPanel();
@@ -428,7 +454,34 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
           //TODO: make sure this works^^^
         }
         break;
+      case "delete shape":
+        //TODO: decide if this can be abstracted somehow
+        // the panel for the new shape specifications
+        JPanel deleteShapePanel = new JPanel();
+        deleteShapePanel.setLayout(new BoxLayout(deleteShapePanel, BoxLayout.PAGE_AXIS));
+
+        // inputs for the new shape
+        JTextField delShapeName = new JTextField();
+
+        Object[] delShapes = {
+                "Shape Name:", delShapeName,
+        };
+
+        // shows options and takes input when user confirms
+        int delShape = JOptionPane.showConfirmDialog(deleteShapePanel, delShapes,
+                "Delete shape", JOptionPane.OK_CANCEL_OPTION);
+        if (delShape == JOptionPane.OK_OPTION) {
+          // new name and shape type
+          String addName = delShapeName.getText();
+          if (addName.equals("")) {
+            throw new IllegalArgumentException("New shape must have name and type declared");
+          }
+          model.deleteShape(addName);
+          //TODO: make sure this works^^^
+        }
+        break;
       case "loop":
+        loop = loopBox.isSelected();
         //TODO: how to determine the end of an animation???
         break;
       case "pause":
