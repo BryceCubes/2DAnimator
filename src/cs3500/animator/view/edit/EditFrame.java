@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JCheckBox;
 import javax.swing.Timer;
 import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
@@ -97,6 +98,15 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
     speedButton.setActionCommand("speed");
     speedButton.addActionListener(this);
     speedPanel.add(speedButton);
+
+    // loop checkbox
+    JPanel checkBoxPanel = new JPanel();
+    playbackButtonPanel.add(checkBoxPanel);
+    JCheckBox loopBox = new JCheckBox("Loop?");
+    checkBoxPanel.add(loopBox);
+    loopBox.setSelected(false);
+    loopBox.setActionCommand("loop");
+    loopBox.addActionListener(this);
 
     // edit motion panel
     JPanel editMotionPanel = new JPanel();
@@ -377,6 +387,9 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
             animate();
           }
         }
+        break;
+      case "loop":
+        //TODO: how to determine the end of an animation???
       case "pause":
         timer.stop();
         break;
