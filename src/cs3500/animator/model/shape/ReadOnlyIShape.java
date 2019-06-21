@@ -13,6 +13,14 @@ public interface ReadOnlyIShape {
   String getShapeID();
 
   /**
+   * This method is used to get the shape type as the concrete type from the enum to be used for
+   * easier error checking.
+   *
+   * @return a shapeType for the given shape.
+   */
+  ShapeType getShapeType();
+
+  /**
    * Method used to get the x position to be passed to the controller.
    *
    * @return the x position for the given shape
@@ -67,6 +75,4 @@ public interface ReadOnlyIShape {
    * @return the shape type as a string
    */
   String getShapeTypeAsString();
-
-  // Removed the standard getshapetype that returned the enum because it wasn't actually used.
 }
