@@ -1,7 +1,5 @@
 package cs3500.animator.view.edit;
 
-import com.sun.org.apache.bcel.internal.generic.ILOAD;
-
 import java.util.ArrayList;
 
 import java.awt.event.ActionEvent;
@@ -24,7 +22,6 @@ import javax.swing.BoxLayout;
 import javax.swing.BorderFactory;
 
 import cs3500.animator.model.ReadOnlyIAnimatorModel;
-import cs3500.animator.model.keyframe.IKeyFrame;
 import cs3500.animator.model.keyframe.ReadOnlyIKeyFrame;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.view.IAnimatorView;
@@ -48,6 +45,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
 
   /**
    * Constructs the animation player and all of its buttons and panels.
+   *
    * @param model the Animator model that represents the shape motions and keyframes
    * @param speed the speed of the animation in frames per second
    */
