@@ -78,7 +78,7 @@ public class AnimatorModelImpl implements IAnimatorModel {
 
       // If the keyframes were never added by the user, then the model will instead make the
       // key frames from the motions.
-      if (this.listOfKeyFrames == null) {
+      if (this.listOfKeyFrames.size() == 0) {
         model.makeKeyFrames();
       }
 
