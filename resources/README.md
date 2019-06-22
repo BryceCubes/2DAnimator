@@ -1,4 +1,39 @@
 # 2DAnimator
+ASSIGNMENT 7:
+
+GENERAL CHANGE NOTES:
+ - moved interpolate to model instead of in shape to make 
+ accessible for keyframes
+ - added addShape, deleteShape in the model so the user could 
+ easily add a simple shape from the EditorView
+ - changed getShapesAtTick to use Keyframes for more generality
+ and ability to use with the EditorView
+ - added edit, add, and delete Keyframe methods for the user to 
+ access from the EditorView
+ - the model ensures that if keyframes have been given, it does
+ not construct keyframes for the motions
+ 
+ ADDITIONS:
+ 
+ MODEL:
+ - IKeyFrame represents the idea of goal state that an animation 
+ transitions between. It contains all the same fields as one "half"
+ of a motion. It contains methods to set the fields and get the
+ shape that is being operated on.
+ - ReadOnlyIKeyFrame represents that same as the IKeyFrame, but
+ it only contains methods to get the x, y, width, height, rgb,
+ and tick and no setters.
+ - KeyFrame is the concrete implementation of the IKeyFrame and
+ ReadOnlyIKeyFrame. This mostly ensures that all values for x,
+ y, width, height, rgb, and tick are all valid.
+ 
+ VIEW:
+ - EditView is a new view similar to the animation view. It
+ uses the java swing animations to render animations. It also 
+ adds playback controls like pausing, restarting, and looping.
+ There are also animation editing options through giving users
+ the ability to add and remove shapes and keyframes using the 
+ relevant buttons. 
 
 ++++++++++++++++++++ MODEL ++++++++++++++++++++
 IANIMATORMODEL and READONLYIANIATORMODEL
@@ -101,3 +136,4 @@ ANIMATIONVIEW
 AnimationView uses the java swing library to craft
 animations in a pop-up window with an adjustable window
 and scroll bar if the window is not at the full canvas size.
+
