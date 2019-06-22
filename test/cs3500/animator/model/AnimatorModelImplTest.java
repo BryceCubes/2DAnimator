@@ -404,4 +404,62 @@ public class AnimatorModelImplTest {
                     0, 100, 255).build();
   }
 
+  @Test (expected = IllegalArgumentException.class)
+  public void addKeyFrameNullShape() {
+    setTest();
+    this.model.editKeyFrame(null, 5, "x", 5);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void addKeyFrameEmptyShapeName() {
+    setTest();
+    this.model.editKeyFrame("", 5, "x", 5);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void addShapeDoesntExist() {
+    setTest();
+    this.model.editKeyFrame("Chris", 5, "x", 5);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void tickDoesntExist() {
+    setTest();
+    this.model.editKeyFrame("Ethan", 31, "x", 5);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void tickIsNegative() {
+    setTest();
+    this.model.editKeyFrame("Ethan", -1, "x", 5);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void fieldIsNull() {
+    setTest();
+    this.model.editKeyFrame("Ethan", 30, null, 5);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void fieldDoesntExist() {
+    setTest();
+    this.model.editKeyFrame("Ethan", 30, "asdf", 5);
+  }
+
+  @Test
+  public void editTest() {
+    setTest();
+    this.model.editKeyFrame("Ethan", 30, "x", 5);
+    HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIKeyFrame>> keyFrames = this.model.returnKeyFrames();
+    ArrayList<ReadOnlyIShape> shapes = this.model.getShapes();
+    for (ReadOnlyIShape shape : shapes) {
+      if (shape.getShapeID() == "Ethan") {
+        for (ReadOnlyIKeyFrame keyFrame : keyFrames.get(shape)) {
+          if (keyFrame.getT() == 30) {
+            assertEquals(5.0, keyFrame.getX(), .0);
+          }
+        }
+      }
+    }
+  }
 }
