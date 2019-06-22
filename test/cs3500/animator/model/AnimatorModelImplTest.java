@@ -1,9 +1,14 @@
 package cs3500.animator.model;
 
+import cs3500.animator.model.keyframe.IKeyFrame;
+import cs3500.animator.model.keyframe.KeyFrame;
+import cs3500.animator.model.keyframe.ReadOnlyIKeyFrame;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
 import cs3500.animator.model.shape.AShape;
+import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;
 import cs3500.animator.model.shape.ShapeType;
+import cs3500.animator.view.IAnimatorView;
 
 import org.junit.Test;
 
@@ -155,6 +160,26 @@ public class AnimatorModelImplTest {
   }
 
   @Test
+  public void testIfKeyFramesAdded() {
+    setTest();
+    IAnimatorModel newModel = new AnimatorModelImpl.Builder().declareShape("Amy", "ellipse")
+            .addMotion("Amy", 0, 50, 50, 10, 20, 0,
+                    100, 255, 25, 50, 50, 10, 25,
+                    0, 100, 255)
+            .addMotion("Amy", 25, 50, 50, 10, 25, 0,
+                    100, 255, 50, 50, 50, 20, 25,
+                    0, 100, 255)
+            .addMotion("Amy", 50, 50, 50, 20, 25, 0,
+                    100, 255, 75, 50, 50, 30, 35,
+                    0, 100, 255).addKeyframe("Amy", 10, 10, 10,
+                    10, 10, 19, 10, 10).setBounds(1, 1, 1, 1).build();
+    HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIKeyFrame>> keyFrames = newModel.returnKeyFrames();
+    ArrayList<ReadOnlyIShape> shapes = newModel.getShapes();
+    assertEquals("Amy", shapes.get(0).getShapeID());
+    assertEquals(1, keyFrames.get(shapes.get(0)).size());
+  }
+
+  @Test
   public void testDeleteShape() {
     setTest();
     model.deleteShape("Fred");
@@ -212,7 +237,7 @@ public class AnimatorModelImplTest {
   @Test
   public void testDeclareMotion() {
     setTest();
-    model.declareMotion("Fred",10, 20, 5, 5,
+    model.declareMotion("Fred", 10, 20, 5, 5,
             255, 150, 10, 20, 10, 5, 5,
             255, 150, 10, 60, 70);
     assertTrue(model.textViewMotions().contains("Fred 60 10 20 5 5 255 150 10    " +

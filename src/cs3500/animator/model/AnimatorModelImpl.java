@@ -81,7 +81,6 @@ public class AnimatorModelImpl implements IAnimatorModel {
       if (this.listOfKeyFrames == null) {
         model.makeKeyFrames();
       }
-      model.makeKeyFrames();
 
       return model;
     }
@@ -738,11 +737,10 @@ public class AnimatorModelImpl implements IAnimatorModel {
         for (IKeyFrame frame : this.keyFrames.get(shape)) {
           if (keyFrame.getT() == frame.getT()) {
             throw new IllegalArgumentException("Cannot add a keyframe with same tick as another.");
-          } else {
-            this.keyFrames.get(shape).add(keyFrame);
-            this.sortKeyFrames();
           }
         }
+        this.keyFrames.get(shape).add(keyFrame);
+        this.sortKeyFrames();
         break;
       }
     }

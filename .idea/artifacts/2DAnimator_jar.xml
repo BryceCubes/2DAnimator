@@ -2,9 +2,6 @@
   <artifact type="jar" build-on-make="true" name="2DAnimator:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/2DAnimator_jar</output-path>
     <root id="archive" name="2DAnimator.jar">
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$APPLICATION_HOME_DIR$/bin/META-INF/MANIFEST.MF" />
-      </element>
       <element id="module-output" name="2DAnimator" />
     </root>
   </artifact>
