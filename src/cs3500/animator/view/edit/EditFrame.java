@@ -601,12 +601,10 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
                     JOptionPane.WARNING_MESSAGE);
             throw new IllegalArgumentException(exception);
           }
-          //TODO: make sure this works^^^
         }
         break;
       case "loop":
         loop = loopBox.isSelected();
-        //TODO: how to determine the end of an animation???
         break;
       case "pause":
         timer.stop();
