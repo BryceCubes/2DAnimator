@@ -484,8 +484,8 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         JTextField delFrameName = new JTextField();
         JTextField delTick = new JTextField();
         Object[] dels = {
-                "Shape Name:", delFrameName,
-                "Keyframe Tick:", delTick,
+            "Shape Name:", delFrameName,
+            "Keyframe Tick:", delTick,
         };
         int del = JOptionPane.showConfirmDialog(deleteOptionsPanel, dels,
                 "Delete KeyFrame Specifications", JOptionPane.OK_CANCEL_OPTION);
@@ -627,6 +627,8 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         this.tick = 0;
         timer.restart();
         break;
+        default:
+          throw new IllegalArgumentException("Oops, we messed up");
     }
   }
 
