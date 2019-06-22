@@ -627,8 +627,8 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         this.tick = 0;
         timer.restart();
         break;
-        default:
-          throw new IllegalArgumentException("Oops, we messed up");
+      default:
+        throw new IllegalArgumentException("Oops, we messed up");
     }
   }
 
