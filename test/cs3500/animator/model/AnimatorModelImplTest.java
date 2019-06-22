@@ -1,14 +1,8 @@
 package cs3500.animator.model;
 
-import cs3500.animator.model.keyframe.IKeyFrame;
-import cs3500.animator.model.keyframe.KeyFrame;
 import cs3500.animator.model.keyframe.ReadOnlyIKeyFrame;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
-import cs3500.animator.model.shape.AShape;
-import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;
-import cs3500.animator.model.shape.ShapeType;
-import cs3500.animator.view.IAnimatorView;
 
 import org.junit.Test;
 
@@ -403,5 +397,14 @@ public class AnimatorModelImplTest {
                     100, 255, 25, 50, 50, 10, 25,
                     0, 100, 255).build();
   }
+
+  @Test //17
+  public void addKeyFrame() {
+    setTest();
+    model.addKeyFrame("Fred", 70);
+    assertEquals(18, model.returnKeyFrames().size());
+  }
+
+
 
 }
