@@ -398,13 +398,79 @@ public class AnimatorModelImplTest {
                     0, 100, 255).build();
   }
 
-  @Test //17
+  @Test
   public void addKeyFrame() {
     setTest();
+    int totalSize = 0;
     model.addKeyFrame("Fred", 70);
-    assertEquals(18, model.returnKeyFrames().size());
+    for(ReadOnlyIShape shape : model.getShapes()) {
+      totalSize += model.returnKeyFrames().get(shape).size();
+    }
+    assertEquals(18, totalSize);
   }
 
+  @Test
+  public void deleteKeyFrame() {
+    setTest();
+    int totalSize = 0;
+    model.deleteKeyFrame("Fred", 60);
+    for(ReadOnlyIShape shape : model.getShapes()) {
+      totalSize += model.returnKeyFrames().get(shape).size();
+    }
+    assertEquals(16, totalSize);
+  }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void addNullName() {
+    setTest();
+    model.addKeyFrame(null, 0);
+  }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void delNullName() {
+    setTest();
+    model.deleteKeyFrame(null, 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void addNoExistName() {
+    setTest();
+    model.addKeyFrame("Bob", 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void delNoExistName() {
+    setTest();
+    model.deleteKeyFrame("George", 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void addInvalidTick() {
+    setTest();
+    model.addKeyFrame("Amy", -10);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void delInvalidTick() {
+    setTest();
+    model.deleteKeyFrame("Fred", -10);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void addMTTick() {
+    setTest();
+    model.addKeyFrame("", 10);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void delMTTick() {
+    setTest();
+    model.deleteKeyFrame("", 10);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void DelNoExistTick() {
+    setTest();
+    model.deleteKeyFrame("Fred", 15);
+  }
 }
