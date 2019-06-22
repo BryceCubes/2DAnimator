@@ -7,7 +7,7 @@ import cs3500.animator.model.shape.AShape;
 import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ShapeType;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Testing class used to ensure that the builder works correctly for a keyframe, and that the
@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
 public class KeyFrameTest {
   private IShape shape;
   private IKeyFrame keyFrame;
+
   @Before
   public void setTest() {
     shape = new AShape("asdf", ShapeType.ELLIPSE);
