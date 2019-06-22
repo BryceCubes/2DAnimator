@@ -213,15 +213,15 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         JTextField gVal = new JTextField();
         JTextField bVal = new JTextField();
         Object[] edits = {
-                "Shape Name:", shapeName,
-                "Keyframe Tick:", tick,
-                "Shape X Value", xVal,
-                "Shape Y Value", yVal,
-                "Shape Width", wVal,
-                "Shape Height", hVal,
-                "Red Value", rVal,
-                "Green Value", gVal,
-                "Blue Value", bVal
+            "Shape Name:", shapeName,
+            "Keyframe Tick:", tick,
+            "Shape X Value", xVal,
+            "Shape Y Value", yVal,
+            "Shape Width", wVal,
+            "Shape Height", hVal,
+            "Red Value", rVal,
+            "Green Value", gVal,
+            "Blue Value", bVal
         };
         int option = JOptionPane.showConfirmDialog(editFrameOptionsPanel, edits,
                 "Edit KeyFrame Specifications", JOptionPane.OK_CANCEL_OPTION);
@@ -445,8 +445,8 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         JTextField addShapeName = new JTextField();
         JTextField addTick = new JTextField();
         Object[] adds = {
-                "Shape Name:", addShapeName,
-                "Keyframe Tick:", addTick,
+            "Shape Name:", addShapeName,
+            "Keyframe Tick:", addTick,
         };
         int add = JOptionPane.showConfirmDialog(addOptionsPanel, adds,
                 "Add KeyFrame Specifications", JOptionPane.OK_CANCEL_OPTION);
@@ -526,7 +526,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         // field for new speed
         JTextField newSpeed = new JTextField();
         Object[] speedIn = {
-                "New Speed:", newSpeed
+            "New Speed:", newSpeed
         };
         int speed = JOptionPane.showConfirmDialog(changeSpeedPanel, speedIn,
                 "Choose New Speed", JOptionPane.OK_CANCEL_OPTION);
@@ -565,8 +565,8 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         newShapeType.addItem("Rectangle");
         newShapeType.addItem("Ellipse");
         Object[] shapes = {
-                "Shape Name:", newShapeName,
-                "Shape Type", newShapeType,
+            "Shape Name:", newShapeName,
+            "Shape Type", newShapeType,
         };
 
         // shows options and takes input when user confirms
@@ -588,8 +588,6 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         }
         break;
       case "delete shape":
-        //TODO: decide if this can be abstracted somehow
-        // the panel for the new shape specifications
         JPanel deleteShapePanel = new JPanel();
         deleteShapePanel.setLayout(new BoxLayout(deleteShapePanel, BoxLayout.PAGE_AXIS));
 
@@ -597,7 +595,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
         JTextField delShapeName = new JTextField();
 
         Object[] delShapes = {
-                "Shape Name:", delShapeName,
+            "Shape Name:", delShapeName,
         };
 
         // shows options and takes input when user confirms

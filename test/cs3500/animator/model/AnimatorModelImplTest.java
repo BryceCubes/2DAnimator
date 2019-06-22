@@ -403,7 +403,7 @@ public class AnimatorModelImplTest {
     setTest();
     int totalSize = 0;
     model.addKeyFrame("Fred", 70);
-    for(ReadOnlyIShape shape : model.getShapes()) {
+    for (ReadOnlyIShape shape : model.getShapes()) {
       totalSize += model.returnKeyFrames().get(shape).size();
     }
     assertEquals(18, totalSize);
@@ -414,7 +414,7 @@ public class AnimatorModelImplTest {
     setTest();
     int totalSize = 0;
     model.deleteKeyFrame("Fred", 60);
-    for(ReadOnlyIShape shape : model.getShapes()) {
+    for (ReadOnlyIShape shape : model.getShapes()) {
       totalSize += model.returnKeyFrames().get(shape).size();
     }
     assertEquals(16, totalSize);
@@ -474,43 +474,43 @@ public class AnimatorModelImplTest {
     model.deleteKeyFrame("Fred", 15);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void addKeyFrameNullShape() {
     setTest();
     this.model.editKeyFrame(null, 5, "x", 5);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void addKeyFrameEmptyShapeName() {
     setTest();
     this.model.editKeyFrame("", 5, "x", 5);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void addShapeDoesntExist() {
     setTest();
     this.model.editKeyFrame("Chris", 5, "x", 5);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void tickDoesntExist() {
     setTest();
     this.model.editKeyFrame("Ethan", 31, "x", 5);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void tickIsNegative() {
     setTest();
     this.model.editKeyFrame("Ethan", -1, "x", 5);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void fieldIsNull() {
     setTest();
     this.model.editKeyFrame("Ethan", 30, null, 5);
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void fieldDoesntExist() {
     setTest();
     this.model.editKeyFrame("Ethan", 30, "asdf", 5);
@@ -523,7 +523,7 @@ public class AnimatorModelImplTest {
     HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIKeyFrame>> keyFrames = this.model.returnKeyFrames();
     ArrayList<ReadOnlyIShape> shapes = this.model.getShapes();
     for (ReadOnlyIShape shape : shapes) {
-      if (shape.getShapeID() == "Ethan") {
+      if (shape.getShapeID().equals("Ethan")) {
         for (ReadOnlyIKeyFrame keyFrame : keyFrames.get(shape)) {
           if (keyFrame.getT() == 30) {
             assertEquals(5.0, keyFrame.getX(), .0);
