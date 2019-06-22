@@ -77,6 +77,6 @@ public interface AnimationBuilder<IAnimatorModel> {
    * @param b    The blue color-value of the shape
    * @return This {@link AnimationBuilder}
    */
-  AnimationBuilder<IAnimatorModel> addKeyframe(String name,
-                                               int t, int x, int y, int w, int h, int r, int g, int b);
+  AnimationBuilder<IAnimatorModel> addKeyframe(String name, int t, int x, int y, int w, int h,
+                                               int r, int g, int b);
 }
