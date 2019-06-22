@@ -45,6 +45,7 @@ public class EditFrame extends JFrame implements IAnimatorView, ActionListener {
 
   /**
    * Constructs the animation player and all of its buttons and panels.
+   *
    * @param model the Animator model that represents the shape motions and keyframes
    * @param speed the speed of the animation in frames per second
    */
