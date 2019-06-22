@@ -12,6 +12,8 @@ GENERAL CHANGE NOTES:
  access from the EditorView
  - the model ensures that if keyframes have been given, it does
  not construct keyframes for the motions
+ - added private methods to make, sort, and build keyframes for
+ the model
  
  ADDITIONS:
  

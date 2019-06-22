@@ -1,14 +1,8 @@
 package cs3500.animator.model;
 
-import cs3500.animator.model.keyframe.IKeyFrame;
-import cs3500.animator.model.keyframe.KeyFrame;
 import cs3500.animator.model.keyframe.ReadOnlyIKeyFrame;
 import cs3500.animator.model.motion.ReadOnlyIMotion;
-import cs3500.animator.model.shape.AShape;
-import cs3500.animator.model.shape.IShape;
 import cs3500.animator.model.shape.ReadOnlyIShape;
-import cs3500.animator.model.shape.ShapeType;
-import cs3500.animator.view.IAnimatorView;
 
 import org.junit.Test;
 
@@ -404,62 +398,79 @@ public class AnimatorModelImplTest {
                     0, 100, 255).build();
   }
 
-  @Test (expected = IllegalArgumentException.class)
-  public void addKeyFrameNullShape() {
+  @Test
+  public void addKeyFrame() {
     setTest();
-    this.model.editKeyFrame(null, 5, "x", 5);
-  }
-
-  @Test (expected = IllegalArgumentException.class)
-  public void addKeyFrameEmptyShapeName() {
-    setTest();
-    this.model.editKeyFrame("", 5, "x", 5);
-  }
-
-  @Test (expected = IllegalArgumentException.class)
-  public void addShapeDoesntExist() {
-    setTest();
-    this.model.editKeyFrame("Chris", 5, "x", 5);
-  }
-
-  @Test (expected = IllegalArgumentException.class)
-  public void tickDoesntExist() {
-    setTest();
-    this.model.editKeyFrame("Ethan", 31, "x", 5);
-  }
-
-  @Test (expected = IllegalArgumentException.class)
-  public void tickIsNegative() {
-    setTest();
-    this.model.editKeyFrame("Ethan", -1, "x", 5);
-  }
-
-  @Test (expected = IllegalArgumentException.class)
-  public void fieldIsNull() {
-    setTest();
-    this.model.editKeyFrame("Ethan", 30, null, 5);
-  }
-
-  @Test (expected = IllegalArgumentException.class)
-  public void fieldDoesntExist() {
-    setTest();
-    this.model.editKeyFrame("Ethan", 30, "asdf", 5);
+    int totalSize = 0;
+    model.addKeyFrame("Fred", 70);
+    for(ReadOnlyIShape shape : model.getShapes()) {
+      totalSize += model.returnKeyFrames().get(shape).size();
+    }
+    assertEquals(18, totalSize);
   }
 
   @Test
-  public void editTest() {
+  public void deleteKeyFrame() {
     setTest();
-    this.model.editKeyFrame("Ethan", 30, "x", 5);
-    HashMap<ReadOnlyIShape, ArrayList<ReadOnlyIKeyFrame>> keyFrames = this.model.returnKeyFrames();
-    ArrayList<ReadOnlyIShape> shapes = this.model.getShapes();
-    for (ReadOnlyIShape shape : shapes) {
-      if (shape.getShapeID() == "Ethan") {
-        for (ReadOnlyIKeyFrame keyFrame : keyFrames.get(shape)) {
-          if (keyFrame.getT() == 30) {
-            assertEquals(5.0, keyFrame.getX(), .0);
-          }
-        }
-      }
+    int totalSize = 0;
+    model.deleteKeyFrame("Fred", 60);
+    for(ReadOnlyIShape shape : model.getShapes()) {
+      totalSize += model.returnKeyFrames().get(shape).size();
     }
+    assertEquals(16, totalSize);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void addNullName() {
+    setTest();
+    model.addKeyFrame(null, 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void delNullName() {
+    setTest();
+    model.deleteKeyFrame(null, 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void addNoExistName() {
+    setTest();
+    model.addKeyFrame("Bob", 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void delNoExistName() {
+    setTest();
+    model.deleteKeyFrame("George", 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void addInvalidTick() {
+    setTest();
+    model.addKeyFrame("Amy", -10);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void delInvalidTick() {
+    setTest();
+    model.deleteKeyFrame("Fred", -10);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void addMTTick() {
+    setTest();
+    model.addKeyFrame("", 10);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void delMTTick() {
+    setTest();
+    model.deleteKeyFrame("", 10);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void DelNoExistTick() {
+    setTest();
+    model.deleteKeyFrame("Fred", 15);
   }
 }
