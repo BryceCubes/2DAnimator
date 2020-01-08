@@ -113,10 +113,11 @@ public class Excellence {
           break;
         default:
           JOptionPane.showMessageDialog(new JFrame(),
-                  "This is our fault if you get here, sorry.",
-                  "Sorry :(",
+                  "View must either be of type text, svg, visual, or edit.",
+                  "Invalid View",
                   JOptionPane.WARNING_MESSAGE);
-          throw new IllegalArgumentException("This is our fault if you get here, sorry.");
+          throw new IllegalArgumentException("View must either be of type text, svg, visual, or "
+                  + "edit.");
       }
     }
 
